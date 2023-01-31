@@ -140,10 +140,9 @@ export default defineComponent({
                                 <div class="recommended-text"><img src="../assets/icon-recommend@2x.png"
                                         style="width: 24px;height: 24px;" alt=""> Recommended Airdrops</div>
 
-                                <el-row v-for="(outerItem, i) in recommendations" :key="i" class="recommend-row"
-                                    justify="space-around">
+                                <el-row v-for="(outerItem, i) in recommendations" :key="i" class="recommend-row">
                                     <el-col v-for="(innerItem, j) in outerItem" :key="j" class="recommend-col"
-                                        :span="6">
+                                        :span="8">
                                         <div class="col-view">
                                             <div>
                                                 <img :src="innerItem.image" style="width: 245px; height: 245px;" alt="">
@@ -289,8 +288,7 @@ export default defineComponent({
 }
 
 .recommended-text {
-    margin-bottom: 40px;
-    margin-left: 40px;
+    margin-bottom: 20px;
     width: 300px;
     font-size: 20px;
     font-weight: bold;

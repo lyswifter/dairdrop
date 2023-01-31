@@ -1,13 +1,15 @@
 <script lang="ts">
-import { Document } from '@element-plus/icons-vue';
 import { defineComponent, ref } from 'vue'
-
 import { RecommendationItem, Projects } from "../data/projects";
+import { StepTaskItem, StepTaskData } from '../data/projects';
+
+import ScrollInfo from "../components/Scroll.vue";
 
 export default defineComponent({
     name: "Detail",
     props: ['id'],
     components: {
+        ScrollInfo,
     },
     data() {
         return {
@@ -17,6 +19,8 @@ export default defineComponent({
 
             isDown: false,
             isOpen: true,
+
+            tasks: [] as StepTaskItem[],
         }
     },
     mounted() {
@@ -29,6 +33,8 @@ export default defineComponent({
                 break
             }
         }
+
+        this.tasks = StepTaskData['production'] as StepTaskItem[];
     },
     methods: {
         reloadPage() {
@@ -53,14 +59,24 @@ export default defineComponent({
         },
         rotateAction() {
         },
-        turnAroundAction() {
-            let rotated = document.getElementsByClassName("turn-around-img")[0];
-            if (this.isOpen) {
+        turnAroundAction(index: number) {
+            let className = ""
+            let isOpen = false
+            for (let i = 0; i < this.tasks.length; i++) {
+                if (index == i) {
+                    const element = this.tasks[i];
+                    element.isOpen = !element.isOpen
+                    className = element.class
+                    isOpen = element.isOpen
+                    break
+                }
+            }
+
+            let rotated = document.getElementsByClassName(className)[0];
+            if (!isOpen) {
                 rotated.style.transform = 'rotate(-90deg)';
-                this.isOpen = false
             } else {
                 rotated.style.transform = 'rotate(0deg)';
-                this.isOpen = true
             }
         },
     }
@@ -125,31 +141,41 @@ export default defineComponent({
                             <br>
                             <el-progress :percentage="50" />
 
-                            <h3>Basic:</h3>
+                            <br>
+
                             <div>
-                                <el-row class="connect-wallet-view">
-                                    <el-col :span="1">
-                                        <a class="turn-around-btn" href="javascript:void(0)" @click="turnAroundAction">
-                                            <img class="turn-around-img" src="../assets/icon-open@2x.png"
-                                                style="width: 24px;height: 24px;" alt="">
-                                        </a>
-                                    </el-col>
+                                <!-- Step -->
 
-                                    <el-col :span="20">
-                                        <div class="connect-title">Step 1: Connect to Metamask wallet</div>
-                                    </el-col>
+                                <div v-for="(item, i) in tasks" :key="i" class="step-tasks-view">
+                                    <el-row class="step-title-view">
+                                        <el-col :span="1" style="text-align: center;">
+                                            <a class="turn-around-btn" :class="item.class" href="javascript:void(0)"
+                                                @click="turnAroundAction(i)">
+                                                <img class="turn-around-img" src="../assets/icon-open@2x.png"
+                                                    style="width: 24px;height: 24px;" alt="">
+                                            </a>
+                                        </el-col>
+                                        <el-col :span="20">
+                                            <div class="connect-title">{{ item.title }}</div>
+                                        </el-col>
+                                        <el-col v-if="item.accesory == 'connect'" :span="2">
+                                            <div class="connect-btn">Connect</div>
+                                        </el-col>
+                                        <el-col v-if="item.accesory == 'verify'" :span="2">
+                                            <div class="verify-btn">verify</div>
+                                        </el-col>
+                                    </el-row>
 
-                                    <el-col :span="3">
-                                        <div class="connect-btn" connectAction>Connect</div>
-                                    </el-col>
-
-                                    <!-- <el-col :span="3">
-                                        <div class="verify-btn">Verify</div>
-                                    </el-col> -->
-                                </el-row>
-
-                                <div v-show="isOpen" class="connect-wallet-content">Connect to your Metamask wallet
+                                    <div v-show="item.isOpen" class="step-content-view">
+                                        <div class="note-view">
+                                            {{ item.note }}
+                                        </div>
+                                        <div v-for="(subItem, j) in item.subSteps" :key="j">
+                                            <div>{{ subItem.title }}</div>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </el-col>
                     </el-row>
@@ -206,37 +232,36 @@ export default defineComponent({
 
 .back-view img {
     vertical-align: middle;
-
 }
 
-.connect-wallet-view {
+.step-title-view {
     height: 44px;
     background: #E5E6EB;
     border-radius: 4px;
     line-height: 44px;
 }
 
-.connect-wallet-view img {
+.step-title-view img {
     vertical-align: middle;
 }
 
-.connect-title {}
-
-.turn-around-btn {}
+.step-content-view {
+    font-size: 12px;
+    padding-left: 10px;
+}
 
 .connect-btn {
-    width: 80%;
-    margin-top: 10px;
+    width: 90%;
     height: 24px;
-    line-height: 24px;
     background: #1672F0;
     border-radius: 13px;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
     font-size: 12px;
     font-weight: 500;
     color: #FFFFFF;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .verify-btn {
@@ -250,17 +275,9 @@ export default defineComponent({
     line-height: 24px;
     text-align: center;
     cursor: pointer;
-}
-
-.connect-wallet-content {
-    padding-left: 10px;
-    height: 49px;
-    border-radius: 4px;
-    border: 1px solid #E5E6EB;
+    color: #1672F0;
+    font-weight: 500;
     font-size: 12px;
-    font-weight: 400;
-    color: #1E2844;
-    line-height: 49px;
 }
 </style>
 
