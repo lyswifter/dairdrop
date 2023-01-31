@@ -1,0 +1,272 @@
+<script lang="ts">
+import { Document } from '@element-plus/icons-vue';
+import { defineComponent, ref } from 'vue'
+
+import { RecommendationItem, Projects } from "../data/projects";
+
+export default defineComponent({
+    name: "Detail",
+    props: ['id'],
+    components: {
+    },
+    data() {
+        return {
+            info: {} as RecommendationItem,
+            isConnect: false,
+            account: "Connect",
+
+            isDown: false,
+            isOpen: true,
+        }
+    },
+    mounted() {
+        let projectss = Projects['production'] as RecommendationItem[];
+
+        for (let i = 0; i < projectss.length; i++) {
+            const element = projectss[i];
+            if (element.id == this.$props.id) {
+                this.info = element
+                break
+            }
+        }
+    },
+    methods: {
+        reloadPage() {
+            location.reload();
+        },
+        async connectAction() {
+            if (typeof ethereum === 'undefined') {
+                alert("Matamask is not installed!")
+            }
+
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+
+            this.account = account
+            this.isConnect = true
+        },
+        disConnectAction() {
+            this.isConnect = false
+        },
+        backAction() {
+            this.$router.go(-1);
+        },
+        rotateAction() {
+        },
+        turnAroundAction() {
+            let rotated = document.getElementsByClassName("turn-around-img")[0];
+            if (this.isOpen) {
+                rotated.style.transform = 'rotate(-90deg)';
+                this.isOpen = false
+            } else {
+                rotated.style.transform = 'rotate(0deg)';
+                this.isOpen = true
+            }
+        },
+    }
+})
+</script>
+
+<template>
+    <div id="container">
+        <el-container>
+            <div id="topRowAnchor"></div>
+
+            <el-header class="da-header topAnchor">
+                <el-row class="da-header-row">
+                    <el-col :span="22">
+                        <a href="javascript:void(0)" @click="reloadPage">
+                            <div class="logoview">
+                                <img src="../assets/logo_dairdorp@2x.png" alt="">
+                            </div>
+                        </a>
+                    </el-col>
+
+                    <el-col :span="2">
+                        <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction">
+                            <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
+                                alt=""></a>
+                        <a v-else class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
+                    </el-col>
+                </el-row>
+            </el-header>
+
+            <el-main class="da-main">
+                <div class="back-view">
+                    <a href="javascript:void(0)" @click="backAction">
+                        <img src="../assets/32px-back_black@2x.png" style="width: 40px;height: 40px;" alt="">Back
+                    </a>
+                </div>
+
+                <div class="project-detail-view">
+                    <el-row :gutter="40">
+                        <el-col :span="6">
+                            <img :src="info.image" style="width: 245px;height: 245px;" alt="">
+                            <h3>{{ info.name }}</h3>
+                            <div>
+                                <img src="../assets/32px_warn@2x.png" style="width: 16px;height: 16px;" alt="">
+                                <span>Please note that there is no guarantee that they will do an airdrop and that they
+                                    will launch their own token.It's only speculation.</span>
+                            </div>
+                        </el-col>
+
+                        <el-col :span="18">
+                            <h2>{{ info.name }}</h2>
+                            <div>{{ info.descripation }}</div>
+                            <br>
+                            <div style="text-align: center;">
+                                <img src="../assets/up@2x.png" style="width: 50px;height: 24px;" alt=""
+                                    @click="rotateAction">
+                            </div>
+
+                            <h3>Step-by-Step Guide</h3>
+                            <div>Some steps here may not be detected, and you need to check the completion status
+                                yourself.</div>
+                            <br>
+                            <el-progress :percentage="50" />
+
+                            <h3>Basic:</h3>
+                            <div>
+                                <el-row class="connect-wallet-view">
+                                    <el-col :span="1">
+                                        <a class="turn-around-btn" href="javascript:void(0)" @click="turnAroundAction">
+                                            <img class="turn-around-img" src="../assets/icon-open@2x.png"
+                                                style="width: 24px;height: 24px;" alt="">
+                                        </a>
+                                    </el-col>
+
+                                    <el-col :span="20">
+                                        <div class="connect-title">Step 1: Connect to Metamask wallet</div>
+                                    </el-col>
+
+                                    <el-col :span="3">
+                                        <div class="connect-btn" connectAction>Connect</div>
+                                    </el-col>
+
+                                    <!-- <el-col :span="3">
+                                        <div class="verify-btn">Verify</div>
+                                    </el-col> -->
+                                </el-row>
+
+                                <div v-show="isOpen" class="connect-wallet-content">Connect to your Metamask wallet
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-main>
+
+            <el-footer class="da-footer" style="padding: 0px;">
+                <div class="footer-view"></div>
+            </el-footer>
+
+        </el-container>
+    </div>
+</template>
+
+<style scoped>
+.logoview img {
+    width: 155px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.da-main {
+    margin: 0 auto;
+    width: 1440px;
+}
+
+.da-header-row {
+    margin-top: 10px;
+}
+
+.menu-btn {
+    display: block;
+    width: 160px;
+    background: #1E5CEF;
+    line-height: 44px;
+    border-radius: 22px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+</style>
+
+<style scoped>
+.back-view a {
+    text-decoration: none;
+    line-height: 40px;
+    height: 40px;
+    color: #1D2129;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.back-view img {
+    vertical-align: middle;
+
+}
+
+.connect-wallet-view {
+    height: 44px;
+    background: #E5E6EB;
+    border-radius: 4px;
+    line-height: 44px;
+}
+
+.connect-wallet-view img {
+    vertical-align: middle;
+}
+
+.connect-title {}
+
+.turn-around-btn {}
+
+.connect-btn {
+    width: 80%;
+    margin-top: 10px;
+    height: 24px;
+    line-height: 24px;
+    background: #1672F0;
+    border-radius: 13px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.verify-btn {
+    width: 80%;
+    margin-top: 10px;
+    height: 24px;
+    border-radius: 13px;
+    border: 1px solid #1672F0;
+    text-decoration: none;
+    display: block;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.connect-wallet-content {
+    padding-left: 10px;
+    height: 49px;
+    border-radius: 4px;
+    border: 1px solid #E5E6EB;
+    font-size: 12px;
+    font-weight: 400;
+    color: #1E2844;
+    line-height: 49px;
+}
+</style>
+
+<style scoped>
+.footer-view {
+    height: 60px;
+    background: linear-gradient(315deg, #87ABFF 0%, #0C42C9 100%);
+}
+</style>
