@@ -155,23 +155,48 @@ export default defineComponent({
                                                     style="width: 24px;height: 24px;" alt="">
                                             </a>
                                         </el-col>
-                                        <el-col :span="20">
+                                        <el-col :span="21">
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
-                                        <el-col v-if="item.accesory == 'connect'" :span="2">
+                                        <el-col v-if="item.accessory == 'connect'" :span="2">
                                             <div class="connect-btn">Connect</div>
                                         </el-col>
-                                        <el-col v-if="item.accesory == 'verify'" :span="2">
-                                            <div class="verify-btn">verify</div>
+                                        <el-col v-if="item.accessory == 'check'" :span="2">
+                                            <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;" alt="">
                                         </el-col>
                                     </el-row>
 
                                     <div v-show="item.isOpen" class="step-content-view">
+                                        <div class="content-view">
+                                            {{ item.content }}
+                                        </div>
                                         <div class="note-view">
                                             {{ item.note }}
                                         </div>
+
+                                        <div>
+                                            <el-image v-for="(imgItem, imgIndex) in item.imgs"
+                                                style="width: 100px; height: 100px" :src="imgItem.url" :zoom-rate="1.2"
+                                                :preview-src-list="imgItem.srcList" :initial-index="4" fit="cover" />
+                                        </div>
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
-                                            <div>{{ subItem.title }}</div>
+                                            <el-row>
+                                                <el-col :span="20">
+                                                    <div class="sub-title-view">{{ subItem.title }}</div>
+                                                </el-col>
+                                                <el-col :span="4">
+                                                    <div class="verify-btn">verify</div>
+                                                </el-col>
+                                            </el-row>
+                                            <div>{{ subItem.content }}</div>
+                                            <div>{{ subItem.note }}</div>
+
+                                            <div>
+                                                <el-image v-for="(imgItem, imgIndex) in subItem.imgs"
+                                                    style="width: 100px; height: 100px" :src="imgItem.url"
+                                                    :zoom-rate="1.2" :preview-src-list="imgItem.srcList"
+                                                    :initial-index="4" fit="cover" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -264,14 +289,18 @@ export default defineComponent({
     cursor: pointer;
 }
 
+.sub-title-view {
+    height: 24px;
+    line-height: 24px;
+}
+
 .verify-btn {
     width: 80%;
-    margin-top: 10px;
     height: 24px;
-    border-radius: 13px;
-    border: 1px solid #1672F0;
+    /* border-radius: 13px; */
+    /* border: 1px solid #1672F0; */
     text-decoration: none;
-    display: block;
+    /* display: block; */
     line-height: 24px;
     text-align: center;
     cursor: pointer;
