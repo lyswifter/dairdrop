@@ -155,14 +155,18 @@ export default defineComponent({
                                                     style="width: 24px;height: 24px;" alt="">
                                             </a>
                                         </el-col>
-                                        <el-col :span="21">
+                                        <el-col :span="20">
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
                                         <el-col v-if="item.accessory == 'connect'" :span="2">
                                             <div class="connect-btn">Connect</div>
                                         </el-col>
                                         <el-col v-if="item.accessory == 'check'" :span="2">
-                                            <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;" alt="">
+                                            <div class="verify-btn">verify</div>
+                                        </el-col>
+                                        <el-col v-if="item.accessory == 'check'" :span="1">
+                                            <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
+                                                alt="">
                                         </el-col>
                                     </el-row>
 
@@ -176,7 +180,7 @@ export default defineComponent({
 
                                         <div>
                                             <el-image v-for="(imgItem, imgIndex) in item.imgs"
-                                                style="width: 100px; height: 100px" :src="imgItem.url" :zoom-rate="1.2"
+                                                style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url" :zoom-rate="1.2"
                                                 :preview-src-list="imgItem.srcList" :initial-index="4" fit="cover" />
                                         </div>
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
@@ -184,16 +188,16 @@ export default defineComponent({
                                                 <el-col :span="20">
                                                     <div class="sub-title-view">{{ subItem.title }}</div>
                                                 </el-col>
-                                                <el-col :span="4">
+                                                <!-- <el-col :span="4">
                                                     <div class="verify-btn">verify</div>
-                                                </el-col>
+                                                </el-col> -->
                                             </el-row>
                                             <div>{{ subItem.content }}</div>
                                             <div>{{ subItem.note }}</div>
 
-                                            <div>
+                                            <div style="padding: 5px;">
                                                 <el-image v-for="(imgItem, imgIndex) in subItem.imgs"
-                                                    style="width: 100px; height: 100px" :src="imgItem.url"
+                                                    style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
                                                     :zoom-rate="1.2" :preview-src-list="imgItem.srcList"
                                                     :initial-index="4" fit="cover" />
                                             </div>
@@ -290,23 +294,23 @@ export default defineComponent({
 }
 
 .sub-title-view {
-    height: 24px;
     line-height: 24px;
 }
 
 .verify-btn {
     width: 80%;
     height: 24px;
-    /* border-radius: 13px; */
-    /* border: 1px solid #1672F0; */
+    border-radius: 13px;
+    border: 1px solid #1672F0;
     text-decoration: none;
-    /* display: block; */
+    display: block;
     line-height: 24px;
     text-align: center;
     cursor: pointer;
     color: #1672F0;
     font-weight: 500;
     font-size: 12px;
+    margin-top: 10px;
 }
 </style>
 
