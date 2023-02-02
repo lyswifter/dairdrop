@@ -15,7 +15,7 @@ export let Projects = {
         descripation: "Scroll is a zkEVM-based zkRollup on Ethereum that enables native compatibility for existing Ethereum applications and tools. Scroll doesn't have its own token yet but may launch one in the future. Early users who've finished testnet tests may get an airdrop if they launch a token.",
         tag: "",
         process: 0,
-        image: "../../src/logos/scroll---logo-245px.png",
+        image: domain.domainUrl + "scroll_logo.png",
         detail: "scroll",
         tasks: scrollTasks,
     }, {
@@ -24,7 +24,7 @@ export let Projects = {
         descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
         tag: "",
         process: 0,
-        image: "../../src/logos/ZKASINO_logo.png",
+        image: domain.domainUrl + "zkasino_logo.png",
         detail: "zkasino",
         tasks: zkasinoTestTasks,
     }, {
@@ -33,7 +33,7 @@ export let Projects = {
         descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
         tag: "",
         process: 0,
-        image: "../../src/logos/ZKASINO_logo.png",
+        image: domain.domainUrl + "zkasino_logo.png",
         detail: "zkasino",
         tasks: zkasinoMainTasks,
     }, {
@@ -56,11 +56,11 @@ export let Projects = {
         tasks: arbitrumNovaTasks,
     }, {
         id: 6,
-        name: "Zksync",
+        name: "ZkSync",
         descripation: "zkSync 2.0 is a ZK rollup, a trustless protocol that uses cryptographic validity proofs to provide scalable and low-cost transactions on Ethereum. Its current functionality scope includes low gas transfers of ETH and ERC20 tokens in the Ethereum network, atomic swaps & limit orders as well as native L2 NFT support. zkSync has already confirmed that they will launch a token.Early users who’ve tried out both testnet and mainnet may get an airdrop when zkSync launches its token. ",
         tag: "",
         process: 0,
-        image: "../../src/logos/ZKASINO_logo.png",
+        image: domain.domainUrl + "zksync.testnet_logo.png",
         detail: "arbitrum",
         tasks: zksyncTasks,
     },{
@@ -69,7 +69,7 @@ export let Projects = {
         descripation: "StarkNet is a permissionless decentralized Validity-Rollup (also known as a “ZK-Rollup”). It operates as an L2 network over Ethereum, enabling any dApp to achieve unlimited scale for its computation – without compromising Ethereum’s composability and security, thanks to StarkNet’s reliance on the safest and most scalable cryptographic proof system – STARK.  StarkNet's parent company, Starkware has valuation hits $8 billion with $100 million Series D, historical investor including Tiger Global Management, Sequoia Capital, Intel Capital, and Vitalik Buterin. StarkNet has confirmed to launch an own token and 9% of the total supply has been allocated to end users and developers who've built dApps using StarkNet. StarkNet end users are those who used dApps built on StarkNet. StarkGate is the offical version of StarkNet Bridge, the best choice to become a StarkNet user.",
         tag: "",
         process: 0,
-        image: "../../src/logos/ZKASINO_logo.png",
+        image: domain.domainUrl + "starknet_logo.png",
         detail: "arbitrum",
         tasks: startnetTasks,
     }]
