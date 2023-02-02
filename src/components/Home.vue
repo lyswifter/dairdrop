@@ -51,11 +51,11 @@ export default defineComponent({
             location.reload();
         },
         async connectAction() {
-            if (typeof ethereum === 'undefined') {
+            if (typeof window.ethereum === 'undefined') {
                 alert("Matamask is not installed!")
             }
 
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
             this.account = account
             this.isConnect = true
@@ -68,7 +68,7 @@ export default defineComponent({
         },
         disConnectAction() {
             this.isConnect = false
-        }
+        },
     }
 })
 </script>
@@ -85,14 +85,14 @@ export default defineComponent({
                     <el-col :span="22">
                         <a href="javascript:void(0)" @click="reloadPage">
                             <div class="logoview">
-                                <img src="../assets/logo_dairdorp@2x.png" alt="">
+                                <img src="../assets/logo-coinhere@2x.png" alt="">
                             </div>
                         </a>
                     </el-col>
 
-                    <el-col :span="2" style="text-align: center;">
-                        <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction"><img
-                                src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
+                    <el-col :span="2" style="padding-top: 10px;">
+                        <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction">
+                            <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
                                 alt=""></a>
                         <a v-else class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
                     </el-col>
@@ -192,18 +192,13 @@ export default defineComponent({
 
 <style scoped>
 .logoview img {
-    width: 155px;
-    height: 24px;
-    vertical-align: middle;
+    width: 244px;
+    height: 72px;
 }
 
 .da-main {
     margin: 0 auto;
     width: 1440px;
-}
-
-.da-header-row {
-    margin-top: 10px;
 }
 
 .menu-btn {

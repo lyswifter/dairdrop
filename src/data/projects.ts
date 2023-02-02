@@ -1,10 +1,12 @@
 import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
 
 import { StepTaskData as scrollTasks } from "../data/scroll";
-import { StepTaskData as arbitrumTasks } from "../data/arbitrum";
+import { StepTaskData as arbitrumOneTasks } from "./arbitrum_one";
+import { StepTaskData as arbitrumNovaTasks } from "./arbitrum_nova";
 import { StepTaskData as zkasinoTestTasks } from "../data/zkasino_testnet";
 import { StepTaskData as zkasinoMainTasks } from "../data/zkasino_mainnet";
 import { StepTaskData as zksyncTasks } from "../data/zksync";
+import { StepTaskData as startnetTasks } from "../data/starknet";
 
 export let Projects = {
     production: [{
@@ -42,9 +44,18 @@ export let Projects = {
         process: 0,
         image: "../../src/logos/ZKASINO_logo.png",
         detail: "arbitrum",
-        tasks: arbitrumTasks,
+        tasks: arbitrumOneTasks,
     }, {
         id: 5,
+        name: "ArbitrumNova",
+        descripation: "Arbitrum nova is a layer 2 solution designed to improve the capabilities of Ethereum smart contracts — boosting their speed and scalability, while adding in additional privacy features to boot.",
+        tag: "",
+        process: 0,
+        image: "../../src/logos/ZKASINO_logo.png",
+        detail: "arbitrum",
+        tasks: arbitrumNovaTasks,
+    }, {
+        id: 6,
         name: "Zksync",
         descripation: "zkSync 2.0 is a ZK rollup, a trustless protocol that uses cryptographic validity proofs to provide scalable and low-cost transactions on Ethereum. Its current functionality scope includes low gas transfers of ETH and ERC20 tokens in the Ethereum network, atomic swaps & limit orders as well as native L2 NFT support. zkSync has already confirmed that they will launch a token.Early users who’ve tried out both testnet and mainnet may get an airdrop when zkSync launches its token. ",
         tag: "",
@@ -52,5 +63,14 @@ export let Projects = {
         image: "../../src/logos/ZKASINO_logo.png",
         detail: "arbitrum",
         tasks: zksyncTasks,
+    },{
+        id: 7,
+        name: "Starknet",
+        descripation: "StarkNet is a permissionless decentralized Validity-Rollup (also known as a “ZK-Rollup”). It operates as an L2 network over Ethereum, enabling any dApp to achieve unlimited scale for its computation – without compromising Ethereum’s composability and security, thanks to StarkNet’s reliance on the safest and most scalable cryptographic proof system – STARK.  StarkNet's parent company, Starkware has valuation hits $8 billion with $100 million Series D, historical investor including Tiger Global Management, Sequoia Capital, Intel Capital, and Vitalik Buterin. StarkNet has confirmed to launch an own token and 9% of the total supply has been allocated to end users and developers who've built dApps using StarkNet. StarkNet end users are those who used dApps built on StarkNet. StarkGate is the offical version of StarkNet Bridge, the best choice to become a StarkNet user.",
+        tag: "",
+        process: 0,
+        image: "../../src/logos/ZKASINO_logo.png",
+        detail: "arbitrum",
+        tasks: startnetTasks,
     }]
 }

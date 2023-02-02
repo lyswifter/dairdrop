@@ -16,3 +16,9 @@ app.use(ElementPlus)
 app.use(router)
 
 app.mount('#app')
+
+declare global {
+  interface Window {
+    ethereum: any
+  }
+}

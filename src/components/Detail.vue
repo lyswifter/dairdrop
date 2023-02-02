@@ -15,6 +15,7 @@ export default defineComponent({
         return {
             info: {} as RecommendationItem,
             isConnect: false,
+            turn: 90,
             account: "Connect",
         }
     },
@@ -29,16 +30,18 @@ export default defineComponent({
             }
         }
     },
+    computed: {
+    },
     methods: {
         reloadPage() {
             location.reload();
         },
         async connectAction() {
-            if (typeof ethereum === 'undefined') {
+            if (typeof window.ethereum === 'undefined') {
                 alert("Matamask is not installed!")
             }
 
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
 
             this.account = account
@@ -55,9 +58,9 @@ export default defineComponent({
         turnAroundAction(index: number) {
             let className = ""
             let isOpen = false
-            for (let i = 0; i < this.tasks.length; i++) {
+            for (let i = 0; i < this.info.tasks.length; i++) {
                 if (index == i) {
-                    const element = this.tasks[i];
+                    const element = this.info.tasks[i];
                     element.isOpen = !element.isOpen
                     className = element.class
                     isOpen = element.isOpen
@@ -65,11 +68,11 @@ export default defineComponent({
                 }
             }
 
-            let rotated = document.getElementsByClassName(className)[0];
+            let element = document.getElementsByClassName(className)[0];
             if (!isOpen) {
-                rotated.style.transform = 'rotate(-90deg)';
+                element.classList.add("turn-around-img")
             } else {
-                rotated.style.transform = 'rotate(0deg)';
+                element.classList.remove("turn-around-img")
             }
         },
     }
@@ -88,12 +91,12 @@ export default defineComponent({
                     <el-col :span="22">
                         <a href="javascript:void(0)" @click="reloadPage">
                             <div class="logoview">
-                                <img src="../assets/logo_dairdorp@2x.png" alt="">
+                                <img src="../assets/logo-coinhere@2x.png" alt="">
                             </div>
                         </a>
                     </el-col>
 
-                    <el-col :span="2">
+                    <el-col :span="2" style="padding-top: 10px;">
                         <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction">
                             <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
                                 alt=""></a>
@@ -145,9 +148,9 @@ export default defineComponent({
                                 <div v-for="(item, i) in info.tasks" :key="i" class="step-tasks-view">
                                     <el-row class="step-title-view">
                                         <el-col :span="1" style="text-align: center;">
-                                            <a class="turn-around-btn" :class="item.class" href="javascript:void(0)"
+                                            <a class="turn-around-btn" href="javascript:void(0)"
                                                 @click="turnAroundAction(i)">
-                                                <img class="turn-around-img" src="../assets/icon-open@2x.png"
+                                                <img :class="item.class" src="../assets/icon-open@2x.png"
                                                     style="width: 24px;height: 24px;" alt="">
                                             </a>
                                         </el-col>
@@ -157,8 +160,8 @@ export default defineComponent({
                                         <el-col :span="2" style="text-align: center;">
                                             <div v-if="item.accessory == 'connect'" class="connect-btn">Connect</div>
                                             <div v-else-if="item.accessory == 'verify'" class="verify-btn">verify</div>
-                                            <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
-                                                alt="">
+                                            <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png"
+                                                style="width: 24px;height: 24px;" alt="">
                                         </el-col>
                                     </el-row>
 
@@ -214,18 +217,13 @@ export default defineComponent({
 
 <style scoped>
 .logoview img {
-    width: 155px;
-    height: 24px;
-    vertical-align: middle;
+    width: 244px;
+    height: 72px;
 }
 
 .da-main {
     margin: 0 auto;
     width: 1440px;
-}
-
-.da-header-row {
-    margin-top: 10px;
 }
 
 .menu-btn {
@@ -261,6 +259,10 @@ export default defineComponent({
     background: #E5E6EB;
     border-radius: 4px;
     line-height: 44px;
+}
+
+.turn-around-img {
+    transform: rotate(-90deg);
 }
 
 .step-title-view img {
