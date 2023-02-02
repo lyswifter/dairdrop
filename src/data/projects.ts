@@ -1,40 +1,10 @@
-export interface ImageItem {
-    name: string;
-    url: string;
-    srcList: string[];
-}
+import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
 
-export interface StepTaskItem {
-    id: number;
-    class: string;
-    title: string;
-    accessory: string; // connect, check, empty
-    note: string;
-    content: string;
-    imgs: ImageItem[];
-    subSteps: [{
-        subId: number;
-        title: string;
-        accessory: string; // verify, empty
-        note: string;
-        content: string;
-        imgs: ImageItem[];
-        isVerify: boolean;
-    }];
-    isFulfilled: boolean;
-    isOpen: boolean;
-}
-
-export interface RecommendationItem {
-    id: number;
-    name: string;
-    descripation: string;
-    tag: string;
-    process: number;
-    image: string;
-    detail: string;
-    tasks: StepTaskItem;
-}
+import { StepTaskData as scrollTasks } from "../data/scroll";
+import { StepTaskData as arbitrumTasks } from "../data/arbitrum";
+import { StepTaskData as zkasinoTestTasks } from "../data/zkasino_testnet";
+import { StepTaskData as zkasinoMainTasks } from "../data/zkasino_mainnet";
+import { StepTaskData as zksyncTasks } from "../data/zksync";
 
 export let Projects = {
     production: [{
@@ -42,199 +12,45 @@ export let Projects = {
         name: "Scroll",
         descripation: "Scroll is a zkEVM-based zkRollup on Ethereum that enables native compatibility for existing Ethereum applications and tools. Scroll doesn't have its own token yet but may launch one in the future. Early users who've finished testnet tests may get an airdrop if they launch a token.",
         tag: "",
-        process: 50,
+        process: 0,
         image: "../../src/logos/scroll---logo-245px.png",
-        detail: "scroll"
+        detail: "scroll",
+        tasks: scrollTasks,
     }, {
         id: 2,
-        name: "ZKasino",
+        name: "ZKasino(testnet)",
         descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
         tag: "",
-        process: 20,
+        process: 0,
         image: "../../src/logos/ZKASINO_logo.png",
-        detail: "zkasino"
-    }]
-}
-
-export let StepTaskData = {
-    production: [{
-        id: 1,
-        class: "step1",
-        title: "Step 1: Connect Metamask wallet",
-        accessory: "connect", // connect, verify, check, both
-        note: "",
-        content: "Connect MetaMask wallet",
-        imgs: [],
-        isFulfilled: false,
-        isOpen: true,
-        subSteps: []
-    },{
-        id: 2,
-        class: "step2",
-        title: "Step 2: Visit the Scroll testnet page.",
-        accessory: "check",
-        note: "Note: Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding. And make sure your wallet address you interact withScroll is the same as the one you interact with Coinhere that we could verify each of your interactions with Scroll.",
-        content: "",
-        imgs: [{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-            srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-            ],
-        },{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-            srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-            ],
-        }],
-        isFulfilled: false,
-        isOpen: true,
-        subSteps: [{
-            subId: 1,
-            title: "2.1 Connect MetaMask for Scroll L1 Testnet and Scroll L2 Testnet on Prealpha page(Note: Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding)",
-            accessory: "verify",
-            note: "",
-            content: "",
-            imgs: [{
-                name: "zksync.png",
-                url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-                srcList: [
-                    'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                ],
-            },{
-                name: "zksync.png",
-                url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-                srcList: [
-                    'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                ],
-            }],
-            isVerify: false,
-        },{
-            subId: 2,
-            title: "2.2 Add TSUSDC token on L1 Testnet, TSUSDC token on L2 Testnet and TSUNI2 token on L2 Testnet to your wallet on Prealpha page.",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        }]
-    },{
+        detail: "zkasino",
+        tasks: zkasinoTestTasks,
+    }, {
         id: 3,
-        class: "step3",
-        title: "Step 3: Get some test ETH(TSETH) and test USDC(TSUSDC) tokens",
-        accessory: "check",
-        note: "Note: You could request tokens every 24h and receive 1 TSETH & 100 TSUSDC per request",
-        content: "You could receive test ETH(TSETH) and test USDC(TSUSDC) tokens on Scroll L1 Testnet on Faucet page.",
-        imgs: [],
-        isFulfilled: false,
-        isOpen: true,
-        subSteps: []
-    },{
+        name: "ZKasino(mainnet)",
+        descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
+        tag: "",
+        process: 0,
+        image: "../../src/logos/ZKASINO_logo.png",
+        detail: "zkasino",
+        tasks: zkasinoMainTasks,
+    }, {
         id: 4,
-        class: "step4",
-        title: "Step 4: Try Scroll Bridge",
-        accessory: "check",
-        note: "",
-        content: "Click the bridge section and try to send tokens from and to Scroll L1 Testnet and Scroll L2 Testnet.",
-        imgs: [],
-        isFulfilled: false,
-        isOpen: true,
-        subSteps: [{
-            subId: 1,
-            title: "4.1 Send some TSETH token from Scroll L1 Testnet to Scroll L2 Testnet.",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        },{
-            subId: 2,
-            title: "4.2 Send some TSUSDC token from Scroll L1 Testnet to Scroll L2 Testnet on Bridge page.",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        },{
-            subId: 3,
-            title: "4.3 Send some TSETH token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge page.",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        },{
-            subId: 4,
-            title: "4.4 Send some TSUSDC token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge page.",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        }]
-    },{
+        name: "Arbitrum",
+        descripation: "Arbitrum is a layer 2 solution designed to improve the capabilities of Ethereum smart contracts — boosting their speed and scalability, while adding in additional privacy features to boot.",
+        tag: "",
+        process: 0,
+        image: "../../src/logos/ZKASINO_logo.png",
+        detail: "arbitrum",
+        tasks: arbitrumTasks,
+    }, {
         id: 5,
-        class: "step5",
-        title: "Step 5: Try Scroll Swap",
-        accessory: "check",
-        note: "",
-        content: "Click the Swap section in Scroll L2 Testnet, you could try the swap function and add liquidity function",
-        imgs: [],
-        isFulfilled: false,
-        isOpen: true,
-        subSteps: [{
-            subId: 1,
-            title: "5.1 Wrap TSETH to TSWETH",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        },{
-            subId: 2,
-            title: "5.2 Unwap TSWETH to TSETH",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        },{
-            subId: 3,
-            title: "5.3 Swap one Token to another Swap one Token to another, for example, you could try to swap TSWETH for TSUSDC",
-            accessory: "verify",
-            imgs: [],
-            isVerify: false,
-        }]
-    },{
-        id: 6,
-        class: "step6",
-        title: "Step 6: Add and remove liquidity",
-        accessory: "check",
-        note: "",
-        content: "Click the Swap section in Scroll L2 Testnet, you could try the swap function and add liquidity function",
-        isFulfilled: false,
-        isOpen: true,
-        subSteps: [{
-            subId: 1,
-            title: "6.1 add liquidity",
-            accessory: "verify",
-            note: "",
-            content: "Click liquidity pool then try to add liquidity, for example, you could input some TSETH and some TSUSDC then click the supply bottom and then click the confirm supply.",
-            imgs: [{
-                name: "zksync.png",
-                url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-                srcList: [
-                    'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                ],
-            },{
-                name: "zksync.png",
-                url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-                srcList: [
-                    'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                ],
-            }],
-            isVerify: false,
-        },{
-            subId: 2,
-            title: "6.2 Remove liquidity",
-            accessory: "verify",
-            note: "Note:xxxxxx",
-            content: "After you providing LP liquidity, you could click Token1/Token2 folded page(eg.TSUSDC/TSETH) and could try to remove your liquidity.",
-            imgs: [{
-                name: "zksync.png",
-                url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-                srcList: [
-                    'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                ],
-            }],
-            isVerify: false,
-        }]
+        name: "Zksync",
+        descripation: "zkSync 2.0 is a ZK rollup, a trustless protocol that uses cryptographic validity proofs to provide scalable and low-cost transactions on Ethereum. Its current functionality scope includes low gas transfers of ETH and ERC20 tokens in the Ethereum network, atomic swaps & limit orders as well as native L2 NFT support. zkSync has already confirmed that they will launch a token.Early users who’ve tried out both testnet and mainnet may get an airdrop when zkSync launches its token. ",
+        tag: "",
+        process: 0,
+        image: "../../src/logos/ZKASINO_logo.png",
+        detail: "arbitrum",
+        tasks: zksyncTasks,
     }]
 }

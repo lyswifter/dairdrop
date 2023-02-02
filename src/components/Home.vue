@@ -2,7 +2,8 @@
 
 import { defineComponent, ref } from 'vue'
 
-import { RecommendationItem, Projects } from "../data/projects";
+import { Projects } from "../data/projects";
+import { RecommendationItem } from "../data/types";
 
 interface ParticipateItem {
     name: string;
@@ -77,6 +78,8 @@ export default defineComponent({
         <el-container>
             <div id="topRowAnchor"></div>
 
+            <!-- Header view -->
+
             <el-header class="da-header topAnchor">
                 <el-row class="da-header-row">
                     <el-col :span="22">
@@ -87,7 +90,7 @@ export default defineComponent({
                         </a>
                     </el-col>
 
-                    <el-col :span="2">
+                    <el-col :span="2" style="text-align: center;">
                         <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction"><img
                                 src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
                                 alt=""></a>
@@ -95,6 +98,8 @@ export default defineComponent({
                     </el-col>
                 </el-row>
             </el-header>
+
+            <!-- Main view -->
 
             <el-main class="da-main">
                 <div class="main-content">

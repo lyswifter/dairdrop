@@ -1,40 +1,33 @@
 <script lang="ts">
+import { info } from 'console';
 import { defineComponent, ref } from 'vue'
-import { RecommendationItem, Projects } from "../data/projects";
-import { StepTaskItem, StepTaskData } from '../data/projects';
 
-import ScrollInfo from "../components/Scroll.vue";
+import { Projects } from "../data/projects";
+
+import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
 
 export default defineComponent({
     name: "Detail",
     props: ['id'],
     components: {
-        ScrollInfo,
     },
     data() {
         return {
             info: {} as RecommendationItem,
             isConnect: false,
             account: "Connect",
-
-            isDown: false,
-            isOpen: true,
-
-            tasks: [] as StepTaskItem[],
         }
     },
     mounted() {
-        let projectss = Projects['production'] as RecommendationItem[];
+        let projectss = Projects['production'];
 
         for (let i = 0; i < projectss.length; i++) {
             const element = projectss[i];
             if (element.id == this.$props.id) {
-                this.info = element
+                this.info = element as RecommendationItem
                 break
             }
         }
-
-        this.tasks = StepTaskData['production'] as StepTaskItem[];
     },
     methods: {
         reloadPage() {
@@ -88,6 +81,8 @@ export default defineComponent({
         <el-container>
             <div id="topRowAnchor"></div>
 
+            <!-- Header view -->
+
             <el-header class="da-header topAnchor">
                 <el-row class="da-header-row">
                     <el-col :span="22">
@@ -106,6 +101,8 @@ export default defineComponent({
                     </el-col>
                 </el-row>
             </el-header>
+
+            <!-- Main view -->
 
             <el-main class="da-main">
                 <div class="back-view">
@@ -140,13 +137,12 @@ export default defineComponent({
                                 yourself.</div>
                             <br>
                             <el-progress :percentage="50" />
-
                             <br>
 
                             <div>
                                 <!-- Step -->
 
-                                <div v-for="(item, i) in tasks" :key="i" class="step-tasks-view">
+                                <div v-for="(item, i) in info.tasks" :key="i" class="step-tasks-view">
                                     <el-row class="step-title-view">
                                         <el-col :span="1" style="text-align: center;">
                                             <a class="turn-around-btn" :class="item.class" href="javascript:void(0)"
@@ -155,17 +151,13 @@ export default defineComponent({
                                                     style="width: 24px;height: 24px;" alt="">
                                             </a>
                                         </el-col>
-                                        <el-col :span="20">
+                                        <el-col :span="21">
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
-                                        <el-col v-if="item.accessory == 'connect'" :span="2">
-                                            <div class="connect-btn">Connect</div>
-                                        </el-col>
-                                        <el-col v-if="item.accessory == 'check'" :span="2">
-                                            <div class="verify-btn">verify</div>
-                                        </el-col>
-                                        <el-col v-if="item.accessory == 'check'" :span="1">
-                                            <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
+                                        <el-col :span="2" style="text-align: center;">
+                                            <div v-if="item.accessory == 'connect'" class="connect-btn">Connect</div>
+                                            <div v-else-if="item.accessory == 'verify'" class="verify-btn">verify</div>
+                                            <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
                                                 alt="">
                                         </el-col>
                                     </el-row>
@@ -180,8 +172,9 @@ export default defineComponent({
 
                                         <div>
                                             <el-image v-for="(imgItem, imgIndex) in item.imgs"
-                                                style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url" :zoom-rate="1.2"
-                                                :preview-src-list="imgItem.srcList" :initial-index="4" fit="cover" />
+                                                style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
+                                                :zoom-rate="1.2" :preview-src-list="imgItem.srcList" :initial-index="4"
+                                                fit="cover" />
                                         </div>
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
                                             <el-row>
@@ -197,14 +190,14 @@ export default defineComponent({
 
                                             <div style="padding: 5px;">
                                                 <el-image v-for="(imgItem, imgIndex) in subItem.imgs"
-                                                    style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
-                                                    :zoom-rate="1.2" :preview-src-list="imgItem.srcList"
-                                                    :initial-index="4" fit="cover" />
+                                                    style="width: 100px; height: 100px;margin-left: 5px;"
+                                                    :src="imgItem.url" :zoom-rate="1.2"
+                                                    :preview-src-list="imgItem.srcList" :initial-index="4"
+                                                    fit="cover" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </el-col>
                     </el-row>
