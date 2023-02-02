@@ -28,19 +28,19 @@ export default defineComponent({
     mounted() {
         this.participated = [{
             name: "ZKFASDFGA",
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png",
+            url: "../../src/logos/ZKASINO_logo.png",
             state: 1,
         }, {
             name: "ZKFASDFGA",
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png",
+            url: "../../src/logos/ZKASINO_logo.png",
             state: 1,
         }, {
             name: "ZKFASDFGA",
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png",
+            url: "../../src/logos/ZKASINO_logo.png",
             state: 1,
         }, {
             name: "ZKFASDFGA",
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png",
+            url: "../../src/logos/ZKASINO_logo.png",
             state: 1,
         }];
 
