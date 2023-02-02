@@ -37,9 +37,9 @@ export let StepTaskData = [{
         accessory: "verify",
         imgs: [{
             name: "scroll_1.2.png",
-            url: domain.domainUrl + "scroll/scroll_1.2.png",
+            url: domain.domainUrl + "scroll_1.2.png",
             srcList: [
-                domain.domainUrl + "scroll/scroll_1.2.png",
+                domain.domainUrl + "scroll_1.2.png",
             ],
         }],
         isVerify: false,
@@ -62,9 +62,9 @@ export let StepTaskData = [{
         content: "You could receive test ETH(TSETH) and test USDC(TSUSDC) tokens on Scroll L1 Testnet on Faucet page.",
         imgs: [{
             name: "scroll_2.png",
-            url: domain.domainUrl + "scroll/scroll_2.png",
+            url: domain.domainUrl + "scroll_2.png",
             srcList: [
-                domain.domainUrl + "scroll/scroll_2.png",
+                domain.domainUrl + "scroll_2.png",
             ],
         }],
         isVerify: false,
@@ -86,9 +86,9 @@ export let StepTaskData = [{
         imgs: [
             {
                 name: "scroll_3.1.png",
-                url: domain.domainUrl + "scroll/scroll_3.1.png",
+                url: domain.domainUrl + "scroll_3.1.png",
                 srcList: [
-                    domain.domainUrl + "scroll/scroll_3.1.png",
+                    domain.domainUrl + "scroll_3.1.png",
                 ],
             }
         ],
@@ -106,9 +106,9 @@ export let StepTaskData = [{
         imgs: [
             {
                 name: "scroll_3.3.png",
-                url: domain.domainUrl + "scroll/scroll_3.3.png",
+                url: domain.domainUrl + "scroll_3.3.png",
                 srcList: [
-                    domain.domainUrl + "scroll/scroll_3.3.png",
+                    domain.domainUrl + "scroll_3.3.png",
                 ],
             }
         ],
@@ -137,9 +137,9 @@ export let StepTaskData = [{
         imgs: [
             {
                 name: "scroll_4.1.png",
-                url: domain.domainUrl + "scroll/scroll_4.1.png",
+                url: domain.domainUrl + "scroll_4.1.png",
                 srcList: [
-                    domain.domainUrl + "scroll/scroll_4.1.png",
+                    domain.domainUrl + "scroll_4.1.png",
                 ],
             }
         ],
@@ -175,15 +175,15 @@ export let StepTaskData = [{
         content: "Click liquidity pool then try to add liquidity, for example, you could input some TSETH and some TSUSDC then click the supply bottom and then click the confirm supply.",
         imgs: [{
             name: "scroll_5.1_1.png",
-            url: domain.domainUrl + "scroll/scroll_5.1_1.png",
+            url: domain.domainUrl + "scroll_5.1_1.png",
             srcList: [
-                domain.domainUrl + "scroll/scroll_5.1_1.png",
+                domain.domainUrl + "scroll_5.1_1.png",
             ],
         },{
             name: "scroll_5.1_2.png",
-            url: domain.domainUrl + "scroll/scroll_5.1_2.png",
+            url: domain.domainUrl + "scroll_5.1_2.png",
             srcList: [
-                domain.domainUrl + "scroll/scroll_5.1_2.png",
+                domain.domainUrl + "scroll_5.1_2.png",
             ],
         }],
         isVerify: false,
@@ -195,15 +195,15 @@ export let StepTaskData = [{
         content: "After you providing LP liquidity, you could click Token1/Token2 folded page(eg.TSUSDC/TSETH) and could try to remove your liquidity.",
         imgs: [{
             name: "scroll_5.2_1.png",
-            url: domain.domainUrl + "scroll/scroll_5.2_1.png",
+            url: domain.domainUrl + "scroll_5.2_1.png",
             srcList: [
-                domain.domainUrl + "scroll/scroll_5.2_1.png",
+                domain.domainUrl + "scroll_5.2_1.png",
             ],
         },{
             name: "scroll_5.2_2.png",
-            url: domain.domainUrl + "scroll/scroll_5.2_2.png",
+            url: domain.domainUrl + "scroll_5.2_2.png",
             srcList: [
-                domain.domainUrl + "scroll/scroll_5.2_2.png",
+                domain.domainUrl + "scroll_5.2_2.png",
             ],
         }],
         isVerify: false,

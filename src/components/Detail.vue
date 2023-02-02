@@ -3,7 +3,6 @@ import { info } from 'console';
 import { defineComponent, ref } from 'vue'
 
 import { Projects } from "../data/projects";
-
 import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
 
 export default defineComponent({

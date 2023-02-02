@@ -6,6 +6,8 @@ import { StepTaskData as zkasinoMainTasks } from "../data/zkasino_mainnet";
 import { StepTaskData as zksyncTasks } from "../data/zksync";
 import { StepTaskData as startnetTasks } from "../data/starknet";
 
+import { domain } from "../router/domain";
+
 export let Projects = {
     production: [{
         id: 1,
@@ -18,7 +20,7 @@ export let Projects = {
         tasks: scrollTasks,
     }, {
         id: 2,
-        name: "ZKasino(testnet)",
+        name: "ZKasino(Testnet)",
         descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
         tag: "",
         process: 0,
@@ -27,7 +29,7 @@ export let Projects = {
         tasks: zkasinoTestTasks,
     }, {
         id: 3,
-        name: "ZKasino(mainnet)",
+        name: "ZKasino(Mainnet)",
         descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
         tag: "",
         process: 0,
@@ -36,20 +38,20 @@ export let Projects = {
         tasks: zkasinoMainTasks,
     }, {
         id: 4,
-        name: "Arbitrum",
+        name: "Arbitrum One",
         descripation: "Arbitrum is a layer 2 solution designed to improve the capabilities of Ethereum smart contracts — boosting their speed and scalability, while adding in additional privacy features to boot.",
         tag: "",
         process: 0,
-        image: "../../src/logos/ZKASINO_logo.png",
+        image: domain.domainUrl + "arbitrumone_logo.png",
         detail: "arbitrum",
         tasks: arbitrumOneTasks,
     }, {
         id: 5,
-        name: "ArbitrumNova",
+        name: "Arbitrum Nova",
         descripation: "Arbitrum nova is a layer 2 solution designed to improve the capabilities of Ethereum smart contracts — boosting their speed and scalability, while adding in additional privacy features to boot.",
         tag: "",
         process: 0,
-        image: "../../src/logos/ZKASINO_logo.png",
+        image: domain.domainUrl + "arbitrumnova_logo.png",
         detail: "arbitrum",
         tasks: arbitrumNovaTasks,
     }, {
