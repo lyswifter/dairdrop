@@ -6,6 +6,7 @@ import { ElMessage, ElPopover } from "element-plus";
 
 import { Projects } from "../data/projects";
 import { RecommendationItem } from "../data/types";
+import { domain } from "../router/domain";
 
 interface ParticipateItem {
     name: string;
@@ -28,19 +29,19 @@ export default defineComponent({
     mounted() {
         this.participated = [{
             name: "ZKFASDFGA",
-            url: "../../src/logos/ZKASINO_logo.png",
+            url: domain.domainUrl + "arbitrumnova_logo.png",
             state: 1,
         }, {
             name: "ZKFASDFGA",
-            url: "../../src/logos/ZKASINO_logo.png",
+            url: domain.domainUrl + "arbitrumnova_logo.png",
             state: 1,
         }, {
             name: "ZKFASDFGA",
-            url: "../../src/logos/ZKASINO_logo.png",
+            url: domain.domainUrl + "arbitrumnova_logo.png",
             state: 1,
         }, {
             name: "ZKFASDFGA",
-            url: "../../src/logos/ZKASINO_logo.png",
+            url: domain.domainUrl + "arbitrumnova_logo.png",
             state: 1,
         }];
 
