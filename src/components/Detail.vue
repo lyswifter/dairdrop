@@ -15,11 +15,19 @@ export default defineComponent({
         return {
             info: {} as RecommendationItem,
             isConnect: false,
-            turn: 90,
             account: "Connect",
         }
     },
     mounted() {
+        let localItem = window.localStorage.getItem("WalletAccount");
+        if (localItem == null || localItem == undefined) {
+            this.account = "Connect"
+            this.isConnect = false
+        } else {
+            this.account = localItem
+            this.isConnect = true
+        }
+
         let projectss = Projects['production'];
 
         for (let i = 0; i < projectss.length; i++) {
@@ -39,16 +47,20 @@ export default defineComponent({
         async connectAction() {
             if (typeof window.ethereum === 'undefined') {
                 alert("Matamask is not installed!")
+                return
             }
 
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
-
             this.account = account
             this.isConnect = true
+
+            window.localStorage.setItem("WalletAccount", account);
         },
         disConnectAction() {
+            this.account = "Connect"
             this.isConnect = false
+            window.localStorage.removeItem("WalletAccount");
         },
         backAction() {
             this.$router.go(-1);
@@ -97,9 +109,16 @@ export default defineComponent({
                     </el-col>
 
                     <el-col :span="2" style="padding-top: 10px;">
-                        <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction">
-                            <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
-                                alt=""></a>
+                        <el-popover v-if="isConnect" placement="bottom-start" trigger="click">
+                            <template #reference>
+                                <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;cursor: pointer;"
+                                    alt="">
+                            </template>
+
+                            <div style="cursor: pointer;" @click="disConnectAction">
+                                <img src="../assets/16px-signout@2x.png" style="width: 16px;height: 16px;vertical-align: middle;" alt="">Sign out
+                            </div>
+                        </el-popover>
                         <a v-else class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
                     </el-col>
                 </el-row>
@@ -158,7 +177,7 @@ export default defineComponent({
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
                                         <el-col :span="2" style="text-align: center;">
-                                            <div v-if="item.accessory == 'connect'" class="connect-btn">Connect</div>
+                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn" @click="connectAction">Connect</div>
                                             <div v-else-if="item.accessory == 'verify'" class="verify-btn">verify</div>
                                             <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png"
                                                 style="width: 24px;height: 24px;" alt="">

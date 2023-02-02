@@ -1,5 +1,3 @@
-import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
-
 import { StepTaskData as scrollTasks } from "../data/scroll";
 import { StepTaskData as arbitrumOneTasks } from "./arbitrum_one";
 import { StepTaskData as arbitrumNovaTasks } from "./arbitrum_nova";

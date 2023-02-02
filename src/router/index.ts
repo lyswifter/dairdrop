@@ -23,4 +23,18 @@ const router = createRouter({
     routes
 })
 
+// router.beforeEach((to, from, next) => {
+//     let token = localStorage.getItem("WalletAcount");
+//     let isAuthenticated = true;
+//     if (token == undefined || token == null) {
+//       isAuthenticated = false;
+//     }
+  
+//     if (to.name !== 'home' && !isAuthenticated) {
+//       next({ name: 'home' })
+//     } else {
+//       next()
+//     }
+//   })
+
 export default router

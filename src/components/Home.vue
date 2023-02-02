@@ -2,6 +2,8 @@
 
 import { defineComponent, ref } from 'vue'
 
+import { ElMessage, ElPopover } from "element-plus";
+
 import { Projects } from "../data/projects";
 import { RecommendationItem } from "../data/types";
 
@@ -43,8 +45,16 @@ export default defineComponent({
         }];
 
         let projectss = Projects['production'] as RecommendationItem[];
-
         this.recommendations.push(projectss);
+
+        let localItem = window.localStorage.getItem("WalletAccount");
+        if (localItem == null || localItem == undefined) {
+            this.account = "Connect"
+            this.isConnect = false
+        } else {
+            this.account = localItem
+            this.isConnect = true
+        }
     },
     methods: {
         reloadPage() {
@@ -53,21 +63,29 @@ export default defineComponent({
         async connectAction() {
             if (typeof window.ethereum === 'undefined') {
                 alert("Matamask is not installed!")
+                return
             }
 
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
+
+            window.localStorage.setItem("WalletAccount", account as string);
             this.account = account
             this.isConnect = true
         },
         loadMoreAction() {
+            ElMessage({
+                message: "No more project",
+                type: "warning",
+            });
         },
         toDetailAction(id: number) {
-            console.log(id)
             this.$router.push({ name: "detail", params: { id: id } })
         },
         disConnectAction() {
+            this.account = "Connect"
             this.isConnect = false
+            window.localStorage.removeItem("WalletAccount");
         },
     }
 })
@@ -90,11 +108,22 @@ export default defineComponent({
                         </a>
                     </el-col>
 
-                    <el-col :span="2" style="padding-top: 10px;">
-                        <a v-if="isConnect" href="javascript:void(0)" @click="disConnectAction">
-                            <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;"
-                                alt=""></a>
-                        <a v-else class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
+                    <el-col :span="2" style="padding-top: 10px;text-align: center;">
+                        <a v-if="!isConnect" class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
+
+                        <div v-else>
+                            <el-popover placement="bottom-start" trigger="click">
+                            <template #reference>
+                                <img src="../assets/avatar_default_128px@2x.png"
+                                    style="width: 48px;height: 48px;cursor: pointer;" alt="">
+                            </template>
+
+                            <div style="cursor: pointer;" @click="disConnectAction">
+                                <img src="../assets/16px-signout@2x.png"
+                                    style="width: 16px;height: 16px;vertical-align: middle;" alt="">Sign out
+                            </div>
+                        </el-popover>
+                        </div>
                     </el-col>
                 </el-row>
             </el-header>
@@ -204,6 +233,7 @@ export default defineComponent({
 .menu-btn {
     display: block;
     width: 160px;
+    height: 44px;
     background: #1E5CEF;
     line-height: 44px;
     border-radius: 22px;
@@ -295,6 +325,7 @@ export default defineComponent({
     color: #1672F0;
     line-height: 30px;
     background: linear-gradient(270deg, #1E5CEF 0%, #5A96FF 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -341,7 +372,6 @@ export default defineComponent({
     font-weight: 400;
     color: #1D2129;
     line-height: 20px;
-
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -364,6 +394,7 @@ export default defineComponent({
     font-weight: 500;
     color: #FFFFFF;
     line-height: 44px;
+    cursor: pointer;
 }
 </style>
 
