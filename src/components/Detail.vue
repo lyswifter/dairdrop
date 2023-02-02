@@ -140,8 +140,7 @@ export default defineComponent({
                             <h3>{{ info.name }}</h3>
                             <div>
                                 <img src="../assets/32px_warn@2x.png" style="width: 16px;height: 16px;" alt="">
-                                <span>Please note that there is no guarantee that they will do an airdrop and that they
-                                    will launch their own token.It's only speculation.</span>
+                                <span> According to the former experience, the possibility you get the airdrop will be higher if you finish the guidelines which has been collated and collected by Coinhere when {{info.name}} decide to do an airdrop. Please note there is no guarantee that {{info.name}} will do an airdrop.</span>
                             </div>
                         </el-col>
 
@@ -155,8 +154,9 @@ export default defineComponent({
                             </div>
 
                             <h3>Step-by-Step Guide</h3>
-                            <div>Some steps here may not be detected, and you need to check the completion status
-                                yourself.</div>
+                            <div>Click the “Verify” bottom, Coinhere will help you to verify if you have successfully completed the steps.</div>
+                            <br>
+                            <div>Please make sure the wallet address you connect with Coinheres is same as the one you interact with {{info.name}}. If you want to check more than more wallet address, just signed out and connect your wallet address again.</div>
                             <br>
                             <el-progress :percentage="50" />
                             <br>
@@ -179,8 +179,8 @@ export default defineComponent({
                                         <el-col :span="2" style="text-align: center;">
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn" @click="connectAction">Connect</div>
                                             <div v-else-if="item.accessory == 'verify'" class="verify-btn">verify</div>
-                                            <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png"
-                                                style="width: 24px;height: 24px;" alt="">
+                                            <!-- <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png"
+                                                style="width: 24px;height: 24px;" alt=""> -->
                                         </el-col>
                                     </el-row>
 
@@ -200,12 +200,14 @@ export default defineComponent({
                                         </div>
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
                                             <el-row>
-                                                <el-col :span="20">
+                                                <el-col :span="23">
                                                     <div class="sub-title-view">{{ subItem.title }}</div>
                                                 </el-col>
-                                                <!-- <el-col :span="4">
-                                                    <div class="verify-btn">verify</div>
-                                                </el-col> -->
+                                                <el-col :span="1">
+                                                    <img v-if="subItem.accessory == 'check'" src="../assets/32px-done@2x.png"
+                                                style="width: 24px;height: 24px;" alt="">
+                                                </el-col>
+                                                
                                             </el-row>
                                             <div>{{ subItem.content }}</div>
                                             <div>{{ subItem.note }}</div>

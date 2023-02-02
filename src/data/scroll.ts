@@ -1,10 +1,12 @@
 import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
 
+import { domain } from "../router/domain";
+
 export let StepTaskData = [{
     id: 1,
     class: "step1",
-    title: "Step 1: Connect Metamask wallet",
-    accessory: "connect", // connect, verify, check, both
+    title: "Step 1: Connect Metamask Wallet with Coinhere",
+    accessory: "connect", // connect, verify, check
     note: "",
     content: "Connect MetaMask wallet",
     imgs: [],
@@ -13,96 +15,108 @@ export let StepTaskData = [{
     subSteps: []
 },{
     id: 2,
-    class: "step2",
-    title: "Step 2: Visit the Scroll testnet page.",
-    accessory: "check",
-    note: "Note: Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding. And make sure your wallet address you interact withScroll is the same as the one you interact with Coinhere that we could verify each of your interactions with Scroll.",
+    class: "step",
+    title: "Step 2: Visit the Scroll Testnet Page and Configure Metamask for Testnet",
+    accessory: "",
+    note: "",
     content: "",
-    imgs: [{
-        name: "zksync.png",
-        url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-        srcList: [
-            'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-        ],
-    },{
-        name: "zksync.png",
-        url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-        srcList: [
-            'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-        ],
-    }],
+    imgs: [],
     isFulfilled: false,
     isOpen: true,
     subSteps: [{
         subId: 1,
-        title: "2.1 Connect MetaMask for Scroll L1 Testnet and Scroll L2 Testnet on Prealpha page(Note: Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding)",
+        title: "2.1 Connect MetaMask for Scroll L1 Testnet and Scroll L2 Testnet on Prealpha Page",
         accessory: "verify",
-        note: "",
-        content: "",
-        imgs: [{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-            srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-            ],
-        },{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-            srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-            ],
-        }],
+        note: "Note: Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding. And make sure your wallet address you interact withScroll is the same as the one you interact with Coinhere that we could verify each of your interactions with Scroll.",
+        content: "Click the link: https://scroll.io/prealpha",
+        imgs: [],
         isVerify: false,
     },{
         subId: 2,
-        title: "2.2 Add TSUSDC token on L1 Testnet, TSUSDC token on L2 Testnet and TSUNI2 token on L2 Testnet to your wallet on Prealpha page.",
+        title: "2.2 Add TSUSDC token on L1 Testnet, TSUSDC token on L2 Testnet and TSUNI2 token on L2 Testnet to Your Wallet on Prealpha Page",
         accessory: "verify",
-        imgs: [],
+        imgs: [{
+            name: "scroll_1.2.png",
+            url: domain.domainUrl + "scroll/scroll_1.2.png",
+            srcList: [
+                domain.domainUrl + "scroll/scroll_1.2.png",
+            ],
+        }],
         isVerify: false,
     }]
 },{
     id: 3,
     class: "step3",
-    title: "Step 3: Get some test ETH(TSETH) and test USDC(TSUSDC) tokens",
-    accessory: "check",
-    note: "Note: You could request tokens every 24h and receive 1 TSETH & 100 TSUSDC per request",
-    content: "You could receive test ETH(TSETH) and test USDC(TSUSDC) tokens on Scroll L1 Testnet on Faucet page.",
-    imgs: [],
-    isFulfilled: false,
-    isOpen: true,
-    subSteps: []
-},{
-    id: 4,
-    class: "step4",
-    title: "Step 4: Try Scroll Bridge",
-    accessory: "check",
+    title: "Step 3: Get Some Test Token",
+    accessory: "verify",
     note: "",
-    content: "Click the bridge section and try to send tokens from and to Scroll L1 Testnet and Scroll L2 Testnet.",
+    content: "",
     imgs: [],
     isFulfilled: false,
     isOpen: true,
     subSteps: [{
         subId: 1,
-        title: "4.1 Send some TSETH token from Scroll L1 Testnet to Scroll L2 Testnet.",
-        accessory: "verify",
-        imgs: [],
+        title: "3.1 Get Some Test ETH(TSETH) and Test USDC(TSUSDC) Tokens",
+        accessory: "check",
+        note: "Note: You could request tokens every 24h and receive 1 TSETH & 100 TSUSDC per request",
+        content: "You could receive test ETH(TSETH) and test USDC(TSUSDC) tokens on Scroll L1 Testnet on Faucet page.",
+        imgs: [{
+            name: "scroll_2.png",
+            url: domain.domainUrl + "scroll/scroll_2.png",
+            srcList: [
+                domain.domainUrl + "scroll/scroll_2.png",
+            ],
+        }],
+        isVerify: false,
+    }]
+},{
+    id: 4,
+    class: "step4",
+    title: "Step 4: Try Scroll Bridge",
+    accessory: "verify",
+    note: "",
+    content: "Click the Bridge Section and Try to Send Tokens from and to Scroll L1 Testnet and Scroll L2 Testnet",
+    imgs: [],
+    isFulfilled: false,
+    isOpen: true,
+    subSteps: [{
+        subId: 1,
+        title: "4.1 Send Some TSETH Token from Scroll L1 Testnet to Scroll L2 Testnet",
+        accessory: "check",
+        imgs: [
+            {
+                name: "scroll_3.1.png",
+                url: domain.domainUrl + "scroll/scroll_3.1.png",
+                srcList: [
+                    domain.domainUrl + "scroll/scroll_3.1.png",
+                ],
+            }
+        ],
         isVerify: false,
     },{
         subId: 2,
-        title: "4.2 Send some TSUSDC token from Scroll L1 Testnet to Scroll L2 Testnet on Bridge page.",
-        accessory: "verify",
+        title: "4.2 Send Some TSUSDC Token from Scroll L1 Testnet to Scroll L2 Testnet on Bridge Page",
+        accessory: "check",
         imgs: [],
         isVerify: false,
     },{
         subId: 3,
-        title: "4.3 Send some TSETH token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge page.",
-        accessory: "verify",
-        imgs: [],
+        title: "4.3 Send Some TSETH Token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge Page",
+        accessory: "check",
+        imgs: [
+            {
+                name: "scroll_3.3.png",
+                url: domain.domainUrl + "scroll/scroll_3.3.png",
+                srcList: [
+                    domain.domainUrl + "scroll/scroll_3.3.png",
+                ],
+            }
+        ],
         isVerify: false,
     },{
         subId: 4,
-        title: "4.4 Send some TSUSDC token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge page.",
-        accessory: "verify",
+        title: "4.4 Send Some TSUSDC Token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge Page",
+        accessory: "check",
         imgs: [],
         isVerify: false,
     }]
@@ -110,7 +124,7 @@ export let StepTaskData = [{
     id: 5,
     class: "step5",
     title: "Step 5: Try Scroll Swap",
-    accessory: "check",
+    accessory: "verify",
     note: "",
     content: "Click the Swap section in Scroll L2 Testnet, you could try the swap function and add liquidity function",
     imgs: [],
@@ -119,62 +133,77 @@ export let StepTaskData = [{
     subSteps: [{
         subId: 1,
         title: "5.1 Wrap TSETH to TSWETH",
-        accessory: "verify",
-        imgs: [],
+        accessory: "check",
+        imgs: [
+            {
+                name: "scroll_4.1.png",
+                url: domain.domainUrl + "scroll/scroll_4.1.png",
+                srcList: [
+                    domain.domainUrl + "scroll/scroll_4.1.png",
+                ],
+            }
+        ],
         isVerify: false,
     },{
         subId: 2,
         title: "5.2 Unwap TSWETH to TSETH",
-        accessory: "verify",
+        accessory: "check",
         imgs: [],
         isVerify: false,
     },{
         subId: 3,
-        title: "5.3 Swap one Token to another Swap one Token to another, for example, you could try to swap TSWETH for TSUSDC",
-        accessory: "verify",
+        title: "5.3 Swap One Token to Another Token",
+        accessory: "check",
+        content: "Swap one Token to another, for example, you could try to swap TSWETH for TSUSDC",
         imgs: [],
         isVerify: false,
     }]
 },{
     id: 6,
     class: "step6",
-    title: "Step 6: Add and remove liquidity",
-    accessory: "check",
+    title: "Step 6: Add and Remove Liquidity",
+    accessory: "verify",
     note: "",
     content: "Click the Swap section in Scroll L2 Testnet, you could try the swap function and add liquidity function",
     isFulfilled: false,
     isOpen: true,
     subSteps: [{
         subId: 1,
-        title: "6.1 add liquidity",
-        accessory: "verify",
+        title: "6.1 Add Liquidity",
+        accessory: "check",
         note: "",
         content: "Click liquidity pool then try to add liquidity, for example, you could input some TSETH and some TSUSDC then click the supply bottom and then click the confirm supply.",
         imgs: [{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+            name: "scroll_5.1_1.png",
+            url: domain.domainUrl + "scroll/scroll_5.1_1.png",
             srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                domain.domainUrl + "scroll/scroll_5.1_1.png",
             ],
         },{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+            name: "scroll_5.1_2.png",
+            url: domain.domainUrl + "scroll/scroll_5.1_2.png",
             srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                domain.domainUrl + "scroll/scroll_5.1_2.png",
             ],
         }],
         isVerify: false,
     },{
         subId: 2,
-        title: "6.2 Remove liquidity",
-        accessory: "verify",
-        note: "Note:xxxxxx",
+        title: "6.2 Remove Liquidity",
+        accessory: "check",
+        note: "",
         content: "After you providing LP liquidity, you could click Token1/Token2 folded page(eg.TSUSDC/TSETH) and could try to remove your liquidity.",
         imgs: [{
-            name: "zksync.png",
-            url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+            name: "scroll_5.2_1.png",
+            url: domain.domainUrl + "scroll/scroll_5.2_1.png",
             srcList: [
-                'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                domain.domainUrl + "scroll/scroll_5.2_1.png",
+            ],
+        },{
+            name: "scroll_5.2_2.png",
+            url: domain.domainUrl + "scroll/scroll_5.2_2.png",
+            srcList: [
+                domain.domainUrl + "scroll/scroll_5.2_2.png",
             ],
         }],
         isVerify: false,

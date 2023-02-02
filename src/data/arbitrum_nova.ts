@@ -1,8 +1,8 @@
 export let StepTaskData = [{
     id: 1,
     class: "step1",
-    title: "Step 1: Connect Metamask wallet",
-    accessory: "connect", // connect, verify, check, both
+    title: "Step 1: Connect Metamask Wallet with Coinhere",
+    accessory: "connect", // connect, verify, check
     note: "",
     content: "Connect MetaMask wallet",
     imgs: [{
