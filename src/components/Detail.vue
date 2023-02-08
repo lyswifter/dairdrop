@@ -34,6 +34,8 @@ export default defineComponent({
             isConnect: false,
             account: "Connect",
             radio: "Defi",
+
+            progress: 0,
         }
     },
     mounted() {
@@ -218,6 +220,25 @@ export default defineComponent({
             });
 
             if (res.data.code == 0) {
+                let count = 0
+                let len = res.data.data.list.length
+                for (let i = 0; i < len; i++) {
+                    const outerItem = res.data.data.list[i] as ItemStatus;
+                    if (outerItem.verifyStatus == 1) {
+                        count++
+                    }
+                }
+
+                console.log(count)
+                console.log(len)
+                if (count == 0 || len == 0) {
+                    this.progress = 0;
+                } else {
+                    this.progress = count / len * 100;
+                }
+
+                console.log(this.progress)
+
                 if (res.data.data.joinStatus == 0) {
                     this.info.tasks[0].accessory = "join"
                 } else if (res.data.data.joinStatus == 1) {
@@ -351,7 +372,7 @@ export default defineComponent({
                                 interact with {{ info.name }}. If you want to check more than more wallet address, just
                                 signed out and connect your wallet address again.</div>
                             <br>
-                            <el-progress :percentage="50" />
+                            <el-progress :percentage="progress" />
                             <br>
 
                             <div>
