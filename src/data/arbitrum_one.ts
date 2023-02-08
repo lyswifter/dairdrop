@@ -44,7 +44,7 @@ export let StepTaskData = [{
                 ],
             }
         ],
-        isVerify: true,
+        isVerify: false,
     },{
         subId: 2,
         title: "2.2 Transfer some ETH from Arbitrum One to Ethereum Mainnet by Arbitrium's Bridge",
@@ -64,6 +64,6 @@ export let StepTaskData = [{
                 domain.domainUrl + "arbitrumone_2.2_2.png",
             ],
         }],
-        isVerify: true, 
+        isVerify: false, 
     }]
 }]

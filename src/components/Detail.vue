@@ -6,13 +6,21 @@ import { ElMessage } from "element-plus";
 
 import { domain } from "../router/domain";
 import { Projects } from "../data/projects";
-import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
+import { RecommendationItem, StepTaskItem, ImageItem, StepTaskSubItem } from "../data/types";
 
 import axios from "axios";
 
 let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
 let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
 let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
+let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
+
+interface ItemStatus {
+    airdropStep: number;
+    airdropStepId: number;
+    airdropSubStep: number;
+    verifyStatus: number;
+}
 
 export default defineComponent({
     name: "Detail",
@@ -47,6 +55,8 @@ export default defineComponent({
             this.isConnect = true
             this.info.tasks[0].accessory = "join"
         }
+
+        this.joinStateFunc()
     },
     computed: {
     },
@@ -103,7 +113,7 @@ export default defineComponent({
 
             const resVerify = await axios.post(verifyActionUrl, {
                 airdropId: this.info.id,
-                airdropStep: idx+1,
+                airdropStep: idx + 1,
                 walletAddress: window.localStorage.getItem("WalletAccount"),
             }, {
                 headers: {
@@ -159,12 +169,67 @@ export default defineComponent({
                     Authorization: localStorage.getItem("token"),
                 },
             });
-            
+
             if (resJoin.data.code == 0) {
                 ElMessage.info("You have joined to our airdrop projects.")
                 this.info.tasks[0].accessory = ""
             } else {
                 ElMessage.error(resJoin.data.msg)
+                return
+            }
+        },
+
+        async joinStateFunc() {
+            // 1. request randomness number
+            const res = await axios.get(joinStateUrl + this.info.id, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (res.data.code == 0) {
+                for (let i = 0; i < res.data.data.list.length; i++) {
+                    const outerItem = res.data.data.list[i] as ItemStatus;
+
+                    let stepIdx = outerItem.airdropStep;
+                    let stepSubIdx = outerItem.airdropSubStep+1;
+                    let verifyStatus = outerItem.verifyStatus;
+
+                    for (let j = 0; j < this.info.tasks.length; j++) {
+                        const innerItem = this.info.tasks[j] as StepTaskItem;
+
+                        if (stepIdx == innerItem.id) {
+                            for (let k = 0; k < innerItem.subSteps.length; k++) {
+                                const subItem = innerItem.subSteps[k] as StepTaskSubItem;
+                                if (subItem.subId == stepSubIdx) {
+                                    subItem.isVerify = verifyStatus == 1 ? true : false;
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (let j = 0; j < this.info.tasks.length; j++) {
+                    const innerItem = this.info.tasks[j] as StepTaskItem;
+                    let isAllVerify = true
+                    for (let k = 0; k < innerItem.subSteps.length; k++) {
+                        const subItem = innerItem.subSteps[k] as StepTaskSubItem;
+                        if (!subItem.isVerify) {
+                            isAllVerify = false
+                        }
+                    }
+
+                    if (isAllVerify) {
+                        innerItem.isFulfilled = true
+                    } else {
+                        innerItem.isFulfilled = false
+                    }
+                }
+
+                console.log(JSON.stringify(this.info.tasks))
+            } else {
+                ElMessage.error(res.data.msg)
                 return
             }
         }
@@ -192,12 +257,13 @@ export default defineComponent({
                     <el-col :span="2" style="padding-top: 10px;">
                         <el-popover v-if="isConnect" placement="bottom-start" trigger="click">
                             <template #reference>
-                                <img src="../assets/avatar_default_128px@2x.png" style="width: 48px;height: 48px;cursor: pointer;"
-                                    alt="">
+                                <img src="../assets/avatar_default_128px@2x.png"
+                                    style="width: 48px;height: 48px;cursor: pointer;" alt="">
                             </template>
 
                             <div style="cursor: pointer;" @click="disConnectAction">
-                                <img src="../assets/16px-signout@2x.png" style="width: 16px;height: 16px;vertical-align: middle;" alt="">Sign out
+                                <img src="../assets/16px-signout@2x.png"
+                                    style="width: 16px;height: 16px;vertical-align: middle;" alt="">Sign out
                             </div>
                         </el-popover>
                         <a v-else class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
@@ -221,7 +287,10 @@ export default defineComponent({
                             <h3>{{ info.name }}</h3>
                             <div>
                                 <img src="../assets/32px_warn@2x.png" style="width: 16px;height: 16px;" alt="">
-                                <span> According to the former experience, the possibility you get the airdrop will be higher if you finish the guidelines which has been collated and collected by Coinhere when {{info.name}} decide to do an airdrop. Please note there is no guarantee that {{info.name}} will do an airdrop.</span>
+                                <span> According to the former experience, the possibility you get the airdrop will be
+                                    higher if you finish the guidelines which has been collated and collected by
+                                    Coinhere when {{ info.name }} decide to do an airdrop. Please note there is no
+                                    guarantee that {{ info.name }} will do an airdrop.</span>
                             </div>
                         </el-col>
 
@@ -235,9 +304,12 @@ export default defineComponent({
                             </div>
 
                             <h3>Step-by-Step Guide</h3>
-                            <div>Click the “Verify” bottom, Coinhere will help you to verify if you have successfully completed the steps.</div>
+                            <div>Click the “Verify” bottom, Coinhere will help you to verify if you have successfully
+                                completed the steps.</div>
                             <br>
-                            <div>Please make sure the wallet address you connect with Coinheres is same as the one you interact with {{info.name}}. If you want to check more than more wallet address, just signed out and connect your wallet address again.</div>
+                            <div>Please make sure the wallet address you connect with Coinheres is same as the one you
+                                interact with {{ info.name }}. If you want to check more than more wallet address, just
+                                signed out and connect your wallet address again.</div>
                             <br>
                             <el-progress :percentage="50" />
                             <br>
@@ -258,11 +330,12 @@ export default defineComponent({
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
                                         <el-col :span="2" style="text-align: center;">
-                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn" @click="connectAction">Connect</div>
-                                            <div v-else-if="item.accessory == 'join'" class="connect-btn" @click="joinAction">Join</div>
-                                            <div v-else-if="item.accessory == 'verify'" class="verify-btn" @click="verifyAction(item, i)">Verify</div>
-                                            <!-- <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png"
-                                                style="width: 24px;height: 24px;" alt=""> -->
+                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
+                                                @click="connectAction">Connect</div>
+                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled" class="connect-btn"
+                                                @click="joinAction">Join</div>
+                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled" class="verify-btn"
+                                                @click="verifyAction(item, i)">Verify</div>
                                         </el-col>
                                     </el-row>
 
@@ -286,10 +359,11 @@ export default defineComponent({
                                                     <div class="sub-title-view">{{ subItem.title }}</div>
                                                 </el-col>
                                                 <el-col :span="1">
-                                                    <img v-if="subItem.accessory == 'check'" src="../assets/32px-done@2x.png"
-                                                style="width: 24px;height: 24px;" alt="">
+                                                    <img v-if="subItem.accessory == 'check' && subItem.isVerify"
+                                                        src="../assets/32px-done@2x.png"
+                                                        style="width: 24px;height: 24px;" alt="">
                                                 </el-col>
-                                                
+
                                             </el-row>
                                             <div>{{ subItem.content }}</div>
                                             <div>{{ subItem.note }}</div>

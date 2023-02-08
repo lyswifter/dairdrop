@@ -4,6 +4,16 @@ export interface ImageItem {
     srcList: string[];
 }
 
+export interface StepTaskSubItem {
+    subId: number;
+    title: string;
+    accessory: string;
+    note: string;
+    content: string;
+    imgs: ImageItem[];
+    isVerify: boolean;
+}
+
 export interface StepTaskItem {
     id: number;
     class: string;
@@ -12,15 +22,7 @@ export interface StepTaskItem {
     note: string;
     content: string;
     imgs: ImageItem[];
-    subSteps: [{
-        subId: number;
-        title: string;
-        accessory: string; // verify, empty
-        note: string;
-        content: string;
-        imgs: ImageItem[];
-        isVerify: boolean;
-    }];
+    subSteps: StepTaskSubItem[];
     isFulfilled: boolean;
     isOpen: boolean;
 }

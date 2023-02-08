@@ -79,7 +79,7 @@ export let StepTaskData = [{
         note: "",
         content: "You may choose a deposit amount(like 0.1 eth) below and view your associated Metamask and Argent wallet in the top right corner. Keep in mind that you will need to pay gas fees while doing this transaction.",
         imgs: [],
-        isVerify: true,
+        isVerify: false,
     },{
         subId: 4,
         title: "3.4 Confirm in Metamask",
@@ -95,6 +95,6 @@ export let StepTaskData = [{
         note: "",
         content: "Send back some ETH from Starknet blockchain back to the Ethereum mainnet, send a bit less than what you deposit for paying gas fee, like 0.096 if you deposit 0.1 eth.",
         imgs: [],
-        isVerify: true, 
+        isVerify: false, 
     }]
 }]

@@ -42,7 +42,7 @@ export let StepTaskData = [{
                 ],
             }
         ],
-        isVerify: true,
+        isVerify: false,
     }, {
         subId: 2,
         title: "2.2 Transfer some ETH from Arbitrum Nova to Ethereum Mainnet by Arbitrium’s Bridge",
@@ -57,6 +57,6 @@ export let StepTaskData = [{
             ],
         }
         ],
-        isVerify: true,
+        isVerify: false,
     }]
 }]

@@ -14,6 +14,7 @@ import { handlePubkey } from "../utils/util";
 import axios from "axios";
 
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
+let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
 
 interface ParticipateItem {
     name: string;
@@ -34,24 +35,6 @@ export default defineComponent({
         }
     },
     mounted() {
-        this.participated = [{
-            name: "ZKFASDFGA",
-            url: domain.domainUrl + "arbitrumnova_logo.png",
-            state: 1,
-        }, {
-            name: "ZKFASDFGA",
-            url: domain.domainUrl + "arbitrumnova_logo.png",
-            state: 1,
-        }, {
-            name: "ZKFASDFGA",
-            url: domain.domainUrl + "arbitrumnova_logo.png",
-            state: 1,
-        }, {
-            name: "ZKFASDFGA",
-            url: domain.domainUrl + "arbitrumnova_logo.png",
-            state: 1,
-        }];
-
         let projectss = Projects['production'] as RecommendationItem[];
         this.recommendations.push(projectss);
 
@@ -63,6 +46,8 @@ export default defineComponent({
             this.account = localItem
             this.isConnect = true
         }
+
+        this.participatedList()
     },
     methods: {
         stringToUint8Array(str: string) {
@@ -177,6 +162,43 @@ export default defineComponent({
             window.localStorage.removeItem("WalletAccount");
             window.localStorage.removeItem("token");
         },
+        async participatedList() {
+            let projectss = Projects['production'] as RecommendationItem[]
+
+            // 1. request randomness number
+            const res = await axios.get(participatedListUrl, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (res.data.code == 0) {
+                console.log(res.data.data)
+                for (let i = 0; i < res.data.data.length; i++) {
+                    const element = res.data.data[i];
+
+                    let url = ""
+                    let id = element.id;
+
+                    for (let j = 0; j < projectss.length; j++) {
+                        const inner = projectss[j];
+                        if (inner.id == id) {
+                            url = inner.image
+                            break
+                        }
+                    }
+
+                    this.participated.push({
+                        name: element.name,
+                        url: url,
+                        state: 1,
+                    })
+                }
+            } else {
+                ElMessage.error(res.data.msg)
+                return
+            }
+        }
     }
 })
 </script>
@@ -246,7 +268,7 @@ export default defineComponent({
                                 <div class="participated-list">
                                     <div v-if="participated.length > 0 && isConnect"
                                         v-for="(item, index) in participated" :key="index" class="participate-row">
-                                        <img :src=item.url style="width: 30px;height: 30px;" alt=""><span>{{
+                                        <img :src=item.url style="width: 20px;height: 20px;" alt=""><span>{{
                                             item.name
                                         }}</span>
                                     </div>
