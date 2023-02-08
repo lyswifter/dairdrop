@@ -11,6 +11,15 @@ import { domain } from "../router/domain";
 
 export let Projects = {
     production: [{
+        id: 8,
+        name: "Coinhere",
+        descripation: "CoinHere is an airdrop platform which could verify all your on-chain interaction with other projects. Come Here, Coin Here!",
+        tag: "",
+        process: 0,
+        image: domain.domainUrl + "coinhere_logo.png",
+        detail: "coinhere",
+        tasks: coinhereTasks,
+    },{
         id: 1,
         name: "Scroll",
         descripation: "Scroll is a zkEVM-based zkRollup on Ethereum that enables native compatibility for existing Ethereum applications and tools. Scroll doesn't have its own token yet but may launch one in the future. Early users who've finished testnet tests may get an airdrop if they launch a token.",
@@ -75,14 +84,5 @@ export let Projects = {
         image: domain.domainUrl + "starknet_logo.png",
         detail: "arbitrum",
         tasks: startnetTasks,
-    },{
-        id: 8,
-        name: "Coinhere",
-        descripation: "CoinHere is an airdrop platform which could verify all your on-chain interaction with other projects. Come Here, Coin Here!",
-        tag: "",
-        process: 0,
-        image: domain.domainUrl + "coinhere_logo.png",
-        detail: "coinhere",
-        tasks: coinhereTasks,
     }]
 }

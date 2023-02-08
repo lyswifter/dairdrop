@@ -14,6 +14,7 @@ let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
 let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
 let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
+let coinhereInfoUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
 
 interface ItemStatus {
     airdropStep: number;
@@ -32,6 +33,7 @@ export default defineComponent({
             info: {} as RecommendationItem,
             isConnect: false,
             account: "Connect",
+            radio: "Defi",
         }
     },
     mounted() {
@@ -76,11 +78,16 @@ export default defineComponent({
             this.isConnect = true
 
             window.localStorage.setItem("WalletAccount", account);
+
+            this.info.tasks[0].accessory = 'join';
         },
         disConnectAction() {
             this.account = "Connect"
             this.isConnect = false
             window.localStorage.removeItem("WalletAccount");
+            window.localStorage.removeItem("token");
+
+            this.info.tasks[0].accessory = "connect";
         },
         backAction() {
             this.$router.go(-1);
@@ -111,21 +118,44 @@ export default defineComponent({
             console.log(item)
             console.log(idx)
 
-            const resVerify = await axios.post(verifyActionUrl, {
-                airdropId: this.info.id,
-                airdropStep: idx + 1,
-                walletAddress: window.localStorage.getItem("WalletAccount"),
-            }, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            });
+            if (item.id == 2 && this.info.id == 8) {
+                // Twitter
+                console.log("Twitter")
 
-            if (resVerify.data.code == 0) {
-                ElMessage.info("verify successfully")
+                ElMessage.info("Coming soon!")
+            } else if (item.id == 3 && this.info.id == 8) {
+                const res = await axios.post(coinhereInfoUrl, {
+                    interest: this.radio,
+                    walletAddress: window.localStorage.getItem("WalletAccount"),
+                }, {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                });
+
+                if (res.data.code == 0) {
+                    ElMessage.info("verify successfully")
+                } else {
+                    ElMessage.error(res.data.msg)
+                    return
+                }
             } else {
-                ElMessage.error(resVerify.data.msg)
-                return
+                const resVerify = await axios.post(verifyActionUrl, {
+                    airdropId: this.info.id,
+                    airdropStep: idx + 1,
+                    walletAddress: window.localStorage.getItem("WalletAccount"),
+                }, {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                });
+
+                if (resVerify.data.code == 0) {
+                    ElMessage.info("verify successfully")
+                } else {
+                    ElMessage.error(resVerify.data.msg)
+                    return
+                }
             }
         },
 
@@ -188,11 +218,17 @@ export default defineComponent({
             });
 
             if (res.data.code == 0) {
+                if (res.data.data.joinStatus == 0) {
+                    this.info.tasks[0].accessory = "join"
+                } else if (res.data.data.joinStatus == 1) {
+                    this.info.tasks[0].accessory = ""
+                }
+
                 for (let i = 0; i < res.data.data.list.length; i++) {
                     const outerItem = res.data.data.list[i] as ItemStatus;
 
                     let stepIdx = outerItem.airdropStep;
-                    let stepSubIdx = outerItem.airdropSubStep+1;
+                    let stepSubIdx = outerItem.airdropSubStep + 1;
                     let verifyStatus = outerItem.verifyStatus;
 
                     for (let j = 0; j < this.info.tasks.length; j++) {
@@ -220,6 +256,10 @@ export default defineComponent({
                         }
                     }
 
+                    if (innerItem.subSteps.length == 0) {
+                        isAllVerify = false
+                    }
+
                     if (isAllVerify) {
                         innerItem.isFulfilled = true
                     } else {
@@ -227,7 +267,7 @@ export default defineComponent({
                     }
                 }
 
-                console.log(JSON.stringify(this.info.tasks))
+                console.log(this.info.tasks[0])
             } else {
                 ElMessage.error(res.data.msg)
                 return
@@ -332,10 +372,10 @@ export default defineComponent({
                                         <el-col :span="2" style="text-align: center;">
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
                                                 @click="connectAction">Connect</div>
-                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled" class="connect-btn"
-                                                @click="joinAction">Join</div>
-                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled" class="verify-btn"
-                                                @click="verifyAction(item, i)">Verify</div>
+                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled"
+                                                class="connect-btn" @click="joinAction">Join</div>
+                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
+                                                class="verify-btn" @click="verifyAction(item, i)">Verify</div>
                                         </el-col>
                                     </el-row>
 
@@ -353,6 +393,22 @@ export default defineComponent({
                                                 :zoom-rate="1.2" :preview-src-list="imgItem.srcList" :initial-index="4"
                                                 fit="cover" />
                                         </div>
+
+                                        <div v-if="item.id == 3 && info.id == 8">
+                                            <el-radio-group v-model="radio">
+                                                <el-radio label="Defi">A. Defi</el-radio>
+                                                <el-radio label="Gamefi">B. Gamefi</el-radio>
+                                                <el-radio label="Socialfi">C: Socialfi</el-radio>
+                                                <el-radio label="NFT">D: NFT</el-radio>
+                                                <el-radio label="Metaverse">E: Metaverse</el-radio>
+                                                <el-radio label="Dao">F: Dao</el-radio>
+                                                <el-radio label="DID">G: DID</el-radio>
+                                                <el-radio label="ZK Rollup">H: ZK Rollup</el-radio>
+                                                <el-radio label="Ethereum Layer2">I: Ethereum Layer2</el-radio>
+                                                <el-radio label="Others">J: Others</el-radio>
+                                            </el-radio-group>
+                                        </div>
+
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
                                             <el-row>
                                                 <el-col :span="23">
@@ -363,7 +419,6 @@ export default defineComponent({
                                                         src="../assets/32px-done@2x.png"
                                                         style="width: 24px;height: 24px;" alt="">
                                                 </el-col>
-
                                             </el-row>
                                             <div>{{ subItem.content }}</div>
                                             <div>{{ subItem.note }}</div>
@@ -401,6 +456,7 @@ export default defineComponent({
 .da-main {
     margin: 0 auto;
     width: 1440px;
+    min-height: 1000px;
 }
 
 .menu-btn {
