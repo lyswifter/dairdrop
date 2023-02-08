@@ -2,8 +2,17 @@
 import { info } from 'console';
 import { defineComponent, ref } from 'vue'
 
+import { ElMessage } from "element-plus";
+
+import { domain } from "../router/domain";
 import { Projects } from "../data/projects";
 import { RecommendationItem, StepTaskItem, ImageItem } from "../data/types";
+
+import axios from "axios";
+
+let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
+let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
+let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 
 export default defineComponent({
     name: "Detail",
@@ -18,15 +27,6 @@ export default defineComponent({
         }
     },
     mounted() {
-        let localItem = window.localStorage.getItem("WalletAccount");
-        if (localItem == null || localItem == undefined) {
-            this.account = "Connect"
-            this.isConnect = false
-        } else {
-            this.account = localItem
-            this.isConnect = true
-        }
-
         let projectss = Projects['production'];
 
         for (let i = 0; i < projectss.length; i++) {
@@ -35,6 +35,17 @@ export default defineComponent({
                 this.info = element as RecommendationItem
                 break
             }
+        }
+
+        let localItem = window.localStorage.getItem("WalletAccount");
+        if (localItem == null || localItem == undefined) {
+            this.account = "Connect"
+            this.isConnect = false
+            this.info.tasks[0].accessory = "connect"
+        } else {
+            this.account = localItem
+            this.isConnect = true
+            this.info.tasks[0].accessory = "join"
         }
     },
     computed: {
@@ -86,6 +97,77 @@ export default defineComponent({
                 element.classList.remove("turn-around-img")
             }
         },
+        async verifyAction(item: StepTaskItem, idx: number) {
+            console.log(item)
+            console.log(idx)
+
+            const resVerify = await axios.post(verifyActionUrl, {
+                airdropId: this.info.id,
+                airdropStep: idx+1,
+                walletAddress: window.localStorage.getItem("WalletAccount"),
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (resVerify.data.code == 0) {
+                ElMessage.info("verify successfully")
+            } else {
+                ElMessage.error(resVerify.data.msg)
+                return
+            }
+        },
+
+        async joinAction() {
+            let account = window.localStorage.getItem("WalletAccount")
+
+            // 1. request randomness number
+            const resSign = await axios.get(connectMetaMaskUrl + account, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            let randStr = ""
+            if (resSign.data.code == 0) {
+                console.log(resSign.data.data)
+                randStr = resSign.data.data;
+            } else {
+                ElMessage.error(resSign.data.msg)
+                return
+            }
+
+            if (randStr.length == 0) {
+                ElMessage.error("There must some message to sign!")
+                return
+            }
+
+            // 2. sign and resubmit
+            const signRandomness: string = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [randStr, account],
+            })
+
+            // 3. participate the airdrop programe
+            const resJoin = await axios.post(participateUrl, {
+                airdropId: this.info.id,
+                walletAddress: account,
+                sign: signRandomness,
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+            
+            if (resJoin.data.code == 0) {
+                ElMessage.info("You have joined to our airdrop projects.")
+                this.info.tasks[0].accessory = ""
+            } else {
+                ElMessage.error(resJoin.data.msg)
+                return
+            }
+        }
     }
 })
 </script>
@@ -177,7 +259,8 @@ export default defineComponent({
                                         </el-col>
                                         <el-col :span="2" style="text-align: center;">
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn" @click="connectAction">Connect</div>
-                                            <div v-else-if="item.accessory == 'verify'" class="verify-btn">verify</div>
+                                            <div v-else-if="item.accessory == 'join'" class="connect-btn" @click="joinAction">Join</div>
+                                            <div v-else-if="item.accessory == 'verify'" class="verify-btn" @click="verifyAction(item, i)">Verify</div>
                                             <!-- <img v-else-if="item.accessory == 'check'" src="../assets/32px-done@2x.png"
                                                 style="width: 24px;height: 24px;" alt=""> -->
                                         </el-col>

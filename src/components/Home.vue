@@ -1,12 +1,19 @@
 <script lang="ts">
 
-import { defineComponent, ref } from 'vue'
-
+import { defineComponent, ref } from 'vue';
 import { ElMessage, ElPopover } from "element-plus";
 
 import { Projects } from "../data/projects";
 import { RecommendationItem } from "../data/types";
 import { domain } from "../router/domain";
+
+import { ethers } from "ethers";
+
+import { handlePubkey } from "../utils/util";
+
+import axios from "axios";
+
+let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 
 interface ParticipateItem {
     name: string;
@@ -58,6 +65,14 @@ export default defineComponent({
         }
     },
     methods: {
+        stringToUint8Array(str: string) {
+            var arr = [];
+            for (var i = 0, j = str.length; i < j; ++i) {
+                arr.push(str.charCodeAt(i));
+            }
+            var tmpUint8Array = new Uint8Array(arr);
+            return tmpUint8Array
+        },
         reloadPage() {
             location.reload();
         },
@@ -69,6 +84,79 @@ export default defineComponent({
 
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
+
+            // 1. create did
+            let didAddr = "did:dmaster:" + account;
+            let giving = "Hello!";
+
+            const signRes = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [giving, account],
+            }) as string
+            console.log(signRes)
+
+            // const recoverRes = await window.ethereum.request({
+            //     method: 'personal_ecRecover',
+            //     params: [giving, signRes],
+            // })
+            // console.log(recoverRes)
+
+            const publickKey = ethers.SigningKey.recoverPublicKey(ethers.hashMessage(giving), signRes)
+            console.log(handlePubkey(publickKey));
+            console.log(didAddr);
+
+            let document = {
+                "@context": ["https://www.w3.org/ns/did/v1"],
+                id: didAddr,
+                verificationMethod: [
+                    {
+                        type: "Secp256k1VerificationKey",
+                        id: didAddr + "#key-1",
+                        controller: didAddr,
+                        publicKeyHex: handlePubkey(publickKey),
+                    },
+                ],
+                authentication: [didAddr + "#key-1"],
+                assertionMethod: [didAddr + "#key-1"],
+                keyAgreement: [didAddr + "#key-1"],
+                capabilityInvocation: [didAddr + "#key-1"],
+                capabilityDelegation: [didAddr + "#key-1"],
+            };
+
+            let stringify = JSON.stringify(document);
+            let u8Array = this.stringToUint8Array(stringify);
+            let base64Str = ethers.encodeBase64(u8Array)
+
+            let hashString = ethers.hashMessage(stringify)
+            console.log(hashString)
+
+            // 1.5 sign the did document
+            const sign: string = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [stringify, account],
+            })
+            console.log(sign)
+
+            let signBase64 = ethers.encodeBase64(sign)
+            console.log(signBase64)
+
+            // 2. login without email
+            const resLogin = await axios.post(loginUrl, {
+                email: "",
+                code: "",
+                company: "",
+                didAddress: didAddr,
+                document: base64Str,
+                singer: sign,
+            });
+
+            console.log(resLogin)
+            if (resLogin.data.code == 0) {
+                localStorage.setItem("token", resLogin.data.data.token)
+            } else {
+                ElMessage.error(resLogin.data.msg)
+                return
+            }
 
             window.localStorage.setItem("WalletAccount", account as string);
             this.account = account
@@ -87,6 +175,7 @@ export default defineComponent({
             this.account = "Connect"
             this.isConnect = false
             window.localStorage.removeItem("WalletAccount");
+            window.localStorage.removeItem("token");
         },
     }
 })
@@ -110,20 +199,22 @@ export default defineComponent({
                     </el-col>
 
                     <el-col :span="2" style="padding-top: 10px;text-align: center;">
-                        <a v-if="!isConnect" class="menu-btn" href="javascript:void(0)" @click="connectAction">{{ account }}</a>
+                        <a v-if="!isConnect" class="menu-btn" href="javascript:void(0)" @click="connectAction">{{
+                            account
+                        }}</a>
 
                         <div v-else>
                             <el-popover placement="bottom-start" trigger="click">
-                            <template #reference>
-                                <img src="../assets/avatar_default_128px@2x.png"
-                                    style="width: 48px;height: 48px;cursor: pointer;" alt="">
-                            </template>
+                                <template #reference>
+                                    <img src="../assets/avatar_default_128px@2x.png"
+                                        style="width: 48px;height: 48px;cursor: pointer;" alt="">
+                                </template>
 
-                            <div style="cursor: pointer;" @click="disConnectAction">
-                                <img src="../assets/16px-signout@2x.png"
-                                    style="width: 16px;height: 16px;vertical-align: middle;" alt="">Sign out
-                            </div>
-                        </el-popover>
+                                <div style="cursor: pointer;" @click="disConnectAction">
+                                    <img src="../assets/16px-signout@2x.png"
+                                        style="width: 16px;height: 16px;vertical-align: middle;" alt="">Sign out
+                                </div>
+                            </el-popover>
                         </div>
                     </el-col>
                 </el-row>
