@@ -219,7 +219,7 @@ export default defineComponent({
                 if (res.data.code == 0) {
                     if (res.data.data) {
                         ElMessage.info("verify successfully")
-                        this.info.tasks[2].accessory = ''   
+                        this.info.tasks[1].accessory = ''   
                     } else {
                         ElMessage.error("verify failed")
                     }
@@ -248,7 +248,7 @@ export default defineComponent({
         },
 
         followAction() {
-            this.info.tasks[2].accessory = 'verify'
+            this.info.tasks[1].accessory = 'verify'
             console.log(this.info.tasks)
             window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "_blank")
         },
