@@ -247,6 +247,11 @@ export default defineComponent({
             }
         },
 
+        followAction() {
+            console.log("---------------")
+            this.info.tasks[2].accessory = 'verify'
+        },
+
         async joinAction() {
             let account = window.localStorage.getItem("WalletAccount")
 
@@ -498,7 +503,7 @@ export default defineComponent({
                                             </div>
 
                                             <div v-else-if="item.accessory == 'follow' && !item.isFulfilled"
-                                                class="twitter-follow-button">
+                                                class="twitter-follow-button" @click="followAction">
                                                 <a href="https://twitter.com/intent/follow?screen_name=CoinhereAirdrop"
                                                     data-show-count="false">Follow Twitter</a>
                                             </div>
