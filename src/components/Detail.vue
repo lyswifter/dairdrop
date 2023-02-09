@@ -47,8 +47,8 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
-            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=" + HTTP_ENCODED_CALLBACK_URL + 
-            "&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
+            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=" + HTTP_ENCODED_CALLBACK_URL +
+                "&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
         }
     },
     mounted() {
@@ -71,6 +71,11 @@ export default defineComponent({
             this.account = localItem
             this.isConnect = true
             this.info.tasks[0].accessory = "join"
+        }
+
+        let localAccessToken = window.localStorage.getItem("accessToken");
+        if (localAccessToken) {
+            this.info.tasks[1].accessory = 'follow'
         }
 
         let localToken = window.localStorage.getItem("token");
@@ -152,6 +157,8 @@ export default defineComponent({
                 params: [stringify, account],
             })
 
+            let referAddr = localStorage.getItem("refer");
+
             // 2. login without email
             const resLogin = await axios.post(loginUrl, {
                 email: "",
@@ -160,6 +167,7 @@ export default defineComponent({
                 didAddress: didAddr,
                 document: base64Str,
                 singer: sign,
+                invitation: referAddr ? referAddr : "",
             });
 
             if (resLogin.data.code == 0) {
@@ -206,11 +214,7 @@ export default defineComponent({
             console.log(item)
             console.log(idx)
 
-            if (item.id == 2 && this.info.id == 8) {
-                // this.requestToken()
-                this.authorizeAction()
-
-            } else if (item.id == 3 && this.info.id == 8) {
+            if (item.id == 3 && this.info.id == 8) {
                 const res = await axios.post(coinhereInfoUrl, {
                     interest: this.radio,
                     walletAddress: window.localStorage.getItem("WalletAccount"),
@@ -379,42 +383,6 @@ export default defineComponent({
                 return
             }
         },
-
-        async requestToken() {
-            const requestToken = await axios.post(request_token_url, {
-                oauth_callback: HTTP_ENCODED_CALLBACK_URL,
-            }, {
-                headers: {
-                    Authorization: "OAuth oauth_consumer_key=EuHQxU8tWvwUCYCb6M2euMJ4l",
-                },
-            })
-
-            console.log(requestToken)
-        },
-
-        async authorizeAction() {
-            //authorize_url
-            let code = localStorage.getItem('code');
-            const requestToken = await axios.get(authorize_url+ "?oauth_token=" + localStorage.getItem('code'))
-            console.log(requestToken)
-        },
-
-        async accessTokenAction() {
-            // access_token_url
-            const accessToken = await axios.post(access_token_url, {
-                code: localStorage.getItem('code'),
-                grant_type: "authorization_code",
-                client_id: "clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ",
-                redirect_uri: this.authPage,
-                code_verifier: "challenge",
-            }, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-            })
-
-            console.log(accessToken)
-        }
     }
 })
 </script>
@@ -512,18 +480,25 @@ export default defineComponent({
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
                                         <el-col :span="3" style="text-align: center;">
-                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn" @click="connectAction">Connect</div>
+                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
+                                                @click="connectAction">Connect</div>
 
-                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled" class="connect-btn" @click="joinAction">Join</div>
+                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled"
+                                                class="connect-btn" @click="joinAction">Join</div>
 
-                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled" class="verify-btn" @click="verifyAction(item, i)">Verify</div>
+                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
+                                                class="verify-btn" @click="verifyAction(item, i)">Verify</div>
 
-                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled" class="twitter-auth-button" @click="authorizeAction">
-                                                <a :href="authPage" target="_self" data-show-count="false">Auth Twitter</a>
+                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
+                                                class="twitter-auth-button">
+                                                <a :href="authPage" target="_self" data-show-count="false">Auth
+                                                    Twitter</a>
                                             </div>
 
-                                            <div v-else-if="item.accessory == 'follow' && !item.isFulfilled" class="twitter-follow-button">
-                                                <a href="https://twitter.com/intent/follow?screen_name=DonaldEllswor16" data-show-count="false">Follow Twitter</a>
+                                            <div v-else-if="item.accessory == 'follow' && !item.isFulfilled"
+                                                class="twitter-follow-button">
+                                                <a href="https://twitter.com/intent/follow?screen_name=DonaldEllswor16"
+                                                    data-show-count="false">Follow Twitter</a>
                                             </div>
                                         </el-col>
                                     </el-row>

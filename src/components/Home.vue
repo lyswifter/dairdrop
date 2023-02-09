@@ -40,6 +40,12 @@ export default defineComponent({
         }
     },
     mounted() {
+        let referAddr = this.getQueryString('refer');
+        console.log("referAddr" + referAddr)
+        if (referAddr) {
+            localStorage.setItem("refer", referAddr);
+        }
+
         let code = this.getQueryString('code');
         console.log("code" + code)
         if (code) {
@@ -68,19 +74,20 @@ export default defineComponent({
     methods: {
         async accessTokenAction() {
             // access_token_url
-            const accessToken = await axios.post(access_token_url, {
-                code: localStorage.getItem('code'),
-                grant_type: "authorization_code",
-                client_id: "clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ",
-                redirect_uri: this.authPage,
-                code_verifier: "challenge",
-            }, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-            })
+            // const accessToken = await axios.post(access_token_url, {
+            //     code: localStorage.getItem('code'),
+            //     grant_type: "authorization_code",
+            //     client_id: "clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ",
+            //     redirect_uri: this.authPage,
+            //     code_verifier: "challenge",
+            // }, {
+            //     headers: {
+            //         "Content-Type": "application/x-www-form-urlencoded",
+            //     },
+            // })
+            // console.log("accessToken: " + accessToken)
 
-            console.log("accessToken: " + accessToken)
+            window.localStorage.setItem("accessToken", 'accessToken');
         },
         getQueryString(name: string) {
             let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
@@ -160,6 +167,8 @@ export default defineComponent({
             let signBase64 = ethers.encodeBase64(sign)
             console.log(signBase64)
 
+            let referAddr = localStorage.getItem("refer");
+
             // 2. login without email
             const resLogin = await axios.post(loginUrl, {
                 email: "",
@@ -168,6 +177,7 @@ export default defineComponent({
                 didAddress: didAddr,
                 document: base64Str,
                 singer: sign,
+                invitation: referAddr ? referAddr : "",
             });
 
             console.log(resLogin)
