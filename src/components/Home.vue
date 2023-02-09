@@ -34,6 +34,12 @@ export default defineComponent({
         }
     },
     mounted() {
+        let code = this.getQueryString('code');
+        console.log("code" + code)
+        if (code) {
+            localStorage.setItem("code", code);    
+        }
+
         let projectss = Projects['production'] as RecommendationItem[];
         this.recommendations.push(projectss);
 
@@ -52,6 +58,15 @@ export default defineComponent({
         }
     },
     methods: {
+        getQueryString(name: string) {
+            let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            let r = window.location.search.substring(1).match(reg);
+            let context = '';
+            if (r) {
+                context = r[2];
+            }
+            return context ? context : '';
+        },
         stringToUint8Array(str: string) {
             var arr = [];
             for (var i = 0, j = str.length; i < j; ++i) {

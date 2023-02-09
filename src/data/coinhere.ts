@@ -16,7 +16,7 @@ export let StepTaskData = [
         id: 2,
         class: "step2",
         title: "Step 2: Verify Your Twitter Account and Follow CoinHere",
-        accessory: "verify",
+        accessory: "auth",
         note: "",
         content: "",
         imgs: [],

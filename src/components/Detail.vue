@@ -22,6 +22,10 @@ let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
 let coinhereInfoUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
 
 let request_token_url = "https://api.twitter.com/oauth/request_token";
+let authorize_url = "https://api.twitter.com/oauth/authorize";
+let access_token_url = "https://api.twitter.com/oauth/access_token";
+
+let HTTP_ENCODED_CALLBACK_URL = "https://coinhere.net"
 
 interface ItemStatus {
     airdropStep: number;
@@ -43,6 +47,7 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
+            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https://coinhere.net&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
         }
     },
     mounted() {
@@ -201,9 +206,8 @@ export default defineComponent({
             console.log(idx)
 
             if (item.id == 2 && this.info.id == 8) {
-                // Twitter
-                console.log("Twitter")
-                ElMessage.info("Coming soon!")
+                // this.requestToken()
+                this.authorizeAction()
 
             } else if (item.id == 3 && this.info.id == 8) {
                 const res = await axios.post(coinhereInfoUrl, {
@@ -373,6 +377,27 @@ export default defineComponent({
                 ElMessage.error(res.data.msg)
                 return
             }
+        },
+
+        async requestToken() {
+            const requestToken = await axios.post(request_token_url, {
+                oauth_callback: HTTP_ENCODED_CALLBACK_URL,
+            }, {
+                headers: {
+                    Authorization: "OAuth oauth_consumer_key=EuHQxU8tWvwUCYCb6M2euMJ4l",
+                },
+            })
+
+            console.log(requestToken)
+        },
+
+        async authorizeAction() {
+            //authorize_url
+            // const requestToken = await axios.get(authorize_url+ "?oauth_token=")
+            // console.log(requestToken)
+
+            let authPage = "";
+            window.location.replace(authPage)
         }
     }
 })
@@ -467,16 +492,23 @@ export default defineComponent({
                                                     style="width: 24px;height: 24px;" alt="">
                                             </a>
                                         </el-col>
-                                        <el-col :span="21">
+                                        <el-col :span="20">
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
-                                        <el-col :span="2" style="text-align: center;">
-                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
-                                                @click="connectAction">Connect</div>
-                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled"
-                                                class="connect-btn" @click="joinAction">Join</div>
-                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
-                                                class="verify-btn" @click="verifyAction(item, i)">Verify</div>
+                                        <el-col :span="3" style="text-align: center;">
+                                            <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn" @click="connectAction">Connect</div>
+
+                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled" class="connect-btn" @click="joinAction">Join</div>
+
+                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled" class="verify-btn" @click="verifyAction(item, i)">Verify</div>
+
+                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled" class="twitter-auth-button">
+                                                <a :href="authPage" target="_self" data-show-count="false">Auth Twitter</a>
+                                            </div>
+
+                                            <div v-else-if="item.accessory == 'follow' && !item.isFulfilled" class="twitter-follow-button">
+                                                <a href="https://twitter.com/intent/follow?screen_name=DonaldEllswor16" data-show-count="false">Follow Twitter</a>
+                                            </div>
                                         </el-col>
                                     </el-row>
 
@@ -640,6 +672,44 @@ export default defineComponent({
     font-weight: 500;
     font-size: 12px;
     margin-top: 10px;
+}
+
+.twitter-follow-button {
+    width: 90%;
+    height: 24px;
+    background: #1672F0;
+    border-radius: 13px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.twitter-follow-button a {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+}
+
+.twitter-auth-button {
+    width: 90%;
+    height: 24px;
+    background: #1672F0;
+    border-radius: 13px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.twitter-auth-button a {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
 }
 </style>
 
