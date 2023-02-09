@@ -76,7 +76,7 @@ export default defineComponent({
             // access_token_url
             const res = axios.get(twitterUserInfoUrl+localStorage.getItem("code"), {
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
+                    Authorization: localStorage.getItem("token"),
                 },
             }).then((res) => {
                 if (res.data.code == 0) {
