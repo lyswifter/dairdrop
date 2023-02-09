@@ -25,7 +25,7 @@ let request_token_url = "https://api.twitter.com/oauth/request_token";
 let authorize_url = "https://api.twitter.com/oauth/authorize";
 let access_token_url = "https://api.twitter.com/oauth/access_token";
 
-let HTTP_ENCODED_CALLBACK_URL = "https://coinhere.net"
+let HTTP_ENCODED_CALLBACK_URL = "https://coinhere-local.valuechain.group"
 
 interface ItemStatus {
     airdropStep: number;
@@ -47,7 +47,8 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
-            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https://coinhere.net&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
+            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=" + HTTP_ENCODED_CALLBACK_URL + 
+            "&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
         }
     },
     mounted() {
