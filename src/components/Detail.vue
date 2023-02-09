@@ -248,8 +248,9 @@ export default defineComponent({
         },
 
         followAction() {
-            console.log("---------------")
             this.info.tasks[2].accessory = 'verify'
+            console.log(this.info.tasks)
+            window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "_blank")
         },
 
         async joinAction() {
@@ -504,8 +505,7 @@ export default defineComponent({
 
                                             <div v-else-if="item.accessory == 'follow' && !item.isFulfilled"
                                                 class="twitter-follow-button" @click="followAction">
-                                                <a href="https://twitter.com/intent/follow?screen_name=CoinhereAirdrop"
-                                                    data-show-count="false">Follow Twitter</a>
+                                                <a href="javascript:void(0)" data-show-count="false">Follow Twitter</a>
                                             </div>
                                         </el-col>
                                     </el-row>
