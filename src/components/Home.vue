@@ -204,8 +204,7 @@ export default defineComponent({
         disConnectAction() {
             this.account = "Connect"
             this.isConnect = false
-            window.localStorage.removeItem("WalletAccount");
-            window.localStorage.removeItem("token");
+            localStorage.clear()
         },
         async participatedList() {
             let projectss = Projects['production'] as RecommendationItem[]

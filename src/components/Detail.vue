@@ -181,10 +181,10 @@ export default defineComponent({
         disConnectAction() {
             this.account = "Connect"
             this.isConnect = false
-            window.localStorage.removeItem("WalletAccount");
-            window.localStorage.removeItem("token");
-
+            this.isJoin = false
             this.info.tasks[0].accessory = "connect";
+
+            localStorage.clear()
         },
         backAction() {
             this.$router.go(-1);
