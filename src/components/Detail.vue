@@ -10,11 +10,18 @@ import { RecommendationItem, StepTaskItem, ImageItem, StepTaskSubItem } from "..
 
 import axios from "axios";
 
+import { ethers } from "ethers";
+
+import { handlePubkey } from "../utils/util";
+
+let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
 let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
 let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
 let coinhereInfoUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
+
+let request_token_url = "https://api.twitter.com/oauth/request_token";
 
 interface ItemStatus {
     airdropStep: number;
@@ -60,11 +67,22 @@ export default defineComponent({
             this.info.tasks[0].accessory = "join"
         }
 
-        this.joinStateFunc()
+        let localToken = window.localStorage.getItem("token");
+        if (localToken) {
+            this.joinStateFunc()
+        }
     },
     computed: {
     },
     methods: {
+        stringToUint8Array(str: string) {
+            var arr = [];
+            for (var i = 0, j = str.length; i < j; ++i) {
+                arr.push(str.charCodeAt(i));
+            }
+            var tmpUint8Array = new Uint8Array(arr);
+            return tmpUint8Array
+        },
         reloadPage() {
             location.reload();
         },
@@ -82,6 +100,68 @@ export default defineComponent({
             window.localStorage.setItem("WalletAccount", account);
 
             this.info.tasks[0].accessory = 'join';
+
+            // 1. create did
+            let didAddr = "did:dmaster:" + account;
+            let giving = "Hello!";
+
+            const signRes = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [giving, account],
+            }) as string
+
+            // const recoverRes = await window.ethereum.request({
+            //     method: 'personal_ecRecover',
+            //     params: [giving, signRes],
+            // })
+            // console.log(recoverRes)
+
+            const publickKey = ethers.SigningKey.recoverPublicKey(ethers.hashMessage(giving), signRes)
+
+            let document = {
+                "@context": ["https://www.w3.org/ns/did/v1"],
+                id: didAddr,
+                verificationMethod: [
+                    {
+                        type: "Secp256k1VerificationKey",
+                        id: didAddr + "#key-1",
+                        controller: didAddr,
+                        publicKeyHex: handlePubkey(publickKey),
+                    },
+                ],
+                authentication: [didAddr + "#key-1"],
+                assertionMethod: [didAddr + "#key-1"],
+                keyAgreement: [didAddr + "#key-1"],
+                capabilityInvocation: [didAddr + "#key-1"],
+                capabilityDelegation: [didAddr + "#key-1"],
+            };
+
+            let stringify = JSON.stringify(document);
+            let u8Array = this.stringToUint8Array(stringify);
+            let base64Str = ethers.encodeBase64(u8Array)
+
+            // 1.5 sign the did document
+            const sign: string = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [stringify, account],
+            })
+
+            // 2. login without email
+            const resLogin = await axios.post(loginUrl, {
+                email: "",
+                code: "",
+                company: "",
+                didAddress: didAddr,
+                document: base64Str,
+                singer: sign,
+            });
+
+            if (resLogin.data.code == 0) {
+                localStorage.setItem("token", resLogin.data.data.token)
+            } else {
+                ElMessage.error(resLogin.data.msg)
+                return
+            }
         },
         disConnectAction() {
             this.account = "Connect"
@@ -123,8 +203,8 @@ export default defineComponent({
             if (item.id == 2 && this.info.id == 8) {
                 // Twitter
                 console.log("Twitter")
-
                 ElMessage.info("Coming soon!")
+
             } else if (item.id == 3 && this.info.id == 8) {
                 const res = await axios.post(coinhereInfoUrl, {
                     interest: this.radio,

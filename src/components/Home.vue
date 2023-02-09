@@ -8,7 +8,6 @@ import { RecommendationItem } from "../data/types";
 import { domain } from "../router/domain";
 
 import { ethers } from "ethers";
-
 import { handlePubkey } from "../utils/util";
 
 import axios from "axios";
@@ -47,7 +46,10 @@ export default defineComponent({
             this.isConnect = true
         }
 
-        this.participatedList()
+        let localToken = window.localStorage.getItem("token");
+        if (localToken) {
+            this.participatedList()
+        }
     },
     methods: {
         stringToUint8Array(str: string) {
@@ -78,7 +80,6 @@ export default defineComponent({
                 method: 'personal_sign',
                 params: [giving, account],
             }) as string
-            console.log(signRes)
 
             // const recoverRes = await window.ethereum.request({
             //     method: 'personal_ecRecover',
@@ -87,8 +88,6 @@ export default defineComponent({
             // console.log(recoverRes)
 
             const publickKey = ethers.SigningKey.recoverPublicKey(ethers.hashMessage(giving), signRes)
-            console.log(handlePubkey(publickKey));
-            console.log(didAddr);
 
             let document = {
                 "@context": ["https://www.w3.org/ns/did/v1"],
@@ -111,9 +110,6 @@ export default defineComponent({
             let stringify = JSON.stringify(document);
             let u8Array = this.stringToUint8Array(stringify);
             let base64Str = ethers.encodeBase64(u8Array)
-
-            let hashString = ethers.hashMessage(stringify)
-            console.log(hashString)
 
             // 1.5 sign the did document
             const sign: string = await window.ethereum.request({
