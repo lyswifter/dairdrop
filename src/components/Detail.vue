@@ -23,7 +23,7 @@ let coinhereInfoUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
 
 let request_token_url = "https://api.twitter.com/oauth/request_token";
 let authorize_url = "https://api.twitter.com/oauth/authorize";
-let access_token_url = "https://api.twitter.com/oauth/access_token";
+let access_token_url = "https://api.twitter.com/2/oauth2/token";
 
 let HTTP_ENCODED_CALLBACK_URL = "https://coinhere-local.valuechain.group"
 
@@ -394,11 +394,26 @@ export default defineComponent({
 
         async authorizeAction() {
             //authorize_url
-            // const requestToken = await axios.get(authorize_url+ "?oauth_token=")
-            // console.log(requestToken)
+            let code = localStorage.getItem('code');
+            const requestToken = await axios.get(authorize_url+ "?oauth_token=" + localStorage.getItem('code'))
+            console.log(requestToken)
+        },
 
-            let authPage = "";
-            window.location.replace(authPage)
+        async accessTokenAction() {
+            // access_token_url
+            const accessToken = await axios.post(access_token_url, {
+                code: localStorage.getItem('code'),
+                grant_type: "authorization_code",
+                client_id: "clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ",
+                redirect_uri: this.authPage,
+                code_verifier: "challenge",
+            }, {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+
+            console.log(accessToken)
         }
     }
 })
@@ -503,7 +518,7 @@ export default defineComponent({
 
                                             <div v-else-if="item.accessory == 'verify' && !item.isFulfilled" class="verify-btn" @click="verifyAction(item, i)">Verify</div>
 
-                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled" class="twitter-auth-button">
+                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled" class="twitter-auth-button" @click="authorizeAction">
                                                 <a :href="authPage" target="_self" data-show-count="false">Auth Twitter</a>
                                             </div>
 

@@ -15,6 +15,9 @@ import axios from "axios";
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
 
+let access_token_url = "https://api.twitter.com/2/oauth2/token";
+let HTTP_ENCODED_CALLBACK_URL = "https://coinhere-local.valuechain.group"
+
 interface ParticipateItem {
     name: string;
     url: string;
@@ -31,13 +34,18 @@ export default defineComponent({
             isConnect: false,
             participated: [] as ParticipateItem[],
             recommendations: [] as RecommendationItem[][],
+
+            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=" + HTTP_ENCODED_CALLBACK_URL + 
+            "&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
         }
     },
     mounted() {
         let code = this.getQueryString('code');
         console.log("code" + code)
         if (code) {
-            localStorage.setItem("code", code);    
+            localStorage.setItem("code", code);  
+            
+            this.accessTokenAction()
         }
 
         let projectss = Projects['production'] as RecommendationItem[];
@@ -58,6 +66,22 @@ export default defineComponent({
         }
     },
     methods: {
+        async accessTokenAction() {
+            // access_token_url
+            const accessToken = await axios.post(access_token_url, {
+                code: localStorage.getItem('code'),
+                grant_type: "authorization_code",
+                client_id: "clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ",
+                redirect_uri: this.authPage,
+                code_verifier: "challenge",
+            }, {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+
+            console.log("accessToken: " + accessToken)
+        },
         getQueryString(name: string) {
             let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
             let r = window.location.search.substring(1).match(reg);
