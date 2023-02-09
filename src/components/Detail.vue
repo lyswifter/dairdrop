@@ -206,49 +206,46 @@ export default defineComponent({
             }
         },
         async verifyAction(item: StepTaskItem, idx: number) {
-            console.log(item)
-            console.log(idx)
+            const resVerify = await axios.post(verifyActionUrl, {
+                airdropId: this.info.id,
+                airdropStep: idx + 1,
+                walletAddress: window.localStorage.getItem("WalletAccount"),
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
 
-            if (item.id == 3 && this.info.id == 8) {
-                const res = await axios.get(isFollowUrl + localStorage.getItem('w_user_id'), {
-                    headers: {
-                        Authorization: localStorage.getItem("token"),
-                    },
-                });
+            if (resVerify.data.code == 0) {
+                ElMessage.info("verify successfully")
+            } else {
+                ElMessage.error(resVerify.data.msg)
+                return
+            }
+        },
 
-                if (res.data.code == 0) {
-                    if (res.data.data) {
-                        ElMessage.info("verify successfully")
-                        this.info.tasks[1].accessory = ''   
-                    } else {
-                        ElMessage.error("verify failed")
-                    }
+        async searchAction() {
+            const res = await axios.get(isFollowUrl + localStorage.getItem('w_user_id'), {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (res.data.code == 0) {
+                if (res.data.data) {
+                    ElMessage.info("verify successfully")
+                    this.info.tasks[1].accessory = ''
                 } else {
-                    ElMessage.error(res.data.msg)
-                    return
+                    ElMessage.error("verify failed")
                 }
             } else {
-                const resVerify = await axios.post(verifyActionUrl, {
-                    airdropId: this.info.id,
-                    airdropStep: idx + 1,
-                    walletAddress: window.localStorage.getItem("WalletAccount"),
-                }, {
-                    headers: {
-                        Authorization: localStorage.getItem("token"),
-                    },
-                });
-
-                if (resVerify.data.code == 0) {
-                    ElMessage.info("verify successfully")
-                } else {
-                    ElMessage.error(resVerify.data.msg)
-                    return
-                }
+                ElMessage.error(res.data.msg)
+                return
             }
         },
 
         followAction() {
-            this.info.tasks[1].accessory = 'verify'
+            this.info.tasks[1].accessory = 'search'
             console.log(this.info.tasks)
             window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "_blank")
         },
@@ -491,8 +488,8 @@ export default defineComponent({
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
                                                 @click="connectAction">Connect</div>
 
-                                            <div v-else-if="item.accessory == 'join' && !isJoin"
-                                                class="connect-btn" @click="joinAction">Join</div>
+                                            <div v-else-if="item.accessory == 'join' && !isJoin" class="connect-btn"
+                                                @click="joinAction">Join</div>
 
                                             <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
                                                 class="verify-btn" @click="verifyAction(item, i)">Verify</div>
@@ -507,6 +504,9 @@ export default defineComponent({
                                                 class="twitter-follow-button" @click="followAction">
                                                 <a href="javascript:void(0)" data-show-count="false">Follow Twitter</a>
                                             </div>
+
+                                            <div v-else-if="item.accessory == 'search' && !item.isFulfilled"
+                                                class="verify-btn" @click="searchAction">Verify</div>
                                         </el-col>
                                     </el-row>
 
