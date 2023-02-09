@@ -23,7 +23,7 @@ export let StepTaskData = [{
     id: 2,
     class: "step2",
     title: "Step 2: Visit the Arbitrium Bridge Page",
-    accessory: "both",
+    accessory: "verify",
     note: "",
     content: "",
     imgs: [],

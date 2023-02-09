@@ -57,10 +57,10 @@ export let StepTaskData = [
         isOpen: true,
         subSteps: [{
             subId: 1,
-            title: "3.1 Get Some Test ETH(TSETH) and Test USDC(TSUSDC) Tokens",
+            title: "3.1 Get Some Test Tokens",
             accessory: "check",
-            note: "Note: You could request tokens every 24h and receive 1 TSETH & 100 TSUSDC per request",
-            content: "You could receive test ETH(TSETH) and test USDC(TSUSDC) tokens on Scroll L1 Testnet on Faucet page.",
+            note: "Note: You could request tokens every 24h.",
+            content: "You could receive test ETH(TSETH) on Scroll L1 Testnet on Faucet page.",
             imgs: [{
                 name: "scroll_2.png",
                 url: domain.domainUrl + "scroll_2.png",

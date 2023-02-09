@@ -43,6 +43,7 @@ export default defineComponent({
         return {
             info: {} as RecommendationItem,
             isConnect: false,
+            isJoin: false,
             account: "Connect",
             radio: "Defi",
 
@@ -293,7 +294,9 @@ export default defineComponent({
 
             if (resJoin.data.code == 0) {
                 ElMessage.info("You have joined to our airdrop projects.")
+
                 this.info.tasks[0].accessory = ""
+                this.isJoin = true
             } else {
                 ElMessage.error(resJoin.data.msg)
                 return
@@ -309,6 +312,9 @@ export default defineComponent({
             });
 
             if (res.data.code == 0) {
+
+                // progress
+
                 let count = 0
                 let len = res.data.data.list.length
                 for (let i = 0; i < len; i++) {
@@ -317,22 +323,24 @@ export default defineComponent({
                         count++
                     }
                 }
-
-                console.log(count)
-                console.log(len)
                 if (count == 0 || len == 0) {
                     this.progress = 0;
                 } else {
                     this.progress = count / len * 100;
                 }
-
                 console.log(this.progress)
+
+                // joinStatus
 
                 if (res.data.data.joinStatus == 0) {
                     this.info.tasks[0].accessory = "join"
+                    this.isJoin = false
                 } else if (res.data.data.joinStatus == 1) {
                     this.info.tasks[0].accessory = ""
+                    this.isJoin = true
                 }
+
+                // isverify
 
                 for (let i = 0; i < res.data.data.list.length; i++) {
                     const outerItem = res.data.data.list[i] as ItemStatus;
@@ -356,28 +364,26 @@ export default defineComponent({
                     }
                 }
 
+                // isFulfilled
+
                 for (let j = 0; j < this.info.tasks.length; j++) {
                     const innerItem = this.info.tasks[j] as StepTaskItem;
-                    let isAllVerify = true
+                    let okCount = 0
                     for (let k = 0; k < innerItem.subSteps.length; k++) {
                         const subItem = innerItem.subSteps[k] as StepTaskSubItem;
-                        if (!subItem.isVerify) {
-                            isAllVerify = false
+                        if (subItem.isVerify) {
+                            okCount++
                         }
                     }
 
-                    if (innerItem.subSteps.length == 0) {
-                        isAllVerify = false
-                    }
-
-                    if (isAllVerify) {
+                    if (innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0) {
                         innerItem.isFulfilled = true
                     } else {
                         innerItem.isFulfilled = false
                     }
                 }
 
-                console.log(this.info.tasks[0])
+                console.log(this.info.tasks)
             } else {
                 ElMessage.error(res.data.msg)
                 return
@@ -483,7 +489,7 @@ export default defineComponent({
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
                                                 @click="connectAction">Connect</div>
 
-                                            <div v-else-if="item.accessory == 'join' && !item.isFulfilled"
+                                            <div v-else-if="item.accessory == 'join' && !isJoin"
                                                 class="connect-btn" @click="joinAction">Join</div>
 
                                             <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
