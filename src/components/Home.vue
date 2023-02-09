@@ -14,6 +14,7 @@ import axios from "axios";
 
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
+let twitterUserInfoUrl = domain.domainBaseUrl + "/api/airdrop/twitter/"
 
 let access_token_url = "https://api.twitter.com/2/oauth2/token";
 let HTTP_ENCODED_CALLBACK_URL = "https://coinhere-local.valuechain.group"
@@ -50,7 +51,6 @@ export default defineComponent({
         console.log("code" + code)
         if (code) {
             localStorage.setItem("code", code);  
-            
             this.accessTokenAction()
         }
 
@@ -72,22 +72,20 @@ export default defineComponent({
         }
     },
     methods: {
-        async accessTokenAction() {
+        accessTokenAction() {
             // access_token_url
-            // const accessToken = await axios.post(access_token_url, {
-            //     code: localStorage.getItem('code'),
-            //     grant_type: "authorization_code",
-            //     client_id: "clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ",
-            //     redirect_uri: this.authPage,
-            //     code_verifier: "challenge",
-            // }, {
-            //     headers: {
-            //         "Content-Type": "application/x-www-form-urlencoded",
-            //     },
-            // })
-            // console.log("accessToken: " + accessToken)
-
-            window.localStorage.setItem("accessToken", 'accessToken');
+            const res = axios.get(twitterUserInfoUrl+localStorage.getItem("code"), {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            }).then((res) => {
+                if (res.data.code == 0) {
+                window.localStorage.setItem("w_user_id", res.data.data);   
+            } else {
+                ElMessage.error(res.data.msg)
+                return
+            }
+            })
         },
         getQueryString(name: string) {
             let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');

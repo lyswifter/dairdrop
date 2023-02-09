@@ -20,12 +20,7 @@ let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
 let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
 let coinhereInfoUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
-
-let request_token_url = "https://api.twitter.com/oauth/request_token";
-let authorize_url = "https://api.twitter.com/oauth/authorize";
-let access_token_url = "https://api.twitter.com/2/oauth2/token";
-
-let HTTP_ENCODED_CALLBACK_URL = "https://coinhere-local.valuechain.group"
+let isFollowUrl = domain.domainBaseUrl + "/api/airdrop/twitter/followStatus/"
 
 interface ItemStatus {
     airdropStep: number;
@@ -48,8 +43,7 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
-            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=" + HTTP_ENCODED_CALLBACK_URL +
-                "&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
+            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere-local.valuechain.group&scope=offline.access%20tweet.read%20users.read&state=state",
         }
     },
     mounted() {
@@ -74,7 +68,7 @@ export default defineComponent({
             this.info.tasks[0].accessory = "join"
         }
 
-        let localAccessToken = window.localStorage.getItem("accessToken");
+        let localAccessToken = window.localStorage.getItem("w_user_id");
         if (localAccessToken) {
             this.info.tasks[1].accessory = 'follow'
         }
@@ -216,17 +210,19 @@ export default defineComponent({
             console.log(idx)
 
             if (item.id == 3 && this.info.id == 8) {
-                const res = await axios.post(coinhereInfoUrl, {
-                    interest: this.radio,
-                    walletAddress: window.localStorage.getItem("WalletAccount"),
-                }, {
+                const res = await axios.get(isFollowUrl + localStorage.getItem('w_user_id'), {
                     headers: {
                         Authorization: localStorage.getItem("token"),
                     },
                 });
 
                 if (res.data.code == 0) {
-                    ElMessage.info("verify successfully")
+                    if (res.data.data) {
+                        ElMessage.info("verify successfully")
+                        this.info.tasks[2].accessory = ''   
+                    } else {
+                        ElMessage.error("verify failed")
+                    }
                 } else {
                     ElMessage.error(res.data.msg)
                     return
@@ -503,7 +499,7 @@ export default defineComponent({
 
                                             <div v-else-if="item.accessory == 'follow' && !item.isFulfilled"
                                                 class="twitter-follow-button">
-                                                <a href="https://twitter.com/intent/follow?screen_name=DonaldEllswor16"
+                                                <a href="https://twitter.com/intent/follow?screen_name=CoinhereAirdrop"
                                                     data-show-count="false">Follow Twitter</a>
                                             </div>
                                         </el-col>

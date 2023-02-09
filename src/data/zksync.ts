@@ -89,7 +89,7 @@ export let StepTaskData = [
         id: 4,
         class: "step4",
         title: "Step 4: Transfer Some Token",
-        accessory: "verify",
+        accessory: "",
         note: "",
         content: "Now you can try to transfer some token to another address on zkSync Goerli (Testnet2).",
         imgs: [{
@@ -106,7 +106,7 @@ export let StepTaskData = [
         id: 5,
         class: "step5",
         title: "Step 5: Use zkSync Based Dapps",
-        accessory: "verify",
+        accessory: "",
         note: "",
         content: "Now you could try to use zkSync2.0 testnet based dapps like Zcasino (Another potential airdrop, Coinhere also provide Zcasino airdrop guide) to increase the possibility of getting a potential airdrop.",
         imgs: [],
