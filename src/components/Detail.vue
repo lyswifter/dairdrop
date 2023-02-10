@@ -54,6 +54,10 @@ export default defineComponent({
             }
         }
 
+        this.info.tasks.forEach(element => {
+            element.isLoading = false
+        });
+
         let localItem = window.localStorage.getItem("WalletAccount");
         if (localItem == null || localItem == undefined) {
             this.account = "Connect"
@@ -177,7 +181,7 @@ export default defineComponent({
 
             localStorage.clear()
         },
-        
+
         backAction() {
             this.$router.go(-1);
         },
@@ -207,6 +211,7 @@ export default defineComponent({
         },
 
         async verifyAction(item: StepTaskItem, idx: number) {
+            item.isLoading = true
             const resVerify = await axios.post(verifyActionUrl, {
                 airdropId: this.info.id,
                 airdropStep: idx + 1,
@@ -216,6 +221,8 @@ export default defineComponent({
                     Authorization: localStorage.getItem("token"),
                 },
             });
+
+            item.isLoading = false
 
             if (resVerify.data.code == 0) {
                 ElMessage.info("verify successfully")
@@ -466,8 +473,14 @@ export default defineComponent({
                                             <div v-else-if="item.accessory == 'join' && !isJoin" class="connect-btn"
                                                 @click="joinAction">Join</div>
 
-                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
-                                                class="verify-btn" @click="verifyAction(item, i)">Verify</div>
+                                            <div v-else-if="item.accessory == 'verify' && !item.isFulfilled">
+                                                <el-button class="verify-btn" type="plain" :loading="item.isLoading"
+                                                    @click="verifyAction(item, i)">
+                                                    <template #loading>
+                                                        <img src="https://dmaster.com/dcommon/img/loading.svg" alt="" style="width: 20px;height: 20px;vertical-align: middle;">
+                                                    </template>
+                                                    Verify</el-button>
+                                            </div>
                                         </el-col>
                                     </el-row>
 
@@ -604,18 +617,18 @@ export default defineComponent({
 
 .verify-btn {
     width: 80%;
-    height: 24px;
+    height: 30px;
     border-radius: 13px;
     border: 1px solid #1672F0;
     text-decoration: none;
     display: block;
-    line-height: 24px;
+    line-height: 16px;
     text-align: center;
     cursor: pointer;
     color: #1672F0;
     font-weight: 500;
-    font-size: 12px;
-    margin-top: 10px;
+    font-size: 14px;
+    margin-top: 8px;
 }
 
 .twitter-follow-button {

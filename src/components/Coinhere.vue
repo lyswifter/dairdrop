@@ -102,7 +102,6 @@ export default defineComponent({
             const account = accounts[0];
             this.account = account
             this.isConnect = true
-
             window.localStorage.setItem("WalletAccount", account);
 
             this.info.tasks[0].accessory = 'join';
@@ -216,7 +215,7 @@ export default defineComponent({
             if (res.data.code == 0) {
                 if (res.data.data) {
                     ElMessage.info("verify successfully")
-                    this.info.tasks[1].accessory = ''
+                    this.info.tasks[1].accessory = 'finished'
                 } else {
                     ElMessage.error("verify failed")
                 }
@@ -254,7 +253,7 @@ export default defineComponent({
 
             if (resVerify.data.code == 0) {
                 ElMessage.info("joined the program")
-                this.info.tasks[idx].accessory = ''
+                this.info.tasks[idx].accessory = 'finished'
             } else {
                 ElMessage.error(resVerify.data.msg)
                 return
@@ -452,6 +451,10 @@ export default defineComponent({
 
                                             <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
                                                 class="verify-btn" @click="joinCoinhereAction(item, i)">Verify</div>
+
+                                            <div v-else-if="item.accessory == 'finished'">
+                                                <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;" alt="">
+                                            </div>
 
                                             <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
                                                 class="twitter-auth-button">

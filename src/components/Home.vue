@@ -15,6 +15,7 @@ import axios from "axios";
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
 let twitterUserInfoUrl = domain.domainBaseUrl + "/api/airdrop/twitter/"
+let finishedRateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/full"
 
 interface ParticipateItem {
     name: string;
@@ -36,20 +37,26 @@ export default defineComponent({
     },
     mounted() {
         let referAddr = this.getQueryString('refer');
-        console.log("referAddr" + referAddr)
         if (referAddr) {
             localStorage.setItem("refer", referAddr);
         }
 
         let code = this.getQueryString('code');
-        console.log("code" + code)
         if (code) {
             localStorage.setItem("code", code);
             this.accessTokenAction()
         }
 
+        let pin = 3
         let projectss = Projects['production'] as RecommendationItem[];
-        this.recommendations.push(projectss);
+        let len = projectss.length;
+        let lineNum = len % pin === 0 ? len / pin : Math.floor((len / pin) + 1);
+        let res = []
+        for (let i = 0; i < lineNum; i++) {
+            let temp = projectss.slice(i * pin, i * pin + pin);
+            res.push(temp);
+        }
+        this.recommendations = res;
 
         let localItem = window.localStorage.getItem("WalletAccount");
         if (localItem == null || localItem == undefined) {
@@ -63,11 +70,42 @@ export default defineComponent({
         let localToken = window.localStorage.getItem("token");
         if (localToken) {
             this.participatedList()
+
+            this.finishedRate()
         }
     },
     methods: {
+        finishedRate() {
+            const res = axios.get(finishedRateUrl, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            }).then((res) => {
+                if (res.data.code == 0) {
+                    for (let j = 0; j < this.recommendations.length; j++) {
+                        const inner = this.recommendations[j] as RecommendationItem[];
+
+                        for (let k = 0; k < inner.length; k++) {
+                            const core = inner[k] as RecommendationItem;
+
+                            for (let i = 0; i < res.data.data.length; i++) {
+                                const outer = res.data.data[i];
+
+                                if (core.id == outer.airdropId) {
+                                    let prog = Math.floor(outer.verifySuccessCount / outer.needVerifyCount * 100);
+                                    core.process = prog;
+                                    break
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    ElMessage.error(res.data.msg)
+                    return
+                }
+            })
+        },
         accessTokenAction() {
-            // access_token_url
             const res = axios.get(twitterUserInfoUrl + localStorage.getItem("code"), {
                 headers: {
                     Authorization: localStorage.getItem("token"),
@@ -183,6 +221,8 @@ export default defineComponent({
             window.localStorage.setItem("WalletAccount", account as string);
             this.account = account
             this.isConnect = true
+
+            this.finishedRate()
         },
         loadMoreAction() {
             ElMessage({

@@ -25,6 +25,7 @@ export interface StepTaskItem {
     subSteps: StepTaskSubItem[];
     isFulfilled: boolean;
     isOpen: boolean;
+    isLoading: boolean;
 }
 
 export interface RecommendationItem {

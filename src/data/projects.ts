@@ -1,7 +1,6 @@
 import { StepTaskData as scrollTasks } from "../data/scroll";
 import { StepTaskData as arbitrumOneTasks } from "./arbitrum_one";
 import { StepTaskData as arbitrumNovaTasks } from "./arbitrum_nova";
-import { StepTaskData as zkasinoTestTasks } from "../data/zkasino_testnet";
 import { StepTaskData as zkasinoMainTasks } from "../data/zkasino_mainnet";
 import { StepTaskData as zksyncTasks } from "../data/zksync";
 import { StepTaskData as startnetTasks } from "../data/starknet";
@@ -29,16 +28,6 @@ export let Projects = {
         detail: "scroll",
         tasks: scrollTasks,
     }, 
-    // {
-    //     id: 2,
-    //     name: "ZKasino(Testnet)",
-    //     descripation: "ZKasino is a decentralized, crypto betting platform and blockchain casino built on Layer 2 ZK-Rollups technology which aims to be the most fair and transparent platform with the lowest house edge compared to all other betting platforms. ZKasino has confirmed to launch its token called “ZKAS” and has very high potential to do an airdrop. Early users who've played games in testnets and mainnets on the platform may get an airdrop when they launch their token.",
-    //     tag: "",
-    //     process: 0,
-    //     image: domain.domainUrl + "zkasino_logo.png",
-    //     detail: "zkasino",
-    //     tasks: zkasinoTestTasks,
-    // }, 
     {
         id: 3,
         name: "ZKasino(Mainnet)",
