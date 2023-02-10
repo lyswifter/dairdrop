@@ -16,7 +16,7 @@ export let StepTaskData = [{
     class: "step2",
     title: "Step 2: Play games on Polygon Chain Mainnet.",
     accessory: "verify",
-    note: "Connect your Metamask wallet with a testnet, you could get testnet tokens by clicking the “Request Gas & Tweet” bottom and ZKUSD (ZKasino USD) by clicking the “Mint” bottom on Page Testnet. After getting both test tokens of the test chains and ZKUSD, you could try to play the games on the Page Games. Don’t forget to change the testnet into another testnet and repeat the above methods.",
+    note: "",
     content: "Click the link: https://play.zkasino.io/en",
     imgs: [{
         name: "zkasino.mainnet_2.png",

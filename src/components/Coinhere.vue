@@ -21,7 +21,8 @@ let joinCoinhereUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
 let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
 let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
-let isFollowUrl = domain.domainBaseUrl + "/api/airdrop/twitter/followStatus/"
+let isFollowUrl = domain.domainBaseUrl + "/api/airdrop/twitter/followStatus/";
+let coinhereStatusUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere/list";
 
 interface ItemStatus {
     airdropStep: number;
@@ -105,8 +106,6 @@ export default defineComponent({
             this.isConnect = true
             window.localStorage.setItem("WalletAccount", account);
 
-            this.info.tasks[0].accessory = 'join';
-
             // 1. create did
             let didAddr = "did:dmaster:" + account;
             let giving = "Hello!";
@@ -166,6 +165,7 @@ export default defineComponent({
             });
 
             if (resLogin.data.code == 0) {
+                this.info.tasks[0].accessory = 'check';
                 localStorage.setItem("token", resLogin.data.data.token)
             } else {
                 ElMessage.error(resLogin.data.msg)
@@ -177,7 +177,6 @@ export default defineComponent({
             this.isConnect = false
             this.isJoin = false
             this.info.tasks[0].accessory = "connect";
-
             localStorage.clear()
         },
         backAction() {
@@ -216,7 +215,7 @@ export default defineComponent({
             if (res.data.code == 0) {
                 if (res.data.data) {
                     ElMessage.info("verify successfully")
-                    this.info.tasks[1].accessory = 'finished'
+                    this.info.tasks[1].accessory = 'check'
                 } else {
                     ElMessage.error("verify failed")
                 }
@@ -227,6 +226,7 @@ export default defineComponent({
         },
 
         authAction() {
+            this.info.tasks[1].accessory = 'follow'
             window.open(this.authPage, "auth", 'height=700,width=700,left=700,top=200')?.focus();
         },
 
@@ -258,7 +258,7 @@ export default defineComponent({
 
             if (resVerify.data.code == 0) {
                 ElMessage.info("joined the program")
-                this.info.tasks[idx].accessory = 'finished'
+                this.info.tasks[idx].accessory = 'check'
             } else {
                 ElMessage.error(resVerify.data.msg)
                 return
@@ -267,88 +267,30 @@ export default defineComponent({
 
         async joinStateFunc() {
             // 1. request randomness number
-            const res = await axios.get(joinStateUrl + this.info.id, {
+            const res = await axios.get(coinhereStatusUrl, {
                 headers: {
                     Authorization: localStorage.getItem("token"),
                 },
             });
 
             if (res.data.code == 0) {
+                let ret = res.data.data[0];
 
-                // progress
+                let totoal = 2;
+                let count = 0;
 
-                let count = 0
-                let total = 0
-                let len = res.data.data.list.length
-                for (let i = 0; i < len; i++) {
-                    const outerItem = res.data.data.list[i] as ItemStatus;
-                    if (outerItem.airdropSubStep == 0) {
-                        continue
-                    }
-                    if (outerItem.verifyStatus == 1) {
-                        count++
-                    }
-                    total++
-                }
-                if (count == 0 || len == 0) {
-                    this.progress = 0;
-                } else {
-                    this.progress = Math.floor(count / total * 100);
-                }
-                console.log(this.progress)
-
-                // joinStatus
-
-                if (res.data.data.joinStatus == 0) {
-                    this.info.tasks[0].accessory = "join"
-                    this.isJoin = false
-                } else if (res.data.data.joinStatus == 1) {
-                    this.info.tasks[0].accessory = ""
-                    this.isJoin = true
+                if (ret.followStatus == 1) {
+                    this.info.tasks[1].accessory = 'check';
+                    count++
                 }
 
-                // isverify
-
-                for (let i = 0; i < res.data.data.list.length; i++) {
-                    const outerItem = res.data.data.list[i] as ItemStatus;
-
-                    let stepIdx = outerItem.airdropStep;
-                    let stepSubIdx = outerItem.airdropSubStep;
-                    let verifyStatus = outerItem.verifyStatus;
-
-                    for (let j = 0; j < this.info.tasks.length; j++) {
-                        const innerItem = this.info.tasks[j] as StepTaskItem;
-
-                        if (stepIdx == innerItem.id) {
-                            for (let k = 0; k < innerItem.subSteps.length; k++) {
-                                const subItem = innerItem.subSteps[k] as StepTaskSubItem;
-                                if (subItem.subId == stepSubIdx) {
-                                    subItem.isVerify = verifyStatus == 1 ? true : false;
-                                    break
-                                }
-                            }
-                        }
-                    }
+                if (ret.interest) {
+                    this.radio = ret.interest;
+                    this.info.tasks[2].accessory = 'check';
+                    count++
                 }
 
-                // isFulfilled
-
-                for (let j = 0; j < this.info.tasks.length; j++) {
-                    const innerItem = this.info.tasks[j] as StepTaskItem;
-                    let okCount = 0
-                    for (let k = 0; k < innerItem.subSteps.length; k++) {
-                        const subItem = innerItem.subSteps[k] as StepTaskSubItem;
-                        if (subItem.isVerify) {
-                            okCount++
-                        }
-                    }
-
-                    if (innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0) {
-                        innerItem.isFulfilled = true
-                    } else {
-                        innerItem.isFulfilled = false
-                    }
-                }
+                this.progress = Math.floor(count / totoal * 100)
             } else {
                 ElMessage.error(res.data.msg)
                 return
@@ -453,13 +395,13 @@ export default defineComponent({
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
                                                 @click="connectAction">Connect</div>
 
-                                            <div v-else-if="item.accessory == 'join' && !isJoin" class="connect-btn"
-                                                @click="joinCoinhereAction(item, i)">Join</div>
+                                            <!-- <div v-else-if="item.accessory == 'join' && !isJoin" class="connect-btn"
+                                                @click="joinCoinhereAction(item, i)">Join</div> -->
 
                                             <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
                                                 class="verify-btn" @click="joinCoinhereAction(item, i)">Verify</div>
 
-                                            <div v-else-if="item.accessory == 'finished'">
+                                            <div v-else-if="item.accessory == 'check'">
                                                 <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;" alt="">
                                             </div>
 
