@@ -33,7 +33,7 @@ export let StepTaskData = [{
         subId: 1,
         title: "2.1 Transfer some ETH from Ethereum Mainnet to Arbitrum One",
         accessory: "check",
-        content: "Make sure to set your net into Ethereum mainnet, transfer some ETH from Ethereum mainnet to Arbitrum One. You need to wait for almost 15 min to move ETH into Arbitrum One. According to the former airdrop, the larger amount and higher frequency you have tried, the larger possibility you can get the airdrop.",
+        content: "Make sure to set your net into Ethereum mainnet, transfer some ETH from Ethereum mainnet to Arbitrum One. You need to wait for almost 15 min to move ETH into Arbitrum One.",
         note: "Note: According to the former airdrop, the larger amount and higher frequency you have tried, the larger possibility you can get the airdrop.",
         imgs: [
             {
