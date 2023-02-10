@@ -245,7 +245,6 @@ export default defineComponent({
 
             let randStr = ""
             if (resSign.data.code == 0) {
-                console.log(resSign.data.data)
                 randStr = resSign.data.data;
             } else {
                 ElMessage.error(resSign.data.msg)
@@ -276,7 +275,6 @@ export default defineComponent({
 
             if (resJoin.data.code == 0) {
                 ElMessage.info("You have joined to our airdrop projects.")
-
                 this.info.tasks[0].accessory = ""
                 this.isJoin = true
             } else {

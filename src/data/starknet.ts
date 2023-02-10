@@ -33,6 +33,7 @@ export let StepTaskData = [{
         subId: 2,
         title: "2.2 Create an Account Using Following Steps",
         accessory: "",
+        note: "",
         imgs: [{
             name: "starknet_2.1.png",
             url: domain.domainUrl + "starknet_2.1.png",
@@ -64,6 +65,7 @@ export let StepTaskData = [{
         subId: 2,
         title: "3.2 Connect Wallet Then Select Metamask.",
         accessory: "check",
+        note: "",
         imgs: [{
             name: "starknet_2.2.png",
             url: domain.domainUrl + "starknet_2.2.png",
