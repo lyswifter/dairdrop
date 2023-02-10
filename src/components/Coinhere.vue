@@ -30,7 +30,7 @@ interface ItemStatus {
 }
 
 export default defineComponent({
-    name: "Detail",
+    name: "Coinhere",
     props: ['id'],
     components: {
     },
@@ -43,6 +43,7 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
+            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere-local.valuechain.group&scope=offline.access%20tweet.read%20users.read&state=state",
         }
     },
     mounted() {
@@ -179,14 +180,11 @@ export default defineComponent({
 
             localStorage.clear()
         },
-        
         backAction() {
             this.$router.go(-1);
         },
-
         rotateAction() {
         },
-
         turnAroundAction(index: number) {
             let className = ""
             let isOpen = false
@@ -208,11 +206,46 @@ export default defineComponent({
             }
         },
 
-        async verifyAction(item: StepTaskItem, idx: number) {
-            const resVerify = await axios.post(verifyActionUrl, {
-                airdropId: this.info.id,
-                airdropStep: idx + 1,
-                walletAddress: window.localStorage.getItem("WalletAccount"),
+        async searchAction() {
+            const res = await axios.get(isFollowUrl + localStorage.getItem('w_user_id'), {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (res.data.code == 0) {
+                if (res.data.data) {
+                    ElMessage.info("verify successfully")
+                    this.info.tasks[1].accessory = ''
+                } else {
+                    ElMessage.error("verify failed")
+                }
+            } else {
+                ElMessage.error(res.data.msg)
+                return
+            }
+        },
+
+        followAction() {
+            this.info.tasks[1].accessory = 'search'
+            window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "_blank")
+        },
+
+        async joinCoinhereAction(item: StepTaskItem, idx: number) {
+            let followStatus = ""
+            if (localStorage.getItem('follow')) {
+                followStatus = localStorage.getItem('follow')!
+            }
+
+            let tUserId = ""
+            if (localStorage.getItem('w_user_id')) {
+                tUserId = localStorage.getItem('w_user_id')!
+            }
+
+            const resVerify = await axios.post(joinCoinhereUrl, {
+                followStatus: followStatus,
+                interest: this.radio,
+                twitterUserId: tUserId,
             }, {
                 headers: {
                     Authorization: localStorage.getItem("token"),
@@ -220,61 +253,10 @@ export default defineComponent({
             });
 
             if (resVerify.data.code == 0) {
-                ElMessage.info("verify successfully")
+                ElMessage.info("joined the program")
+                this.info.tasks[idx].accessory = ''
             } else {
                 ElMessage.error(resVerify.data.msg)
-                return
-            }
-        },
-
-        async joinAction() {
-            let account = window.localStorage.getItem("WalletAccount")
-
-            // 1. request randomness number
-            const resSign = await axios.get(connectMetaMaskUrl + account, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            });
-
-            let randStr = ""
-            if (resSign.data.code == 0) {
-                console.log(resSign.data.data)
-                randStr = resSign.data.data;
-            } else {
-                ElMessage.error(resSign.data.msg)
-                return
-            }
-
-            if (randStr.length == 0) {
-                ElMessage.error("There must some message to sign!")
-                return
-            }
-
-            // 2. sign and resubmit
-            const signRandomness: string = await window.ethereum.request({
-                method: 'personal_sign',
-                params: [randStr, account],
-            })
-
-            // 3. participate the airdrop programe
-            const resJoin = await axios.post(participateUrl, {
-                airdropId: this.info.id,
-                walletAddress: account,
-                sign: signRandomness,
-            }, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            });
-
-            if (resJoin.data.code == 0) {
-                ElMessage.info("You have joined to our airdrop projects.")
-
-                this.info.tasks[0].accessory = ""
-                this.isJoin = true
-            } else {
-                ElMessage.error(resJoin.data.msg)
                 return
             }
         },
@@ -466,10 +448,24 @@ export default defineComponent({
                                                 @click="connectAction">Connect</div>
 
                                             <div v-else-if="item.accessory == 'join' && !isJoin" class="connect-btn"
-                                                @click="joinAction">Join</div>
+                                                @click="joinCoinhereAction(item, i)">Join</div>
 
                                             <div v-else-if="item.accessory == 'verify' && !item.isFulfilled"
-                                                class="verify-btn" @click="verifyAction(item, i)">Verify</div>
+                                                class="verify-btn" @click="joinCoinhereAction(item, i)">Verify</div>
+
+                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
+                                                class="twitter-auth-button">
+                                                <a :href="authPage" target="_self" data-show-count="false">Auth
+                                                    Twitter</a>
+                                            </div>
+
+                                            <div v-else-if="item.accessory == 'follow' && !item.isFulfilled"
+                                                class="twitter-follow-button" @click="followAction">
+                                                <a href="javascript:void(0)" data-show-count="false">Follow Twitter</a>
+                                            </div>
+
+                                            <div v-else-if="item.accessory == 'search' && !item.isFulfilled"
+                                                class="verify-btn" @click="searchAction">Verify</div>
                                         </el-col>
                                     </el-row>
 
@@ -486,6 +482,21 @@ export default defineComponent({
                                                 style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
                                                 :zoom-rate="1.2" :preview-src-list="imgItem.srcList" :initial-index="4"
                                                 fit="cover" />
+                                        </div>
+
+                                        <div v-if="item.id == 3 && info.id == 8">
+                                            <el-radio-group v-model="radio">
+                                                <el-radio label="Defi">A. Defi</el-radio>
+                                                <el-radio label="Gamefi">B. Gamefi</el-radio>
+                                                <el-radio label="Socialfi">C: Socialfi</el-radio>
+                                                <el-radio label="NFT">D: NFT</el-radio>
+                                                <el-radio label="Metaverse">E: Metaverse</el-radio>
+                                                <el-radio label="Dao">F: Dao</el-radio>
+                                                <el-radio label="DID">G: DID</el-radio>
+                                                <el-radio label="ZK Rollup">H: ZK Rollup</el-radio>
+                                                <el-radio label="Ethereum Layer2">I: Ethereum Layer2</el-radio>
+                                                <el-radio label="Others">J: Others</el-radio>
+                                            </el-radio-group>
                                         </div>
 
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">

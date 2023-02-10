@@ -197,7 +197,11 @@ export default defineComponent({
             });
         },
         toDetailAction(id: number) {
-            this.$router.push({ name: "detail", params: { id: id } })
+            if (id == 8) {
+                this.$router.push({ name: "coinhere", params: { id: id } })
+            } else {
+                this.$router.push({ name: "detail", params: { id: id } })   
+            }
         },
         disConnectAction() {
             this.account = "Connect"
