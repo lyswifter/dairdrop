@@ -14,16 +14,16 @@ import { handlePubkey } from "../utils/util";
 
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
-let joinCoinhereUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
 let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
 let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
-let isFollowUrl = domain.domainBaseUrl + "/api/airdrop/twitter/followStatus/"
+let finishedRateUrl = domain.domainBaseUrl + "/api/airdrop/full/joinStatus/"
 
 interface ItemStatus {
     airdropStep: number;
     airdropStepId: number;
     airdropSubStep: number;
+    needVerifyStatus: number;
     verifyStatus: number;
 }
 
@@ -39,7 +39,6 @@ export default defineComponent({
             isJoin: false,
             account: "Connect",
             radio: "Defi",
-
             progress: 0,
         }
     },
@@ -56,6 +55,9 @@ export default defineComponent({
 
         this.info.tasks.forEach(element => {
             element.isLoading = false
+            element.subSteps.forEach(inner => {
+                inner.isNeedVerify = true
+            });
         });
 
         let localItem = window.localStorage.getItem("WalletAccount");
@@ -77,11 +79,28 @@ export default defineComponent({
         let localToken = window.localStorage.getItem("token");
         if (localToken) {
             this.joinStateFunc()
+            this.finishedRate(this.info.id)
         }
     },
     computed: {
     },
     methods: {
+        finishedRate(id: number) {
+            const res = axios.get(finishedRateUrl + id, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            }).then((res) => {
+                if (res.data.code == 0) {
+                    let ret = res.data.data[0]
+                    let prog = Math.floor(ret.verifySuccessCount / ret.needVerifyCount * 100);
+                    this.progress = prog;
+                } else {
+                    ElMessage.error(res.data.msg)
+                    return
+                }
+            })
+        },
         stringToUint8Array(str: string) {
             var arr = [];
             for (var i = 0, j = str.length; i < j; ++i) {
@@ -338,9 +357,11 @@ export default defineComponent({
                             let stepIdx = outerItem.airdropStep;
                             let stepSubIdx = outerItem.airdropSubStep;
                             let verifyStatus = outerItem.verifyStatus;
+                            let isNeedverifyStatus = outerItem.needVerifyStatus;
 
                             if (subItem.subId == stepSubIdx && stepIdx == innerItem.id) {
                                 subItem.isVerify = verifyStatus == 1 ? true : false;
+                                subItem.isNeedVerify = isNeedverifyStatus == 1 ? true : false;
                                 break
                             }
                         }
@@ -365,6 +386,8 @@ export default defineComponent({
                         innerItem.isFulfilled = false
                     }
                 }
+
+                console.log(this.info.tasks)
             } else {
                 ElMessage.error(res.data.msg)
                 return
@@ -503,14 +526,23 @@ export default defineComponent({
                                             fit="cover" />
 
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
-                                            <el-row>
+                                            <el-row v-if="subItem.accessory == 'check' && subItem.isNeedVerify">
                                                 <el-col :span="23">
                                                     <div class="sub-title-view">{{ subItem.title }}</div>
                                                 </el-col>
-                                                <el-col :span="1">
-                                                    <img v-if="subItem.accessory == 'check' && subItem.isVerify"
-                                                        src="../assets/32px-done@2x.png"
+                                                <el-col :span="1" v-if="subItem.isVerify">
+                                                    <img src="../assets/32px-done@2x.png"
                                                         style="width: 24px;height: 24px;" alt="">
+                                                </el-col>
+                                            </el-row>
+
+                                            <el-row v-if="subItem.accessory == 'check' && !subItem.isNeedVerify">
+                                                <el-col :span="18">
+                                                    <div class="sub-title-view">{{ subItem.title }}</div>
+                                                </el-col>
+                                                <el-col :span="6">
+                                                    <div><img src="../assets/icon-remind@2x.png"
+                                                        style="width: 16px;height: 16px;vertical-align: middle;" alt="">The current step cannot be monitored</div>                                                  
                                                 </el-col>
                                             </el-row>
 

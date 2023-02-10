@@ -15,7 +15,7 @@ import axios from "axios";
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
 let twitterUserInfoUrl = domain.domainBaseUrl + "/api/airdrop/twitter/"
-let finishedRateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/full"
+let finishedRateUrl = domain.domainBaseUrl + "/api/airdrop/full/joinStatus/0"
 
 interface ParticipateItem {
     name: string;

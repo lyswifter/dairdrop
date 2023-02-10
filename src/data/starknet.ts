@@ -85,7 +85,7 @@ export let StepTaskData = [{
     },{
         subId: 4,
         title: "3.4 Confirm in Metamask",
-        accessory: "",
+        accessory: "check",
         note: "",
         content: "Confirm in Metamask, following which you will be able to view your balance on Starknet in a few minutes or hours.",
         imgs: [],

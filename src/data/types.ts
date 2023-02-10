@@ -12,6 +12,7 @@ export interface StepTaskSubItem {
     content: string;
     imgs: ImageItem[];
     isVerify: boolean;
+    isNeedVerify: boolean;
 }
 
 export interface StepTaskItem {
