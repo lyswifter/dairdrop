@@ -332,21 +332,21 @@ export default defineComponent({
                     const innerItem = this.info.tasks[j] as StepTaskItem;
 
                     for (let k = 0; k < innerItem.subSteps.length; k++) {
-                            const subItem = innerItem.subSteps[k] as StepTaskSubItem;
+                        const subItem = innerItem.subSteps[k] as StepTaskSubItem;
 
-                            for (let i = 0; i < res.data.data.list.length; i++) {
-                                const outerItem = res.data.data.list[i] as ItemStatus;
+                        for (let i = 0; i < res.data.data.list.length; i++) {
+                            const outerItem = res.data.data.list[i] as ItemStatus;
 
-                                let stepIdx = outerItem.airdropStep;
-                                let stepSubIdx = outerItem.airdropSubStep;
-                                let verifyStatus = outerItem.verifyStatus;
+                            let stepIdx = outerItem.airdropStep;
+                            let stepSubIdx = outerItem.airdropSubStep;
+                            let verifyStatus = outerItem.verifyStatus;
 
-                                if (subItem.subId == stepSubIdx && stepIdx == innerItem.id) {
-                                    subItem.isVerify = verifyStatus == 1 ? true : false;
-                                    break
-                                }
+                            if (subItem.subId == stepSubIdx && stepIdx == innerItem.id) {
+                                subItem.isVerify = verifyStatus == 1 ? true : false;
+                                break
                             }
                         }
+                    }
                 }
 
                 // isFulfilled
@@ -488,19 +488,21 @@ export default defineComponent({
                                     </el-row>
 
                                     <div v-show="item.isOpen" class="step-content-view">
+                                        <div class="note-view" v-if="item.note.indexOf('https:') == -1">
+                                            {{ item.note }}
+                                        </div>
+                                        <div class="note-view" v-else>
+                                            <span>Click the link: <a :href=item.note>{{ info.name }}</a></span>
+                                        </div>
+
                                         <div class="content-view">
                                             {{ item.content }}
                                         </div>
-                                        <div class="note-view">
-                                            {{ item.note }}
-                                        </div>
 
-                                        <div>
-                                            <el-image v-for="(imgItem, imgIndex) in item.imgs"
-                                                style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
-                                                :zoom-rate="1.2" :preview-src-list="imgItem.srcList" :initial-index="4"
-                                                fit="cover" />
-                                        </div>
+                                        <el-image v-for="(imgItem, imgIndex) in item.imgs"
+                                            style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
+                                            :zoom-rate="1.2" :preview-src-list="imgItem.srcList" :initial-index="4"
+                                            fit="cover" />
 
                                         <div v-for="(subItem, j) in item.subSteps" :key="j">
                                             <el-row>
@@ -513,8 +515,12 @@ export default defineComponent({
                                                         style="width: 24px;height: 24px;" alt="">
                                                 </el-col>
                                             </el-row>
+
+                                            <div v-if="subItem.note.indexOf('https:') == -1">{{ subItem.note }}</div>
+                                            <div v-else>
+                                            <span>Click the link: <a :href=subItem.note>{{ info.name }}</a></span></div>
+                                            
                                             <div>{{ subItem.content }}</div>
-                                            <div>{{ subItem.note }}</div>
 
                                             <div style="padding: 5px;">
                                                 <el-image v-for="(imgItem, imgIndex) in subItem.imgs"

@@ -25,8 +25,8 @@ export let StepTaskData = [{
         subId: 1,
         title: "2.1 Install Argent X Wallet at Argent X Chrome Store ",
         accessory: "",
-        note: "",
-        content: "Click the link: https://chrome.google.com/webstore/detail/argent-x/dlcobpjiigpikoobohmabehhmhfoodbb",
+        note: "https://chrome.google.com/webstore/detail/argent-x/dlcobpjiigpikoobohmabehhmhfoodbb",
+        content: "",
         imgs: [],
         isVerify: false,
     },{
@@ -56,8 +56,8 @@ export let StepTaskData = [{
         subId: 1,
         title: "3.1 Visit the Starknet Page",
         accessory: "check",
-        note: "",
-        content: "Click the link: https://starkgate.starknet.io/",
+        note: "https://starkgate.starknet.io/",
+        content: "",
         imgs: [],
         isVerify: false,
     },{

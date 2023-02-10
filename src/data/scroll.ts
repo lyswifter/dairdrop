@@ -28,14 +28,15 @@ export let StepTaskData = [
             subId: 1,
             title: "2.1 Connect MetaMask for Scroll L1 Testnet and Scroll L2 Testnet on Prealpha Page",
             accessory: "verify",
-            note: "Note: If the scroll notice Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding, you could follow the steps they recommend or try to use a new wallet address to interact.",
-            content: "Click the link: https://scroll.io/prealpha",
+            note: "https://scroll.io/prealpha",
+            content: "If the scroll notice Please completely remove any previous Scroll L1 and L2 networks from your MetaMask before proceeding, you could follow the steps they recommend or try to use a new wallet address to interact.",
             imgs: [],
             isVerify: false,
         }, {
             subId: 2,
             title: "2.2 Add TSUSDC token on L1 Testnet, TSUSDC token on L2 Testnet and TSUNI2 token on L2 Testnet to Your Wallet on Prealpha Page",
             accessory: "verify",
+            note: "",
             imgs: [{
                 name: "scroll_1.2.png",
                 url: domain.domainUrl + "scroll_1.2.png",
@@ -99,6 +100,7 @@ export let StepTaskData = [
             subId: 2,
             title: "4.2 Send Some TSETH Token from Scroll L2 Testnet to Scroll L1 Testnet on Bridge Page",
             accessory: "check",
+            note: "",
             imgs: [
                 {
                     name: "scroll_3.3.png",
@@ -123,6 +125,7 @@ export let StepTaskData = [
             subId: 1,
             title: "5.1 Wrap TSETH to TSWETH",
             accessory: "check",
+            note: "",
             imgs: [
                 {
                     name: "scroll_4.1.png",
@@ -137,12 +140,14 @@ export let StepTaskData = [
             subId: 2,
             title: "5.2 Unwap TSWETH to TSETH",
             accessory: "check",
+            note: "",
             imgs: [],
             isVerify: false,
         }, {
             subId: 3,
             title: "5.3 Swap One Token to Another Token",
             accessory: "check",
+            note: "",
             content: "Swap one Token to another, for example, you could try to swap TSWETH for TSUSDC",
             imgs: [],
             isVerify: false,

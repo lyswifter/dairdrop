@@ -16,8 +16,8 @@ export let StepTaskData = [{
     class: "step2",
     title: "Step 2: Paly games in testnets",
     accessory: "verify",
-    note: "Connect your Metamask wallet with a testnet, you could get testnet tokens by clicking the “Request Gas & Tweet” bottom and ZKUSD (ZKasino USD) by clicking the “Mint” bottom on Page Testnet. After getting both test tokens of the test chains and ZKUSD, you could try to play the games on the Page Games. Don’t forget to change the testnet into another testnet and repeat the above methods.",
-    content: "Click the link: https://play.zkasino.io/en",
+    note: "https://play.zkasino.io/en",
+    content: "Connect your Metamask wallet with a testnet, you could get testnet tokens by clicking the “Request Gas & Tweet” bottom and ZKUSD (ZKasino USD) by clicking the “Mint” bottom on Page Testnet. After getting both test tokens of the test chains and ZKUSD, you could try to play the games on the Page Games. Don't forget to change the testnet into another testnet and repeat the above methods.",
     imgs: [
         {
             name: "zkasino.testnet_2.png",

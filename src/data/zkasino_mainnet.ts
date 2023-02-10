@@ -16,8 +16,8 @@ export let StepTaskData = [{
     class: "step2",
     title: "Step 2: Play games on Polygon Chain Mainnet.",
     accessory: "verify",
-    note: "",
-    content: "Click the link: https://play.zkasino.io/en",
+    note: "https://play.zkasino.io/en",
+    content: "",
     imgs: [{
         name: "zkasino.mainnet_2.png",
         url: domain.domainUrl + "zkasino.mainnet_2.png",

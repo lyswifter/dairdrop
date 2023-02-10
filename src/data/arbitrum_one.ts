@@ -16,7 +16,7 @@ export let StepTaskData = [{
     class: "step2",
     title: "Step 2: Visit the Arbitrium Bridge Page",
     accessory: "verify",
-    note: "click the link: https://bridge.arbitrum.io/",
+    note: "https://bridge.arbitrum.io/",
     content: "",
     imgs: [
         {
