@@ -312,27 +312,6 @@ export default defineComponent({
 
             if (res.data.code == 0) {
 
-                // progress
-
-                let count = 0
-                let total = 0
-                let len = res.data.data.list.length
-                for (let i = 0; i < len; i++) {
-                    const outerItem = res.data.data.list[i] as ItemStatus;
-                    if (outerItem.airdropSubStep == 0) {
-                        continue
-                    }
-                    if (outerItem.verifyStatus == 1) {
-                        count++
-                    }
-                    total++
-                }
-                if (count == 0 || len == 0) {
-                    this.progress = 0;
-                } else {
-                    this.progress = Math.floor(count / total * 100);
-                }
-
                 // joinStatus
 
                 if (res.data.data.joinStatus == 0) {
@@ -486,9 +465,11 @@ export default defineComponent({
                                                     style="width: 24px;height: 24px;" alt="">
                                             </a>
                                         </el-col>
+
                                         <el-col :span="20">
                                             <div class="connect-title">{{ item.title }}</div>
                                         </el-col>
+
                                         <el-col :span="3" style="text-align: center;">
                                             <div v-if="item.accessory == 'connect' && !isConnect" class="connect-btn"
                                                 @click="connectAction">Connect</div>
