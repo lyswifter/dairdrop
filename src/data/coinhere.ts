@@ -22,15 +22,7 @@ export let StepTaskData = [
         imgs: [],
         isFulfilled: false,
         isOpen: true,
-        subSteps: [{
-            subId: 1,
-            title: "2.1 Authorization and Follow Coinhere",
-            accessory: "check",
-            note: "",
-            content: "",
-            imgs: [],
-            isVerify: false,
-        }]
+        subSteps: []
     }, {
         id: 3,
         class: "step3",
@@ -41,16 +33,6 @@ export let StepTaskData = [
         imgs: [],
         isFulfilled: false,
         isOpen: true,
-        subSteps: [
-            {
-                subId: 1,
-                title: "3.1 Choose Four Favorite Field",
-                accessory: "check",
-                note: "",
-                content: "",
-                imgs: [],
-                isVerify: false,
-            }
-        ]
+        subSteps: []
     }
 ]
