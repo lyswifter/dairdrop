@@ -315,7 +315,6 @@ export default defineComponent({
                 } else {
                     this.progress = Math.floor(count / total * 100);
                 }
-                console.log(this.progress)
 
                 // joinStatus
 

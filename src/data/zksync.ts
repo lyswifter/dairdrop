@@ -36,7 +36,7 @@ export let StepTaskData = [
                 ],
             },
             ],
-            isVerify: true,
+            isVerify: false,
         }, {
             subId: 2,
             title: "2.2 Join the Discord of zkSync",
@@ -50,7 +50,7 @@ export let StepTaskData = [
                     domain.domainUrl + "zksync.testnet_2.2.png",
                 ],
             }],
-            isVerify: true,
+            isVerify: false,
         }]
     }, {
         id: 3,
@@ -75,7 +75,7 @@ export let StepTaskData = [
             content: "",
             note: " ",
             imgs: [],
-            isVerify: true,
+            isVerify: false,
         }, {
             subId: 2,
             title: "3.2 Withdraw Some Token from zkSync Goerli (Testnet2) to  Ethereum Goerli (Testnet2)",
@@ -83,7 +83,7 @@ export let StepTaskData = [
             content: "",
             note: "",
             imgs: [],
-            isVerify: true,
+            isVerify: false,
         }]
     }, {
         id: 4,

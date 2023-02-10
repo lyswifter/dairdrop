@@ -36,7 +36,7 @@ export let StepTaskData = [{
         content: "",
         note: "",
         imgs: [],
-        isVerify: true,
+        isVerify: false,
     }, {
         subId: 2,
         title: "2.2 Play Games in Polygon Testnet",
@@ -44,7 +44,7 @@ export let StepTaskData = [{
         content: "",
         note: "",
         imgs: [],
-        isVerify: true,
+        isVerify: false,
     }, {
         subId: 3,
         title: "2.3 Play Games in Fantom Testnet",
@@ -52,7 +52,7 @@ export let StepTaskData = [{
         content: "",
         note: "",
         imgs: [],
-        isVerify: true,
+        isVerify: false,
     }, {
         subId: 4,
         title: "2.4 Play Games in Arbitrium Testnet",
@@ -60,7 +60,7 @@ export let StepTaskData = [{
         content: "",
         note: "",
         imgs: [],
-        isVerify: true,
+        isVerify: false,
     }, {
         subId: 5,
         title: "2.5 Play Games in zkSync 2.0 Testnet",
@@ -68,6 +68,6 @@ export let StepTaskData = [{
         content: "",
         note: "",
         imgs: [],
-        isVerify: true,
+        isVerify: false,
     }]
 }]
