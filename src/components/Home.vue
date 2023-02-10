@@ -70,7 +70,6 @@ export default defineComponent({
         let localToken = window.localStorage.getItem("token");
         if (localToken) {
             this.participatedList()
-
             this.finishedRate()
         }
     },
@@ -241,6 +240,7 @@ export default defineComponent({
             this.account = "Connect"
             this.isConnect = false
             localStorage.clear()
+            location.reload();
         },
         async participatedList() {
             let projectss = Projects['production'] as RecommendationItem[]

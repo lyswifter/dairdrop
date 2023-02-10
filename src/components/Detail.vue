@@ -178,8 +178,8 @@ export default defineComponent({
             this.isConnect = false
             this.isJoin = false
             this.info.tasks[0].accessory = "connect";
-
             localStorage.clear()
+            location.reload();
         },
 
         backAction() {
@@ -226,6 +226,7 @@ export default defineComponent({
 
             if (resVerify.data.code == 0) {
                 ElMessage.info("verify successfully")
+                this.joinStateFunc()
             } else {
                 ElMessage.error(resVerify.data.msg)
                 return
@@ -363,8 +364,6 @@ export default defineComponent({
                         innerItem.isFulfilled = false
                     }
                 }
-
-                console.log(this.info.tasks)
             } else {
                 ElMessage.error(res.data.msg)
                 return
