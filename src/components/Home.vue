@@ -16,9 +16,6 @@ let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
 let twitterUserInfoUrl = domain.domainBaseUrl + "/api/airdrop/twitter/"
 
-let access_token_url = "https://api.twitter.com/2/oauth2/token";
-let HTTP_ENCODED_CALLBACK_URL = "https://coinhere-local.valuechain.group"
-
 interface ParticipateItem {
     name: string;
     url: string;
@@ -35,9 +32,6 @@ export default defineComponent({
             isConnect: false,
             participated: [] as ParticipateItem[],
             recommendations: [] as RecommendationItem[][],
-
-            authPage: "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=" + HTTP_ENCODED_CALLBACK_URL + 
-            "&scope=tweet.read%20users.read%20offline.access&state=state&code_challenge=challenge&code_challenge_method=plain",
         }
     },
     mounted() {
@@ -50,7 +44,7 @@ export default defineComponent({
         let code = this.getQueryString('code');
         console.log("code" + code)
         if (code) {
-            localStorage.setItem("code", code);  
+            localStorage.setItem("code", code);
             this.accessTokenAction()
         }
 
@@ -74,17 +68,17 @@ export default defineComponent({
     methods: {
         accessTokenAction() {
             // access_token_url
-            const res = axios.get(twitterUserInfoUrl+localStorage.getItem("code"), {
+            const res = axios.get(twitterUserInfoUrl + localStorage.getItem("code"), {
                 headers: {
                     Authorization: localStorage.getItem("token"),
                 },
             }).then((res) => {
                 if (res.data.code == 0) {
-                window.localStorage.setItem("w_user_id", res.data.data);   
-            } else {
-                ElMessage.error(res.data.msg)
-                return
-            }
+                    window.localStorage.setItem("w_user_id", res.data.data);
+                } else {
+                    ElMessage.error(res.data.msg)
+                    return
+                }
             })
         },
         getQueryString(name: string) {
@@ -200,7 +194,7 @@ export default defineComponent({
             if (id == 8) {
                 this.$router.push({ name: "coinhere", params: { id: id } })
             } else {
-                this.$router.push({ name: "detail", params: { id: id } })   
+                this.$router.push({ name: "detail", params: { id: id } })
             }
         },
         disConnectAction() {

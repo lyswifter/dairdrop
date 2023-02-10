@@ -9,9 +9,7 @@ import { Projects } from "../data/projects";
 import { RecommendationItem, StepTaskItem, ImageItem, StepTaskSubItem } from "../data/types";
 
 import axios from "axios";
-
 import { ethers } from "ethers";
-
 import { handlePubkey } from "../utils/util";
 
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
@@ -302,7 +300,7 @@ export default defineComponent({
                 if (count == 0 || len == 0) {
                     this.progress = 0;
                 } else {
-                    this.progress = count / len * 100;
+                    this.progress = Math.floor(count / len * 100);
                 }
                 console.log(this.progress)
 
@@ -322,7 +320,7 @@ export default defineComponent({
                     const outerItem = res.data.data.list[i] as ItemStatus;
 
                     let stepIdx = outerItem.airdropStep;
-                    let stepSubIdx = outerItem.airdropSubStep + 1;
+                    let stepSubIdx = outerItem.airdropSubStep;
                     let verifyStatus = outerItem.verifyStatus;
 
                     for (let j = 0; j < this.info.tasks.length; j++) {
