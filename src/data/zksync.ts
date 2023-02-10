@@ -40,7 +40,7 @@ export let StepTaskData = [
         }, {
             subId: 2,
             title: "2.2 Join the Discord of zkSync",
-            accessory: "",
+            accessory: "check",
             content: "Click the link: https://join.zksync.dev/",
             note: "After joining the discord of zkSync, you could find the goerli-eth-faucet channel, input “/faucet ” and your wallet address, then you will get 0.01 ETH.",
             imgs: [{
