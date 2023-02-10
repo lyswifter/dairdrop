@@ -273,17 +273,22 @@ export default defineComponent({
                 // progress
 
                 let count = 0
+                let total = 0
                 let len = res.data.data.list.length
                 for (let i = 0; i < len; i++) {
                     const outerItem = res.data.data.list[i] as ItemStatus;
+                    if (outerItem.airdropSubStep == 0) {
+                        continue
+                    }
                     if (outerItem.verifyStatus == 1) {
                         count++
                     }
+                    total++
                 }
                 if (count == 0 || len == 0) {
                     this.progress = 0;
                 } else {
-                    this.progress = count / len * 100;
+                    this.progress = Math.floor(count / total * 100);
                 }
                 console.log(this.progress)
 
@@ -303,7 +308,7 @@ export default defineComponent({
                     const outerItem = res.data.data.list[i] as ItemStatus;
 
                     let stepIdx = outerItem.airdropStep;
-                    let stepSubIdx = outerItem.airdropSubStep + 1;
+                    let stepSubIdx = outerItem.airdropSubStep;
                     let verifyStatus = outerItem.verifyStatus;
 
                     for (let j = 0; j < this.info.tasks.length; j++) {
@@ -339,14 +344,11 @@ export default defineComponent({
                         innerItem.isFulfilled = false
                     }
                 }
-
-                console.log(this.info.tasks)
             } else {
                 ElMessage.error(res.data.msg)
                 return
             }
-        },
-    }
+        }}
 })
 </script>
 

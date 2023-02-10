@@ -7,6 +7,17 @@ export let StepTaskData = [{
     accessory: "connect",
     note: "",
     content: "Connect MetaMask wallet",
+    imgs: [],
+    isFulfilled: false,
+    isOpen: true,
+    subSteps: []
+},{
+    id: 2,
+    class: "step2",
+    title: "Step 2: Visit the Arbitrium Bridge Page",
+    accessory: "verify",
+    note: "click the link: https://bridge.arbitrum.io/",
+    content: "",
     imgs: [
         {
             name: "arbitrumone_1.png",
@@ -16,17 +27,6 @@ export let StepTaskData = [{
             ],
         }
     ],
-    isFulfilled: false,
-    isOpen: true,
-    subSteps: []
-},{
-    id: 2,
-    class: "step2",
-    title: "Step 2: Visit the Arbitrium Bridge Page",
-    accessory: "verify",
-    note: "",
-    content: "",
-    imgs: [],
     isFulfilled: false,
     isOpen: true,
     subSteps: [{

@@ -298,17 +298,22 @@ export default defineComponent({
                 // progress
 
                 let count = 0
+                let total = 0
                 let len = res.data.data.list.length
                 for (let i = 0; i < len; i++) {
                     const outerItem = res.data.data.list[i] as ItemStatus;
+                    if (outerItem.airdropSubStep == 0) {
+                        continue
+                    }
                     if (outerItem.verifyStatus == 1) {
                         count++
                     }
+                    total++
                 }
                 if (count == 0 || len == 0) {
                     this.progress = 0;
                 } else {
-                    this.progress = Math.floor(count / len * 100);
+                    this.progress = Math.floor(count / total * 100);
                 }
                 console.log(this.progress)
 
@@ -324,26 +329,25 @@ export default defineComponent({
 
                 // isverify
 
-                for (let i = 0; i < res.data.data.list.length; i++) {
-                    const outerItem = res.data.data.list[i] as ItemStatus;
+                for (let j = 0; j < this.info.tasks.length; j++) {
+                    const innerItem = this.info.tasks[j] as StepTaskItem;
 
-                    let stepIdx = outerItem.airdropStep;
-                    let stepSubIdx = outerItem.airdropSubStep;
-                    let verifyStatus = outerItem.verifyStatus;
+                    for (let k = 0; k < innerItem.subSteps.length; k++) {
+                            const subItem = innerItem.subSteps[k] as StepTaskSubItem;
 
-                    for (let j = 0; j < this.info.tasks.length; j++) {
-                        const innerItem = this.info.tasks[j] as StepTaskItem;
+                            for (let i = 0; i < res.data.data.list.length; i++) {
+                                const outerItem = res.data.data.list[i] as ItemStatus;
 
-                        if (stepIdx == innerItem.id) {
-                            for (let k = 0; k < innerItem.subSteps.length; k++) {
-                                const subItem = innerItem.subSteps[k] as StepTaskSubItem;
-                                if (subItem.subId == stepSubIdx) {
+                                let stepIdx = outerItem.airdropStep;
+                                let stepSubIdx = outerItem.airdropSubStep;
+                                let verifyStatus = outerItem.verifyStatus;
+
+                                if (subItem.subId == stepSubIdx && stepIdx == innerItem.id) {
                                     subItem.isVerify = verifyStatus == 1 ? true : false;
                                     break
                                 }
                             }
                         }
-                    }
                 }
 
                 // isFulfilled
@@ -476,7 +480,8 @@ export default defineComponent({
                                                 <el-button class="verify-btn" type="plain" :loading="item.isLoading"
                                                     @click="verifyAction(item, i)">
                                                     <template #loading>
-                                                        <img src="https://dmaster.com/dcommon/img/loading.svg" alt="" style="width: 20px;height: 20px;vertical-align: middle;">
+                                                        <img src="https://dmaster.com/dcommon/img/loading.svg" alt=""
+                                                            style="width: 20px;height: 20px;vertical-align: middle;">
                                                     </template>
                                                     Verify</el-button>
                                             </div>
