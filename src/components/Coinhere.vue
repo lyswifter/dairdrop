@@ -43,7 +43,7 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
-            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere-local.valuechain.group&scope=offline.access%20tweet.read%20users.read&state=state",
+            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere-local.valuechain.group/auth&scope=offline.access%20tweet.read%20users.read&state=state",
         }
     },
     mounted() {
@@ -460,7 +460,7 @@ export default defineComponent({
 
                                             <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
                                                 class="twitter-auth-button">
-                                                <a :href="authPage" target="_self" data-show-count="false">Auth
+                                                <a :href="authPage" target="_top" data-show-count="false">Auth
                                                     Twitter</a>
                                             </div>
 

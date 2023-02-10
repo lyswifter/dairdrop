@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Home from "../components/Home.vue";
 import Detail from "../components/Detail.vue";
 import Coinhere from "../components/Coinhere.vue";
+import Auth from "../components/Auth.vue";
 
 const routes = [
     {
@@ -20,6 +21,12 @@ const routes = [
         path: '/coinhere/:id',
         name: "coinhere",
         component: Coinhere,
+        props: true,
+    },
+    {
+        path: '/auth',
+        name: "auth",
+        component: Auth,
         props: true,
     }
 ]
