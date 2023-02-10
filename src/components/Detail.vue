@@ -225,7 +225,7 @@ export default defineComponent({
             item.isLoading = false
 
             if (resVerify.data.code == 0) {
-                ElMessage.info("verify successfully")
+                // ElMessage.info("verify successfully")
                 this.joinStateFunc()
             } else {
                 ElMessage.error(resVerify.data.msg)
