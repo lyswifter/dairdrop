@@ -381,7 +381,7 @@ export default defineComponent({
                                                 <div class="item-name">{{ innerItem.name }}</div>
                                                 <div class="item-desc">{{ innerItem.descripation }}</div>
 
-                                                <el-row class="item-process">
+                                                <el-row class="item-process" v-if="innerItem.id != 8">
                                                     <el-col :span="23"><el-progress
                                                             :percentage="innerItem.process" /></el-col>
                                                     <el-col :span="1">
