@@ -13,6 +13,7 @@ import axios from "axios";
 import { ethers } from "ethers";
 
 import { handlePubkey } from "../utils/util";
+import { config } from 'process';
 
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
@@ -43,7 +44,7 @@ export default defineComponent({
             radio: "Defi",
 
             progress: 0,
-            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere-local.valuechain.group/auth&scope=offline.access%20tweet.read%20users.read&state=state",
+            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere-local.valuechain.group&scope=offline.access%20tweet.read%20users.read&state=state",
         }
     },
     mounted() {
@@ -225,9 +226,13 @@ export default defineComponent({
             }
         },
 
+        authAction() {
+            window.open(this.authPage, "auth", 'height=700,width=700,left=700,top=200')?.focus();
+        },
+
         followAction() {
             this.info.tasks[1].accessory = 'search'
-            window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "_blank")
+            window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "follow", 'height=700,width=700,left=700,top=200')?.focus()
         },
 
         async joinCoinhereAction(item: StepTaskItem, idx: number) {
@@ -459,8 +464,8 @@ export default defineComponent({
                                             </div>
 
                                             <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
-                                                class="twitter-auth-button">
-                                                <a :href="authPage" target="_top" data-show-count="false">Auth
+                                                class="twitter-auth-button" @click="authAction">
+                                                <a href="javascript:void(0)" data-show-count="false">Auth
                                                     Twitter</a>
                                             </div>
 

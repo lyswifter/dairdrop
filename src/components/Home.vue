@@ -112,6 +112,7 @@ export default defineComponent({
             }).then((res) => {
                 if (res.data.code == 0) {
                     window.localStorage.setItem("w_user_id", res.data.data);
+                    window.close()
                 } else {
                     ElMessage.error(res.data.msg)
                     return

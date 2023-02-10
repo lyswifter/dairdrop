@@ -37,6 +37,12 @@ const router = createRouter({
     routes
 })
 
+router.afterEach((to, from, next) => {
+    window.scrollTo(0, 0)
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+})
+
 // router.beforeEach((to, from, next) => {
 //     let token = localStorage.getItem("WalletAcount");
 //     let isAuthenticated = true;
