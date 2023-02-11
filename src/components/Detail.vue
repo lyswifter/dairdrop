@@ -120,8 +120,6 @@ export default defineComponent({
 
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
-            this.account = account
-            this.isConnect = true
 
             // 1. create did
             let didAddr = "did:dmaster:" + account;
@@ -188,6 +186,8 @@ export default defineComponent({
                 return
             }
 
+            this.account = account
+            this.isConnect = true
             window.localStorage.setItem("WalletAccount", account);
             this.info.tasks[0].accessory = 'join';
         },
