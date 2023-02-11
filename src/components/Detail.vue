@@ -123,10 +123,6 @@ export default defineComponent({
             this.account = account
             this.isConnect = true
 
-            window.localStorage.setItem("WalletAccount", account);
-
-            this.info.tasks[0].accessory = 'join';
-
             // 1. create did
             let didAddr = "did:dmaster:" + account;
             let giving = "Hello!";
@@ -191,6 +187,9 @@ export default defineComponent({
                 ElMessage.error(resLogin.data.msg)
                 return
             }
+
+            window.localStorage.setItem("WalletAccount", account);
+            this.info.tasks[0].accessory = 'join';
         },
         disConnectAction() {
             this.account = "Connect"
@@ -494,7 +493,7 @@ export default defineComponent({
                                             {{ item.note }}
                                         </div>
                                         <div class="note-view" v-else>
-                                            <span>Click the link: <a :href=item.note>{{ info.name }}</a></span>
+                                            <span>Click the link: <a :href=item.note target="_blank">{{ info.name }}</a></span>
                                         </div>
 
                                         <div class="content-view">
@@ -529,7 +528,7 @@ export default defineComponent({
 
                                             <div v-if="subItem.note.indexOf('https:') == -1">{{ subItem.note }}</div>
                                             <div v-else>
-                                            <span>Click the link: <a :href=subItem.note>{{ info.name }}</a></span></div>
+                                            <span>Click the link: <a :href=subItem.note target="_blank">{{ info.name }}</a></span></div>
                                             
                                             <div>{{ subItem.content }}</div>
 
@@ -571,7 +570,7 @@ export default defineComponent({
 
 .menu-btn {
     display: block;
-    width: 160px;
+    /* width: 160px; */
     background: #1E5CEF;
     line-height: 44px;
     border-radius: 22px;
@@ -588,7 +587,7 @@ export default defineComponent({
     text-decoration: none;
     line-height: 40px;
     height: 40px;
-    color: #1D2129;
+    /* color: #1D2129; */
     font-size: 20px;
     font-weight: bold;
 }
@@ -599,7 +598,7 @@ export default defineComponent({
 
 .step-title-view {
     height: 44px;
-    background: #E5E6EB;
+    /* background: #E5E6EB; */
     border-radius: 4px;
     line-height: 44px;
 }

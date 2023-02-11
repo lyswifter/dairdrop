@@ -9,18 +9,11 @@ import { Projects } from "../data/projects";
 import { RecommendationItem, StepTaskItem, ImageItem, StepTaskSubItem } from "../data/types";
 
 import axios from "axios";
-
 import { ethers } from "ethers";
-
 import { handlePubkey } from "../utils/util";
-import { config } from 'process';
 
 let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
-let participateUrl = domain.domainBaseUrl + "/api/airdrop/join";
 let joinCoinhereUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere";
-let verifyActionUrl = domain.domainBaseUrl + "/api/airdrop/verify";
-let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
-let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
 let isFollowUrl = domain.domainBaseUrl + "/api/airdrop/twitter/followStatus/";
 let coinhereStatusUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere/list";
 
@@ -104,7 +97,6 @@ export default defineComponent({
             const account = accounts[0];
             this.account = account
             this.isConnect = true
-            window.localStorage.setItem("WalletAccount", account);
 
             // 1. create did
             let didAddr = "did:dmaster:" + account;
@@ -171,6 +163,8 @@ export default defineComponent({
                 ElMessage.error(resLogin.data.msg)
                 return
             }
+
+            window.localStorage.setItem("WalletAccount", account);
         },
         disConnectAction() {
             this.account = "Connect"
@@ -271,7 +265,8 @@ export default defineComponent({
                 headers: {
                     Authorization: localStorage.getItem("token"),
                 },
-            });
+            });coinhereStatusUrl
+            
 
             if (res.data.code == 0) {
                 let ret = res.data.data[0];
@@ -349,10 +344,7 @@ export default defineComponent({
                             <h3>{{ info.name }}</h3>
                             <div>
                                 <img src="../assets/32px_warn@2x.png" style="width: 16px;height: 16px;" alt="">
-                                <span> According to the former experience, the possibility you get the airdrop will be
-                                    higher if you finish the guidelines which has been collated and collected by
-                                    Coinhere when {{ info.name }} decide to do an airdrop. Please note there is no
-                                    guarantee that {{ info.name }} will do an airdrop.</span>
+                                <span> Come Here, Coin Here!</span>
                             </div>
                         </el-col>
 
@@ -369,9 +361,7 @@ export default defineComponent({
                             <div>Click the “Verify” bottom, Coinhere will help you to verify if you have successfully
                                 completed the steps.</div>
                             <br>
-                            <div>Please make sure the wallet address you connect with Coinheres is same as the one you
-                                interact with {{ info.name }}. If you want to check more than more wallet address, just
-                                signed out and connect your wallet address again.</div>
+                            <div>If you want to check more than more wallet address, just click the upper right bottom to signed out and connect your wallet address again. </div>
                             <br>
                             <el-progress :percentage="progress" />
                             <br>
@@ -503,7 +493,7 @@ export default defineComponent({
 
 .menu-btn {
     display: block;
-    width: 160px;
+    /* width: 160px; */
     background: #1E5CEF;
     line-height: 44px;
     border-radius: 22px;
@@ -520,7 +510,7 @@ export default defineComponent({
     text-decoration: none;
     line-height: 40px;
     height: 40px;
-    color: #1D2129;
+    /* color: #1D2129; */
     font-size: 20px;
     font-weight: bold;
 }
@@ -531,7 +521,7 @@ export default defineComponent({
 
 .step-title-view {
     height: 44px;
-    background: #E5E6EB;
+    /* background: #E5E6EB; */
     border-radius: 4px;
     line-height: 44px;
 }
