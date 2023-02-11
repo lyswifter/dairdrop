@@ -521,7 +521,7 @@ export default defineComponent({
 
 .step-title-view {
     height: 44px;
-    /* background: #E5E6EB; */
+    background: #E5E6EB;
     border-radius: 4px;
     line-height: 44px;
 }
