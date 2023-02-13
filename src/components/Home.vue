@@ -16,6 +16,7 @@ let loginUrl = domain.domainBaseUrl + "/api/did-user/no-email-login"
 let participatedListUrl = domain.domainBaseUrl + "/api/airdrop/list"
 let twitterUserInfoUrl = domain.domainBaseUrl + "/api/airdrop/twitter/"
 let finishedRateUrl = domain.domainBaseUrl + "/api/airdrop/full/joinStatus/0"
+let coinhereStatusUrl = domain.domainBaseUrl + "/api/airdrop/joinCoinHere/list";
 
 interface ParticipateItem {
     name: string;
@@ -70,10 +71,51 @@ export default defineComponent({
         let localToken = window.localStorage.getItem("token");
         if (localToken) {
             this.participatedList()
+            this.coinhereProgressFunc()
             this.finishedRate()
         }
     },
     methods: {
+        async coinhereProgressFunc() {
+            const res = await axios.get(coinhereStatusUrl, {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (res.data.code == 0) {
+                let ret = res.data.data[0];
+
+                let totoal = 2;
+                let count = 0;
+
+                if (ret.followStatus == 1) {
+                    count++
+                }
+
+                if (ret.interest) {
+                    count++
+                }
+
+                let prog = Math.floor(count / totoal * 100)
+
+                for (let j = 0; j < this.recommendations.length; j++) {
+                    const inner = this.recommendations[j] as RecommendationItem[];
+
+                    for (let k = 0; k < inner.length; k++) {
+                        const core = inner[k] as RecommendationItem;
+
+                        if (core.id == 8) {
+                            core.process = prog;
+                            break
+                        }
+                    }
+                }
+            } else {
+                ElMessage.error(res.data.msg)
+                return
+            }
+        },
         finishedRate() {
             const res = axios.get(finishedRateUrl, {
                 headers: {
@@ -383,8 +425,7 @@ export default defineComponent({
 
                                                 <el-row class="item-process">
                                                     <el-col :span="23">
-                                                        <el-progress v-if="innerItem.id != 8"
-                                                            :percentage="innerItem.process" /></el-col>
+                                                        <el-progress :percentage="innerItem.process" /></el-col>
                                                     <el-col :span="1">
                                                         <a href="javascript:void(0)"
                                                             @click="toDetailAction(innerItem.id)"><img
@@ -428,7 +469,6 @@ export default defineComponent({
 
 .menu-btn {
     display: block;
-    width: 160px;
     height: 44px;
     background: #1E5CEF;
     line-height: 44px;
@@ -463,7 +503,7 @@ export default defineComponent({
 
 .left-col-view {
     padding: 10px;
-    background: #F7F8FA;
+    /* background: #F7F8FA; */
     border-radius: 6px;
     border: 1px solid #E5E6EB;
 }
@@ -497,7 +537,7 @@ export default defineComponent({
     height: 50px;
     font-size: 14px;
     font-weight: 500;
-    color: #1E2844;
+    /* color: #1E2844; */
     line-height: 50px;
 }
 
@@ -550,7 +590,7 @@ export default defineComponent({
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    background: #FFFFFF;
+    /* background: #FFFFFF; */
     border-radius: 10px;
     border: 1px solid #E5E6EB;
 }
@@ -559,14 +599,14 @@ export default defineComponent({
     height: 25px;
     font-size: 18px;
     font-weight: bold;
-    color: #1D2129;
+    /* color: #1D2129; */
     line-height: 27px;
 }
 
 .item-desc {
     font-size: 13px;
     font-weight: 400;
-    color: #1D2129;
+    /* color: #1D2129; */
     line-height: 20px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
