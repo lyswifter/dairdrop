@@ -199,7 +199,7 @@ export let StepTaskData = [
         title: "Step 6: Join the Discord of AAVE and Give Feedback about Testnet",
         accessory: "",
         note: "https://discord.com/invite/aave",
-        content: "Click the link to join the Discord of AAVE, enter the # feedback chanel to give your feedback about testnet, don’t forget to leave your wallet address and the screenshot of your interactive record with the testnet.",
+        content: "Click the link to join the Discord of AAVE, enter the # feedback channel to give your feedback about testnet, don’t forget to leave your wallet address and the screenshot of your interactive record with the testnet.",
         imgs: [{
             name: "gho_6.png",
             url: domain.domainUrl + "gho_6.png",

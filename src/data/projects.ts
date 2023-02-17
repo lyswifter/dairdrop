@@ -20,6 +20,15 @@ export let Projects = {
         detail: "coinhere",
         tasks: coinhereTasks,
     },{
+        id: 9,
+        name: "AAVE Testnet - GHO NFT",
+        descripation: "AAVE launched their stablecoin $GHO on the Ethereum Goerli Testnet, it is a multi-collateral stablecoin native to AAVE. Try to borrow and repay GHO at Testnet and give your feedback to AAVE Discord. You can also collect a free GHO NFT on Polygon, which is both supported by AAVE and LENS. Don’t forget to prepare some $Matic as your gas fee, you could collect more than one NFT if you want!",
+        tag: "",
+        process: 0,
+        image: domain.domainUrl + "gho_logo.png",
+        detail: "gho",
+        tasks: ghoTasks,
+    },{
         id: 1,
         name: "Scroll",
         descripation: "Scroll is a zkEVM-based zkRollup on Ethereum that enables native compatibility for existing Ethereum applications and tools. Scroll doesn't have its own token yet but may launch one in the future. Early users who've finished testnet tests may get an airdrop if they launch a token.",
@@ -74,14 +83,5 @@ export let Projects = {
         image: domain.domainUrl + "starknet_logo.png",
         detail: "starknet",
         tasks: startnetTasks,
-    },{
-        id: 9,
-        name: "AAVE Testnet - GHO NFT",
-        descripation: "AAVE launched their stablecoin $GHO on the Ethereum Goerli Testnet, it is a multi-collateral stablecoin native to AAVE. Try to borrow and repay GHO at Testnet and give your feedback to AAVE Discord. You can also collect a free GHO NFT on Polygon, which is both supported by AAVE and LENS. Don’t forget to prepare some $Matic as your gas fee, you could collect more than one NFT if you want!",
-        tag: "",
-        process: 0,
-        image: domain.domainUrl + "gho_logo.png",
-        detail: "gho",
-        tasks: ghoTasks,
     }]
 }

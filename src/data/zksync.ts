@@ -7,7 +7,7 @@ export let StepTaskData = [
         title: "Step 1: Connect Metamask Wallet with Coinhere",
         accessory: "connect", // connect veify check join follow
         note: "",
-        content: "when you connect your Metamask wallet, you will be automatically asked to change the network to Goerli test network.",
+        content: "Connect MetaMask wallet",
         imgs: [],
         isFulfilled: false,
         isOpen: true,
@@ -18,7 +18,7 @@ export let StepTaskData = [
         title: "Step 2: Get some Goerli test ETH from Faucet",
         accessory: "verify",
         note: "https://portal.zksync.io",
-        content: "Visit the zkSync testnet page and connect your Metamask wallet,when you connect your Metamask wallet, you will be automatically asked to change the network to Goerli test network.",
+        content: "Visit the zkSync testnet page and connect your Metamask wallet,when you connect your Metamask wallet, don't forget to change the network into Goerli test network at the bottom right corner of the page.",
         imgs: [],
         isFulfilled: false,
         isOpen: true,

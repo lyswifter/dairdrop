@@ -17,7 +17,7 @@ export let StepTaskData = [{
     title: "Step 2: Visit the Arbitrium Bridge Page",
     accessory: "verify",
     note: "",
-    content: "",
+    content: "Recently we only check several days transaction records on Arbitrum Nova Chain, so if you have transferred token from or to Arbitrum Nova one week ago, it may show nothing when you click the Verify Button. We will improve this limitation later.",
     imgs: [{
         name: "arbitrumnova_1.png",
         url: domain.domainUrl + "arbitrumnova_1.png",
