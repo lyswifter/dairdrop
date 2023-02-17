@@ -381,11 +381,14 @@ export default defineComponent({
                         }
                     }
 
-                    if ((innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0) || okCount == 0) {
+                    if ((innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0)) {
                         innerItem.isFulfilled = true
-                        innerItem.accessory = 'check'
                     } else {
                         innerItem.isFulfilled = false
+                    }
+
+                    if (innerItem.subSteps.length == 0 || innerItem.isFulfilled) {
+                        innerItem.accessory = 'check'
                     }
                 }
 
@@ -539,7 +542,7 @@ export default defineComponent({
                                                     Verify</el-button>
                                             </div>
 
-                                            <div v-else-if="item.accessory == 'check'">
+                                            <div v-else-if="item.accessory == 'check' && item.isFulfilled">
                                                 <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
                                                     alt="">
                                             </div>
