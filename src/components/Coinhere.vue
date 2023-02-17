@@ -451,8 +451,11 @@ export default defineComponent({
                                                         style="width: 24px;height: 24px;" alt="">
                                                 </el-col>
                                             </el-row>
+
+                                            <div v-if="subItem.note.indexOf('https:') == -1">{{ subItem.note }}</div>
+                                            <div v-else>
+                                            <span>Click the link: <a :href=subItem.note target="_blank">{{ subItem.note }}</a></span></div>
                                             <div>{{ subItem.content }}</div>
-                                            <div>{{ subItem.note }}</div>
 
                                             <div style="padding: 5px;">
                                                 <el-image v-for="(imgItem, imgIndex) in subItem.imgs"

@@ -19,6 +19,8 @@ let connectMetaMaskUrl = domain.domainBaseUrl + "/api/metamask/get/message/";
 let joinStateUrl = domain.domainBaseUrl + "/api/airdrop/joinStatus/";
 let finishedRateUrl = domain.domainBaseUrl + "/api/airdrop/full/joinStatus/"
 
+let isFollowUrl = domain.domainBaseUrl + "/api/airdrop/twitter/followStatus/";
+
 interface ItemStatus {
     airdropStep: number;
     airdropStepId: number;
@@ -40,6 +42,7 @@ export default defineComponent({
             account: "Connect",
             radio: "Defi",
             progress: 0,
+            authPage: "https://twitter.com/i/oauth2/authorize?code_challenge=challenge&code_challenge_method=PLAIN&response_type=code&client_id=clA4WUhnSlB1OXN5ZnVLR1paUVk6MTpjaQ&redirect_uri=https%3A%2F%2Fcoinhere.net&scope=offline.access%20tweet.read%20users.read&state=state",
         }
     },
     mounted() {
@@ -371,6 +374,35 @@ export default defineComponent({
                 return
             }
         },
+        async searchAction() {
+            const res = await axios.get(isFollowUrl + localStorage.getItem('w_user_id'), {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+
+            if (res.data.code == 0) {
+                if (res.data.data) {
+                    ElMessage.info("verify successfully")
+                    this.info.tasks[1].accessory = 'check'
+                } else {
+                    ElMessage.error("verify failed")
+                }
+            } else {
+                ElMessage.error(res.data.msg)
+                return
+            }
+        },
+
+        authAction() {
+            this.info.tasks[1].accessory = 'follow'
+            window.open(this.authPage, "auth", 'height=700,width=700,left=700,top=200')?.focus();
+        },
+
+        followAction() {
+            this.info.tasks[1].accessory = 'search'
+            window.open("https://twitter.com/intent/follow?screen_name=CoinhereAirdrop", "follow", 'height=700,width=700,left=700,top=200')?.focus()
+        },
     }
 })
 </script>
@@ -485,6 +517,24 @@ export default defineComponent({
                                                     </template>
                                                     Verify</el-button>
                                             </div>
+
+                                            <div v-else-if="item.accessory == 'check'">
+                                                <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;" alt="">
+                                            </div>
+
+                                            <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
+                                                class="twitter-auth-button" @click="authAction">
+                                                <a href="javascript:void(0)" data-show-count="false">Auth
+                                                    Twitter</a>
+                                            </div>
+
+                                            <div v-else-if="item.accessory == 'follow' && !item.isFulfilled"
+                                                class="twitter-follow-button" @click="followAction">
+                                                <a href="javascript:void(0)" data-show-count="false">Follow Twitter</a>
+                                            </div>
+
+                                            <div v-else-if="item.accessory == 'search' && !item.isFulfilled"
+                                                class="verify-btn" @click="searchAction">Verify</div>
                                         </el-col>
                                     </el-row>
 

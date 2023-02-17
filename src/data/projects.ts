@@ -6,6 +6,7 @@ import { StepTaskData as zksyncTasks } from "../data/zksync";
 import { StepTaskData as startnetTasks } from "../data/starknet";
 import { StepTaskData as coinhereTasks } from "../data/coinhere";
 import { StepTaskData as ghoTasks } from "../data/gho";
+import { StepTaskData as overworldTasks } from "../data/overworld";
 
 import { domain } from "../router/domain";
 
@@ -19,7 +20,7 @@ export let Projects = {
         image: domain.domainUrl + "coinhere_logo.png",
         detail: "coinhere",
         tasks: coinhereTasks,
-    },{
+    }, {
         id: 9,
         name: "AAVE Testnet - GHO NFT",
         descripation: "AAVE launched their stablecoin $GHO on the Ethereum Goerli Testnet, it is a multi-collateral stablecoin native to AAVE. Try to borrow and repay GHO at Testnet and give your feedback to AAVE Discord. You can also collect a free GHO NFT on Polygon, which is both supported by AAVE and LENS. Don’t forget to prepare some $Matic as your gas fee, you could collect more than one NFT if you want!",
@@ -28,7 +29,16 @@ export let Projects = {
         image: domain.domainUrl + "gho_logo.png",
         detail: "gho",
         tasks: ghoTasks,
-    },{
+    }, {
+        id: 10,
+        name: "Overworld",
+        descripation: "Overworld is a web-3-powered gaming and community project focused on collective storytelling, utility-driven digital collectibles, and deep, engaging multiplayer gameplay set in an ambitious fantasy universe made for and by you.",
+        tag: "",
+        process: 0,
+        image: domain.domainUrl + "overworld_logo.png",
+        detail: "overworld",
+        tasks: overworldTasks,
+    }, {
         id: 1,
         name: "Scroll",
         descripation: "Scroll is a zkEVM-based zkRollup on Ethereum that enables native compatibility for existing Ethereum applications and tools. Scroll doesn't have its own token yet but may launch one in the future. Early users who've finished testnet tests may get an airdrop if they launch a token.",
@@ -37,7 +47,7 @@ export let Projects = {
         image: domain.domainUrl + "scroll_logo.png",
         detail: "scroll",
         tasks: scrollTasks,
-    }, 
+    },
     {
         id: 3,
         name: "ZKasino(Mainnet)",
@@ -74,7 +84,7 @@ export let Projects = {
         image: domain.domainUrl + "zksync.testnet_logo.png",
         detail: "zksync",
         tasks: zksyncTasks,
-    },{
+    }, {
         id: 7,
         name: "Starknet",
         descripation: "StarkNet is a permissionless decentralized Validity-Rollup (also known as a “ZK-Rollup”). It operates as an L2 network over Ethereum, enabling any dApp to achieve unlimited scale for its computation – without compromising Ethereum’s composability and security, thanks to StarkNet’s reliance on the safest and most scalable cryptographic proof system – STARK.  StarkNet's parent company, Starkware has valuation hits $8 billion with $100 million Series D, historical investor including Tiger Global Management, Sequoia Capital, Intel Capital, and Vitalik Buterin. StarkNet has confirmed to launch an own token and 9% of the total supply has been allocated to end users and developers who've built dApps using StarkNet. StarkNet end users are those who used dApps built on StarkNet. StarkGate is the offical version of StarkNet Bridge, the best choice to become a StarkNet user.",
