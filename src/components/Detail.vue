@@ -329,21 +329,32 @@ export default defineComponent({
                 for (let j = 0; j < this.info.tasks.length; j++) {
                     const innerItem = this.info.tasks[j] as StepTaskItem;
 
-                    for (let k = 0; k < innerItem.subSteps.length; k++) {
-                        const subItem = innerItem.subSteps[k] as StepTaskSubItem;
-
+                    if (innerItem.subSteps.length == 0) {
+                        let step = innerItem.id
                         for (let i = 0; i < res.data.data.list.length; i++) {
                             const outerItem = res.data.data.list[i] as ItemStatus;
-
-                            let stepIdx = outerItem.airdropStep;
-                            let stepSubIdx = outerItem.airdropSubStep;
-                            let verifyStatus = outerItem.verifyStatus;
-                            let isNeedverifyStatus = outerItem.needVerifyStatus;
-
-                            if (subItem.subId == stepSubIdx && stepIdx == innerItem.id) {
-                                subItem.isVerify = verifyStatus == 1 ? true : false;
-                                subItem.isNeedVerify = isNeedverifyStatus == 1 ? true : false;
+                            if (outerItem.airdropStep == step) {
+                                innerItem.isFulfilled = outerItem.verifyStatus == 1 ? true : false;
                                 break
+                            }
+                        }
+                    } else {
+                        for (let k = 0; k < innerItem.subSteps.length; k++) {
+                            const subItem = innerItem.subSteps[k] as StepTaskSubItem;
+
+                            for (let i = 0; i < res.data.data.list.length; i++) {
+                                const outerItem = res.data.data.list[i] as ItemStatus;
+
+                                let stepIdx = outerItem.airdropStep;
+                                let stepSubIdx = outerItem.airdropSubStep;
+                                let verifyStatus = outerItem.verifyStatus;
+                                let isNeedverifyStatus = outerItem.needVerifyStatus;
+
+                                if (subItem.subId == stepSubIdx && stepIdx == innerItem.id) {
+                                    subItem.isVerify = verifyStatus == 1 ? true : false;
+                                    subItem.isNeedVerify = isNeedverifyStatus == 1 ? true : false;
+                                    break
+                                }
                             }
                         }
                     }
@@ -519,7 +530,8 @@ export default defineComponent({
                                             </div>
 
                                             <div v-else-if="item.accessory == 'check'">
-                                                <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;" alt="">
+                                                <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
+                                                    alt="">
                                             </div>
 
                                             <div v-else-if="item.accessory == 'auth' && !item.isFulfilled"
@@ -543,7 +555,8 @@ export default defineComponent({
                                             {{ item.note }}
                                         </div>
                                         <div class="note-view" v-else>
-                                            <span>Click the link: <a :href=item.note target="_blank">{{ item.note }}</a></span>
+                                            <span>Click the link: <a :href=item.note target="_blank">{{ item.note
+                                            }}</a></span>
                                         </div>
 
                                         <div class="content-view">
@@ -561,8 +574,8 @@ export default defineComponent({
                                                     <div class="sub-title-view">{{ subItem.title }}</div>
                                                 </el-col>
                                                 <el-col :span="1" v-if="subItem.isVerify">
-                                                    <img src="../assets/32px-done@2x.png"
-                                                        style="width: 24px;height: 24px;" alt="">
+                                                    <img src="../assets/32px-done@2x.png" style="width: 24px;height: 24px;"
+                                                        alt="">
                                                 </el-col>
                                             </el-row>
 
@@ -572,21 +585,23 @@ export default defineComponent({
                                                 </el-col>
                                                 <el-col :span="6">
                                                     <div><img src="../assets/icon-remind@2x.png"
-                                                        style="width: 16px;height: 16px;vertical-align: middle;" alt="">The current step cannot be monitored</div>                                                  
+                                                            style="width: 16px;height: 16px;vertical-align: middle;"
+                                                            alt="">The current step cannot be monitored</div>
                                                 </el-col>
                                             </el-row>
 
                                             <div v-if="subItem.note.indexOf('https:') == -1">{{ subItem.note }}</div>
                                             <div v-else>
-                                            <span>Click the link: <a :href=subItem.note target="_blank">{{ subItem.note }}</a></span></div>
-                                            
+                                                <span>Click the link: <a :href=subItem.note target="_blank">{{ subItem.note
+                                                }}</a></span>
+                                            </div>
+
                                             <div>{{ subItem.content }}</div>
 
                                             <div style="padding: 5px;">
                                                 <el-image v-for="(imgItem, imgIndex) in subItem.imgs"
-                                                    style="width: 100px; height: 100px;margin-left: 5px;"
-                                                    :src="imgItem.url" :zoom-rate="1.2"
-                                                    :preview-src-list="imgItem.srcList" :initial-index="4"
+                                                    style="width: 100px; height: 100px;margin-left: 5px;" :src="imgItem.url"
+                                                    :zoom-rate="1.2" :preview-src-list="imgItem.srcList" :initial-index="4"
                                                     fit="cover" />
                                             </div>
                                         </div>
