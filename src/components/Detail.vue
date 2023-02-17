@@ -442,7 +442,7 @@ export default defineComponent({
                             </div>
 
                             <h3>Step-by-Step Guide</h3>
-                            <div>Click the “Verify” bottom, Coinhere will help you to verify if you have successfully
+                            <div>Click the “Verify” button, Coinhere will help you to verify if you have successfully
                                 completed the steps.</div>
                             <br>
                             <div>Please make sure the wallet address you connect with Coinheres is same as the one you
@@ -493,7 +493,7 @@ export default defineComponent({
                                             {{ item.note }}
                                         </div>
                                         <div class="note-view" v-else>
-                                            <span>Click the link: <a :href=item.note target="_blank">{{ info.name }}</a></span>
+                                            <span>Click the link: <a :href=item.note target="_blank">{{ item.note }}</a></span>
                                         </div>
 
                                         <div class="content-view">
@@ -528,7 +528,7 @@ export default defineComponent({
 
                                             <div v-if="subItem.note.indexOf('https:') == -1">{{ subItem.note }}</div>
                                             <div v-else>
-                                            <span>Click the link: <a :href=subItem.note target="_blank">{{ info.name }}</a></span></div>
+                                            <span>Click the link: <a :href=subItem.note target="_blank">{{ subItem.note }}</a></span></div>
                                             
                                             <div>{{ subItem.content }}</div>
 

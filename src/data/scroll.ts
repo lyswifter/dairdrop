@@ -167,7 +167,7 @@ export let StepTaskData = [
                 title: "6.1 Add Liquidity",
                 accessory: "check",
                 note: "",
-                content: "Click liquidity pool then try to add liquidity, for example, you could input some TSETH and some TSUSDC then click the supply bottom and then click the confirm supply.",
+                content: "Click liquidity pool then try to add liquidity, for example, you could input some TSETH and some TSUSDC then click the supply button and then click the confirm supply.",
                 imgs: [{
                     name: "scroll_5.1_1.png",
                     url: domain.domainUrl + "scroll_5.1_1.png",
