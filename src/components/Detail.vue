@@ -364,6 +364,7 @@ export default defineComponent({
 
                 for (let j = 0; j < this.info.tasks.length; j++) {
                     const innerItem = this.info.tasks[j] as StepTaskItem;
+                    
                     let okCount = 0
                     for (let k = 0; k < innerItem.subSteps.length; k++) {
                         const subItem = innerItem.subSteps[k] as StepTaskSubItem;
@@ -372,8 +373,9 @@ export default defineComponent({
                         }
                     }
 
-                    if (innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0) {
+                    if (innerItem.subSteps.length == okCount || innerItem.subSteps.length == 0) {
                         innerItem.isFulfilled = true
+                        innerItem.accessory = 'check'
                     } else {
                         innerItem.isFulfilled = false
                     }
