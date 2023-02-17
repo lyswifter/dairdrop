@@ -327,6 +327,10 @@ export default defineComponent({
                 // isverify
 
                 for (let j = 0; j < this.info.tasks.length; j++) {
+                    if (j == 0) {
+                        continue
+                    }
+                    
                     const innerItem = this.info.tasks[j] as StepTaskItem;
 
                     if (innerItem.subSteps.length == 0) {
@@ -363,6 +367,10 @@ export default defineComponent({
                 // isFulfilled
 
                 for (let j = 0; j < this.info.tasks.length; j++) {
+                    if (j == 0) {
+                        continue
+                    }
+
                     const innerItem = this.info.tasks[j] as StepTaskItem;
                     
                     let okCount = 0
@@ -373,7 +381,7 @@ export default defineComponent({
                         }
                     }
 
-                    if (innerItem.subSteps.length == okCount || innerItem.subSteps.length == 0) {
+                    if ((innerItem.subSteps.length == okCount || innerItem.subSteps.length == 0)) {
                         innerItem.isFulfilled = true
                         innerItem.accessory = 'check'
                     } else {
