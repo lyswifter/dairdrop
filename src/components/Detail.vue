@@ -381,7 +381,7 @@ export default defineComponent({
                         }
                     }
 
-                    if ((innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0)) {
+                    if ((innerItem.subSteps.length == okCount && innerItem.subSteps.length != 0) || okCount == 0) {
                         innerItem.isFulfilled = true
                         innerItem.accessory = 'check'
                     } else {
