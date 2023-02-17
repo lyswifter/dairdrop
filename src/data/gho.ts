@@ -138,9 +138,9 @@ export let StepTaskData = [
             },
             {
                 name: " gho_4.1_2.png",
-                url: domain.domainUrl + " gho_4.1_2.png",
+                url: domain.domainUrl + "gho_4.1_2.png",
                 srcList: [
-                    domain.domainUrl + " gho_4.1_2.png",
+                    domain.domainUrl + "gho_4.1_2.png",
                 ],
             }],
             isVerify: false,
