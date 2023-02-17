@@ -5,6 +5,7 @@ import { StepTaskData as zkasinoMainTasks } from "../data/zkasino_mainnet";
 import { StepTaskData as zksyncTasks } from "../data/zksync";
 import { StepTaskData as startnetTasks } from "../data/starknet";
 import { StepTaskData as coinhereTasks } from "../data/coinhere";
+import { StepTaskData as ghoTasks } from "../data/gho";
 
 import { domain } from "../router/domain";
 
@@ -44,7 +45,7 @@ export let Projects = {
         tag: "",
         process: 0,
         image: domain.domainUrl + "arbitrumone_logo.png",
-        detail: "arbitrum",
+        detail: "arbitrumOne",
         tasks: arbitrumOneTasks,
     }, {
         id: 5,
@@ -53,7 +54,7 @@ export let Projects = {
         tag: "",
         process: 0,
         image: domain.domainUrl + "arbitrumnova_logo.png",
-        detail: "arbitrum",
+        detail: "arbitrumNova",
         tasks: arbitrumNovaTasks,
     }, {
         id: 6,
@@ -62,7 +63,7 @@ export let Projects = {
         tag: "",
         process: 0,
         image: domain.domainUrl + "zksync.testnet_logo.png",
-        detail: "arbitrum",
+        detail: "zksync",
         tasks: zksyncTasks,
     },{
         id: 7,
@@ -71,7 +72,16 @@ export let Projects = {
         tag: "",
         process: 0,
         image: domain.domainUrl + "starknet_logo.png",
-        detail: "arbitrum",
+        detail: "starknet",
         tasks: startnetTasks,
+    },{
+        id: 9,
+        name: "AAVE Testnet - GHO NFT",
+        descripation: "AAVE launched their stablecoin $GHO on the Ethereum Goerli Testnet, it is a multi-collateral stablecoin native to AAVE. Try to borrow and repay GHO at Testnet and give your feedback to AAVE Discord. You can also collect a free GHO NFT on Polygon, which is both supported by AAVE and LENS. Don’t forget to prepare some $Matic as your gas fee, you could collect more than one NFT if you want!",
+        tag: "",
+        process: 0,
+        image: domain.domainUrl + "gho_logo.png",
+        detail: "gho",
+        tasks: ghoTasks,
     }]
 }

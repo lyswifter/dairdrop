@@ -5,7 +5,7 @@ export let StepTaskData = [
         id: 1,
         class: "step1",
         title: "Step 1: Connect Metamask Wallet with Coinhere",
-        accessory: "connect",
+        accessory: "connect", // connect veify check join follow
         note: "",
         content: "when you connect your Metamask wallet, you will be automatically asked to change the network to Goerli test network.",
         imgs: [],
