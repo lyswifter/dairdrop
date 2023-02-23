@@ -7,6 +7,7 @@ import { StepTaskData as startnetTasks } from "../data/starknet";
 import { StepTaskData as coinhereTasks } from "../data/coinhere";
 import { StepTaskData as ghoTasks } from "../data/gho";
 import { StepTaskData as overworldTasks } from "../data/overworld";
+import { StepTaskData as lifeformcartoonTasks } from "../data/lifeform_cartoon";
 
 import { domain } from "../router/domain";
 
@@ -20,6 +21,15 @@ export let Projects = {
         image: domain.domainUrl + "coinhere_logo.png",
         detail: "coinhere",
         tasks: coinhereTasks,
+    }, {
+        id: 11,
+        name: "Lifeform Cartoon",
+        descripation: "HALOWORLD is planning to launch their token in March, they have announced that the LIFEFORM Cartoon Avatar holder and Lifeform Points holder will get the token! This guidance is to tell you how to free-mint Lifeform Cartoon Avatar NFT and how to get Lifeform Points.",
+        tag: "",
+        process: 0,
+        image: domain.domainUrl + "lifeformcartoon_logo.png",
+        detail: "lifeformcartoon",
+        tasks: lifeformcartoonTasks,
     }, {
         id: 9,
         name: "AAVE Testnet - GHO NFT",
