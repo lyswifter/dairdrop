@@ -25,8 +25,8 @@ export let StepTaskData = [{
         subId: 1,
         title: "2.1 Free Mint LifeForm Cartoon Avatar and Get 500 Points",
         accessory: "check",
-        note: "https://cartoon.lifeform.cc?referral=0xc2aD9CC97bAAe088CBcb24010AD8C6A9EA1571a0",
-        content: "If you don’t want to customize your Avatar, just click the Mint Button and then Click the Confirm Button when the Referral Campaign pop-up is displayed.To get another 500 Points, make sure your referral address is 0xc2aD9CC97bAAe088CBcb24010AD8C6A9EA1571a0！If you want to customize your Avatar, follow the guidance in step 2.3.",
+        note: "https://cartoon.lifeform.cc",
+        content: "If you don't want to customize your Avatar, just click the Mint Button and then Click the Confirm Button when the Referral Campaign pop-up is displayed. To get another 500 Points, make sure to add one referral address, it could be another wallet address of you or your friends! If you want to customize your Avatar, follow the guidance in step 2.3.",
         imgs: [{
             name: "lifeformcartoon_2.1_1.png",
             url: domain.domainUrl + "lifeformcartoon_2.1_1.png",
